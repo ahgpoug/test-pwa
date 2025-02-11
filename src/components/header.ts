@@ -69,36 +69,76 @@ class AppHeader extends LitElement {
         .install-button:active {
             background-color: rgba(255, 255, 255, 0.2);
         }
+
+        .install-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1001;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            max-width: 400px;
+            width: 90%;
+            position: relative;
+        }
+
+        .close-button {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .instructions {
+            margin: 16px 0;
+            line-height: 1.5;
+        }
     `;
 
-    @property({ type: String }) title: string = '';
+    @state() private showInstallButton: boolean = false;
+    @state() private showInstallModal: boolean = false;
+    private deferredPrompt: any = null;
+    private isIOS: boolean = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    private isAndroid: boolean = /Android/.test(navigator.userAgent);
+
     @property({ type: Boolean }) showBackButton: boolean = false;
     @property({ type: Function }) onBack: () => void = () => {};
 
-    @state() private showInstallButton: boolean = false;
-    private deferredPrompt: any = null;
-
     connectedCallback() {
         super.connectedCallback();
-        // Отслеживаем событие beforeinstallprompt
         window.addEventListener('beforeinstallprompt', this.handleBeforeInstallPrompt);
-        // Отслеживаем, установлено ли приложение
         window.addEventListener('appinstalled', this.handleAppInstalled);
     }
 
-    disconnectedCallback() {
-        super.disconnectedCallback();
-        window.removeEventListener('beforeinstallprompt', this.handleBeforeInstallPrompt);
-        window.removeEventListener('appinstalled', this.handleAppInstalled);
-    }
-
-    handleBeforeInstallPrompt = (event: Event) => {
-        // Предотвращаем автоматическое отображение подсказки установки
-        event.preventDefault();
-        // Сохраняем событие для использования позже
-        this.deferredPrompt = event;
-        // Показываем кнопку "Установить"
+    handleBeforeInstallPrompt = (e: any) => {
+        e.preventDefault();
+        this.deferredPrompt = e;
         this.showInstallButton = true;
+    };
+
+    handleInstallClick = async () => {
+        if (this.deferredPrompt) {
+            // Стандартная установка PWA
+            this.deferredPrompt.prompt();
+            const { outcome } = await this.deferredPrompt.userChoice;
+            if (outcome === 'accepted') this.showInstallButton = false;
+        } else {
+            // Показать инструкции для ручной установки
+            this.showInstallModal = true;
+        }
     };
 
     handleAppInstalled = () => {
@@ -106,38 +146,64 @@ class AppHeader extends LitElement {
         this.showInstallButton = false;
     };
 
-    handleInstallClick = async () => {
-        if (this.deferredPrompt) {
-            // Запускаем стандартный процесс установки
-            this.deferredPrompt.prompt();
-            // Ждем, пока пользователь примет решение
-            const { outcome } = await this.deferredPrompt.userChoice;
-            if (outcome === 'accepted') {
-                console.log('Пользователь согласился установить PWA');
-            } else {
-                console.log('Пользователь отказался от установки PWA');
-            }
-            // Очищаем сохраненное событие
-            this.deferredPrompt = null;
-        }
-    };
+    renderInstallModal() {
+        return html`
+            <div class="install-modal" @click="${() => this.showInstallModal = false}">
+                <div class="modal-content" @click="${(e: Event) => e.stopPropagation()}">
+                    <button class="close-button" @click="${() => this.showInstallModal = false}">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M18 6L6 18M6 6l12 12" stroke-width="2"/>
+                        </svg>
+                    </button>
+
+                    ${this.isIOS ? html`
+                        <h3>Создать ярлык на домашнем экране</h3>
+                        <div class="instructions">
+                            1. Нажмите на кнопку "Поделиться"<br>
+                            2. Выберите 'На экран "Домой"'<br>
+                            3. Нажмите "Добавить"
+                        </div>
+                    ` : this.isAndroid ? html`
+                        <h3>Создать ярлык на домашнем экране</h3>
+                        <div class="instructions">
+                            1. Откройте меню браузера (три точки)<br>
+                            2. Выберите "Установить приложение"<br>
+                            3. Подтвердите установку
+                        </div>
+                    ` : html`
+                        <h3>Сохранить в закладки</h3>
+                        <div class="instructions">
+                            Нажмите Ctrl+D чтобы добавить в закладки<br>
+                            Или используйте меню браузера
+                        </div>
+                    `}
+                </div>
+            </div>
+        `;
+    }
 
     render() {
+        console.log(this.deferredPrompt);
+
         return html`
             <header>
-                ${this.showBackButton
-                    ? html`<button class="back-button" @click="${this.onBack}">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                                <path d="M0 0h24v24H0z" fill="none"/>
-                                <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" fill="white"/>
-                            </svg>
-                        </button>`
-                    : ''}
+                ${this.showBackButton ? html`<button class="back-button" @click="${this.onBack}">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+						<path d="M0 0h24v24H0z" fill="none"/>
+						<path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" fill="white"/>
+					</svg>
+                </button>` : ''}
+
                 <div class="title">${this.title}</div>
-                ${this.showInstallButton
-                    ? html`<button class="install-button" @click="${this.handleInstallClick}">Установить</button>`
-                    : ''}
+
+                ${this.showInstallButton || !this.deferredPrompt ? html`
+                    <button class="install-button" @click="${this.handleInstallClick}">
+                        ${this.deferredPrompt ? 'Установить' : 'Ярлык'}
+                    </button>
+                ` : ''}
             </header>
+
+            ${this.showInstallModal ? this.renderInstallModal() : ''}
         `;
     }
 }
