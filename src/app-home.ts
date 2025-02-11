@@ -6,7 +6,6 @@ import './pages/search-tpo';
 import './pages/advance-payment';
 import './pages/change-password';
 import './pages/payment-history';
-import './app-install';
 
 type Page = 'home' | 'search-tpo' | 'advance-payment' | 'change-password' | 'payment-history';
 

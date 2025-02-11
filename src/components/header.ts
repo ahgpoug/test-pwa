@@ -113,6 +113,7 @@ class AppHeader extends LitElement {
     private deferredPrompt: any = null;
     private isIOS: boolean = /iPad|iPhone|iPod/.test(navigator.userAgent);
     private isAndroid: boolean = /Android/.test(navigator.userAgent);
+    private isInStandaloneMode: boolean = (window.matchMedia('(display-mode: standalone)').matches) || document.referrer.includes('android-app://');
 
     @property({ type: Boolean }) showBackButton: boolean = false;
     @property({ type: Function }) onBack: () => void = () => {};
@@ -157,18 +158,18 @@ class AppHeader extends LitElement {
                     </button>
 
                     ${this.isIOS ? html`
-                        <h3>Создать ярлык на домашнем экране</h3>
+                        <h3>Добавить на экран "Домой"</h3>
                         <div class="instructions">
                             1. Нажмите на кнопку "Поделиться"<br>
                             2. Выберите 'На экран "Домой"'<br>
                             3. Нажмите "Добавить"
                         </div>
                     ` : this.isAndroid ? html`
-                        <h3>Создать ярлык на домашнем экране</h3>
+                        <h3>Добавить на главный экран</h3>
                         <div class="instructions">
                             1. Откройте меню браузера (три точки)<br>
-                            2. Выберите "Установить приложение"<br>
-                            3. Подтвердите установку
+                            2. Выберите "Добавить на главный экран"<br>
+                            3. Нажмите "Добавить"
                         </div>
                     ` : html`
                         <h3>Сохранить в закладки</h3>
@@ -196,7 +197,7 @@ class AppHeader extends LitElement {
 
                 <div class="title">${this.title}</div>
 
-                ${this.showInstallButton || !this.deferredPrompt ? html`
+                ${!this.isInStandaloneMode && (this.showInstallButton || !this.deferredPrompt) ? html`
                     <button class="install-button" @click="${this.handleInstallClick}">
                         ${this.deferredPrompt ? 'Установить' : 'Ярлык'}
                     </button>

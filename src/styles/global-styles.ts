@@ -25,7 +25,7 @@ export const globalStyles = css`
         color: white;
         border: none;
         border-radius: 8px;
-        text-align: left;
+        text-align: center;
         cursor: pointer;
         transition: background-color 0.3s ease;
         box-sizing: border-box;
