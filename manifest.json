@@ -3,7 +3,7 @@
   "scope": "/",
   "name": "test-pwa",
   "display": "standalone",
-  "start_url": "/",
+  "start_url": "https://ahgpoug.github.io/test-pwa/",
   "short_name": "starter",
   "theme_color": "#E1477E",
   "description": "This is a test-pwa app",
