@@ -196,7 +196,7 @@
                 `)}
             </ul>
         `}};I.styles=[L];yt([$({type:Array})],I.prototype,"payments",2);I=yt([C("payment-history")],I);var Yt=Object.defineProperty,te=Object.getOwnPropertyDescriptor,K=(i,t,e,r)=>{for(var s=r>1?void 0:r?te(t,e):t,n=i.length-1,o;n>=0;n--)(o=i[n])&&(s=(r?o(t,e,s):o(s))||s);return r&&s&&Yt(t,e,s),s};let E=class extends g{constructor(){super(...arguments),this.currentPage="home",this.pageTitle="Главная страница",this.showBackButton=!1}connectedCallback(){super.connectedCallback(),window.addEventListener("popstate",()=>this.handlePopState())}disconnectedCallback(){super.disconnectedCallback(),window.removeEventListener("popstate",()=>this.handlePopState())}handlePopState(){const i=history.state||{page:"home",title:"Главная страница"};this.currentPage=i.page,this.pageTitle=i.title,this.showBackButton=i.page!=="home"}navigateTo(i,t){this.currentPage=i,this.pageTitle=t,this.showBackButton=i!=="home",history.pushState({page:i,title:t},"",`#${i}`)}goBack(){history.back()}renderPage(){switch(this.currentPage){case"search-tpo":return u`<search-tpo></search-tpo>`;case"advance-payment":return u`<advance-payment></advance-payment>`;case"change-password":return u`<change-password></change-password>`;case"payment-history":return u`<payment-history></payment-history>`;case"home":default:return u`
-                    <button class="nav-button" id="installApp">Install</button>
+                    <button class="nav-button" id="install" hidden>Установить как приложение</button>
                     <button class="nav-button" @click="${()=>this.navigateTo("search-tpo","Поиск квитанции по реквизитам")}">Поиск квитанции по реквизитам</button>
                     <button class="nav-button" @click="${()=>this.navigateTo("advance-payment","Авансовый платеж")}">Авансовый платеж</button>
                     <button class="nav-button" @click="${()=>this.navigateTo("change-password","Сменить пароль")}">Сменить пароль</button>
@@ -211,4 +211,4 @@
                 ${this.renderPage()}
             </main>
         `}};E.styles=[L];K([$({type:String})],E.prototype,"currentPage",2);K([$({type:String})],E.prototype,"pageTitle",2);K([$({type:Boolean})],E.prototype,"showBackButton",2);E=K([C("app-home")],E);
-//# sourceMappingURL=index-cuLiY05X.js.map
+//# sourceMappingURL=index-5rjW_nzO.js.map
