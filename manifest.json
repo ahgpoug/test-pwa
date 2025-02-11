@@ -4,10 +4,10 @@
   "name": "test-pwa",
   "display": "standalone",
   "short_name": "starter",
-  "theme_color": "#E1477E",
+  "theme_color": "#5147e1",
   "description": "This is a test-pwa app",
   "orientation": "any",
-  "background_color": "#E1477E",
+  "background_color": "#5147e1",
   "related_applications": [],
   "prefer_related_applications": false,
   "display_override": ["window-controls-overlay"],
@@ -49,7 +49,7 @@
       "name": "ISC Broker",
       "short_name": "ISC Broker",
       "description": "Open ISC Broker",
-      "url": "https://ahgpoug.github.io/test-pwa/",
+      "url": "/",
       "icons": [{ "src": "assets/icons/192x192.png", "sizes": "192x192" }]
     }
   ]
