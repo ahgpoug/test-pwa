@@ -1,5 +1,6 @@
 import { LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
+import { globalStyles } from '../styles/global-styles';
 
 interface Payment {
     id: number;
@@ -8,7 +9,11 @@ interface Payment {
 }
 
 @customElement('payment-history')
+// @ts-ignore
 class PaymentHistory extends LitElement {
+
+    static readonly styles = [globalStyles];
+
     @property({ type: Array }) payments: Payment[] = [
         { id: 1, amount: 1000, date: '2023-10-01' },
         { id: 2, amount: 1500, date: '2023-10-05' },
@@ -17,7 +22,6 @@ class PaymentHistory extends LitElement {
 
     render() {
         return html`
-            <h2>История платежей</h2>
             <ul>
                 ${this.payments.map(payment => html`
                     <li>${payment.date} - ${payment.amount} руб.</li>

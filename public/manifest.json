@@ -3,12 +3,11 @@
   "scope": "/",
   "name": "test-pwa",
   "display": "standalone",
-  "start_url": "/",
   "short_name": "starter",
-  "theme_color": "#E1477E",
+  "theme_color": "#5147e1",
   "description": "This is a test-pwa app",
   "orientation": "any",
-  "background_color": "#E1477E",
+  "background_color": "#5147e1",
   "related_applications": [],
   "prefer_related_applications": false,
   "display_override": ["window-controls-overlay"],
@@ -37,13 +36,6 @@
       "type": "image/png"
     }
   ],
-  "screenshots": [
-    {
-      "src": "assets/screenshots/screen.png",
-      "sizes": "1617x1012",
-      "type": "image/png"
-    }
-  ],
   "features": [
     "Cross Platform",
     "fast",
@@ -54,33 +46,11 @@
   ],
   "shortcuts": [
     {
-      "name": "Open About",
-      "short_name": "About",
-      "description": "Open the about page",
-      "url": "/about",
+      "name": "ISC Broker",
+      "short_name": "ISC Broker",
+      "description": "Open ISC Broker",
+      "url": "/",
       "icons": [{ "src": "assets/icons/192x192.png", "sizes": "192x192" }]
-    }
-  ],
-  "widgets": [
-    {
-      "name": "Starter Widget",
-      "tag": "starterWidget",
-      "ms_ac_template": "widget/ac.json",
-      "data": "widget/data.json",
-      "description": "A simple widget example from pwa-starter.",
-      "screenshots": [
-        {
-          "src": "assets/screenshots/widget-screen.png",
-          "sizes": "500x500",
-          "label": "Widget screenshot"
-        }
-      ],
-      "icons": [
-        {
-          "src": "assets/icons/48x48.png",
-          "sizes": "48x48"
-        }
-      ]
     }
   ]
 }

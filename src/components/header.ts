@@ -1,20 +1,72 @@
-import { LitElement, html } from 'lit';
+import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
-@customElement('my-header')
-class MyHeader extends LitElement {
-    @property({ type: Function }) navigateTo: (page: string) => void = () => {};
+@customElement('app-header')
+// @ts-ignore
+class AppHeader extends LitElement {
+    static styles = css`
+        :host {
+            display: block;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            background-color: #6200ee; /* Material Design primary color */
+            color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .back-button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 8px;
+            margin-right: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .back-button:active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .title {
+            font-size: 20px;
+            font-weight: 500;
+            flex-grow: 1;
+        }
+    `;
+
+    @property({ type: String }) title: string = '';
+    @property({ type: Boolean }) showBackButton: boolean = false;
+    @property({ type: Function }) onBack: () => void = () => {};
 
     render() {
         return html`
             <header>
-                <h1>Мое PWA</h1>
-                <nav>
-                    <button @click="${() => this.navigateTo('search-tpo')}">Поиск ТПО</button>
-                    <button @click="${() => this.navigateTo('create-payment-link')}">Создать ссылку</button>
-                    <button @click="${() => this.navigateTo('change-password')}">Сменить пароль</button>
-                    <button @click="${() => this.navigateTo('payment-history')}">История платежей</button>
-                </nav>
+                ${this.showBackButton
+                    ? html`<button class="back-button" @click="${this.onBack}">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                                <path d="M0 0h24v24H0z" fill="none"/>
+                                <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" fill="white"/>
+                            </svg>
+                        </button>`
+                    : ''}
+                <div class="title">${this.title}</div>
             </header>
         `;
     }
