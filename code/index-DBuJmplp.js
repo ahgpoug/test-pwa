@@ -183,13 +183,11 @@
             fill: #6200ee;
         }
     `,L];mt([$({type:String})],z.prototype,"generatedLink",2);z=mt([C("advance-payment")],z);var Zt=Object.defineProperty,Gt=Object.getOwnPropertyDescriptor,F=(i,t,e,r)=>{for(var s=r>1?void 0:r?Gt(t,e):t,n=i.length-1,o;n>=0;n--)(o=i[n])&&(s=(r?o(t,e,s):o(s))||s);return r&&s&&Zt(t,e,s),s};let x=class extends g{constructor(){super(...arguments),this.oldPassword="",this.newPassword="",this.confirmPassword=""}handleChangePassword(){this.newPassword===this.confirmPassword?console.log("Смена пароля:",this.oldPassword,this.newPassword):console.error("Пароли не совпадают")}render(){return u`
-            <h2>Смена пароля</h2>
             <input type="password" .value="${this.oldPassword}" @input="${i=>this.oldPassword=i.target.value}" placeholder="Старый пароль">
             <input type="password" .value="${this.newPassword}" @input="${i=>this.newPassword=i.target.value}" placeholder="Новый пароль">
             <input type="password" .value="${this.confirmPassword}" @input="${i=>this.confirmPassword=i.target.value}" placeholder="Подтвердите пароль">
             <button class="nav-button" @click="${this.handleChangePassword}">Сменить пароль</button>
         `}};x.styles=[L];F([$({type:String})],x.prototype,"oldPassword",2);F([$({type:String})],x.prototype,"newPassword",2);F([$({type:String})],x.prototype,"confirmPassword",2);x=F([C("change-password")],x);var Qt=Object.defineProperty,Xt=Object.getOwnPropertyDescriptor,yt=(i,t,e,r)=>{for(var s=r>1?void 0:r?Xt(t,e):t,n=i.length-1,o;n>=0;n--)(o=i[n])&&(s=(r?o(t,e,s):o(s))||s);return r&&s&&Qt(t,e,s),s};let I=class extends g{constructor(){super(...arguments),this.payments=[{id:1,amount:1e3,date:"2023-10-01"},{id:2,amount:1500,date:"2023-10-05"},{id:3,amount:2e3,date:"2023-10-10"}]}render(){return u`
-            <h2>История платежей</h2>
             <ul>
                 ${this.payments.map(i=>u`
                     <li>${i.date} - ${i.amount} руб.</li>
@@ -211,4 +209,4 @@
                 ${this.renderPage()}
             </main>
         `}};E.styles=[L];K([$({type:String})],E.prototype,"currentPage",2);K([$({type:String})],E.prototype,"pageTitle",2);K([$({type:Boolean})],E.prototype,"showBackButton",2);E=K([C("app-home")],E);
-//# sourceMappingURL=index-5rjW_nzO.js.map
+//# sourceMappingURL=index-DBuJmplp.js.map
