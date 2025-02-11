@@ -53,7 +53,7 @@
         color: white;
         border: none;
         border-radius: 8px;
-        text-align: left;
+        text-align: center;
         cursor: pointer;
         transition: background-color 0.3s ease;
         box-sizing: border-box;
@@ -97,18 +97,18 @@
                     </button>
 
                     ${this.isIOS?c`
-                        <h3>Создать ярлык на домашнем экране</h3>
+                        <h3>Добавить на экран "Домой"</h3>
                         <div class="instructions">
                             1. Нажмите на кнопку "Поделиться"<br>
                             2. Выберите 'На экран "Домой"'<br>
                             3. Нажмите "Добавить"
                         </div>
                     `:this.isAndroid?c`
-                        <h3>Создать ярлык на домашнем экране</h3>
+                        <h3>Добавить на главный экран</h3>
                         <div class="instructions">
                             1. Откройте меню браузера (три точки)<br>
-                            2. Выберите "Установить приложение"<br>
-                            3. Подтвердите установку
+                            2. Выберите "Добавить на главный экран"<br>
+                            3. Нажмите "Добавить"
                         </div>
                     `:c`
                         <h3>Сохранить в закладки</h3>
@@ -323,4 +323,4 @@
                 ${this.renderPage()}
             </main>
         `}};C.styles=[L];J([$({type:String})],C.prototype,"currentPage",2);J([$({type:String})],C.prototype,"pageTitle",2);J([$({type:Boolean})],C.prototype,"showBackButton",2);C=J([O("app-home")],C);
-//# sourceMappingURL=index-PALMrvnq.js.map
+//# sourceMappingURL=index-7-9hJNwj.js.map
