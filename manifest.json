@@ -3,7 +3,6 @@
   "scope": "/",
   "name": "test-pwa",
   "display": "standalone",
-  "start_url": "https://ahgpoug.github.io/test-pwa/",
   "short_name": "starter",
   "theme_color": "#E1477E",
   "description": "This is a test-pwa app",
@@ -50,7 +49,7 @@
       "name": "ISC Broker",
       "short_name": "ISC Broker",
       "description": "Open ISC Broker",
-      "url": "/",
+      "url": "https://ahgpoug.github.io/test-pwa/",
       "icons": [{ "src": "assets/icons/192x192.png", "sizes": "192x192" }]
     }
   ]
