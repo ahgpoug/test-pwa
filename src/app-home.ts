@@ -20,6 +20,18 @@ class AppHome extends LitElement {
 
     connectedCallback() {
         super.connectedCallback();
+
+        // Регистрация Service Worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/test-pwa/sw.js')
+                .then((registration) => {
+                    console.log('Service Worker зарегистрирован:', registration);
+                })
+                .catch((error) => {
+                    console.error('Ошибка регистрации Service Worker:', error);
+                });
+        }
+
         // Обработка нажатия кнопки "Назад" в браузере
         window.addEventListener('popstate', () => this.handlePopState());
     }
@@ -65,10 +77,10 @@ class AppHome extends LitElement {
             case 'home':
             default:
                 return html`
-                    <button class="nav-button" @click="${() => this.navigateTo('search-tpo', 'Поиск квитанции по реквизитам')}">Поиск квитанции по реквизитам</button>
-                    <button class="nav-button" @click="${() => this.navigateTo('advance-payment', 'Авансовый платеж')}">Авансовый платеж</button>
-                    <button class="nav-button" @click="${() => this.navigateTo('change-password', 'Сменить пароль')}">Сменить пароль</button>
-                    <button class="nav-button" @click="${() => this.navigateTo('payment-history', 'История платежей')}">История платежей</button>
+                    <button class="action-button" @click="${() => this.navigateTo('search-tpo', 'Поиск квитанции по реквизитам')}">Поиск квитанции по реквизитам</button>
+                    <button class="action-button" @click="${() => this.navigateTo('advance-payment', 'Авансовый платеж')}">Авансовый платеж</button>
+                    <button class="action-button" @click="${() => this.navigateTo('change-password', 'Сменить пароль')}">Сменить пароль</button>
+                    <button class="action-button" @click="${() => this.navigateTo('payment-history', 'История платежей')}">История платежей</button>
                 `;
         }
     }

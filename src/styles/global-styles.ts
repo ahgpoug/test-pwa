@@ -15,7 +15,7 @@ export const globalStyles = css`
         min-height: calc(100vh - 120px); /* Учитываем высоту header и footer */
     }
 
-    button.nav-button {
+    button.action-button {
         display: block;
         width: 100%;
         padding: 1rem;
@@ -31,7 +31,16 @@ export const globalStyles = css`
         box-sizing: border-box;
     }
 
-    button.nav-button:hover {
+    button.action-button:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+    }
+
+    button.action-button:not(:disabled):hover {
+        background-color: #3700b3;
+    }
+
+    button.action-button:hover {
         background-color: #3700b3; /* Darker shade for hover */
     }
 
@@ -43,6 +52,37 @@ export const globalStyles = css`
         border-radius: 8px;
         font-size: 1rem;
         box-sizing: border-box;
+    }
+
+    input:focus {
+        border-color: #6200ee;
+        outline: none;
+    }
+
+    input.invalid {
+        border-color: #ff4444;
+    }
+
+    .error-message {
+        color: #ff4444;
+        font-size: 12px;
+        margin-top: 4px;
+        display: none;
+    }
+
+    input.invalid + .error-message {
+        display: block;
+    }
+
+    .form-group {
+        margin-bottom: 16px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #333;
     }
 
     ul {

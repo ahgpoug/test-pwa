@@ -31,6 +31,14 @@
   </script>
 
   <script type="module" src="/src/app-home.ts"></script>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/test-pwa/sw.js');
+      });
+    }
+  </script>
 </head>
 <body style="margin: 0; padding: 0;">
     <app-home></app-home>

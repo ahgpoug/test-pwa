@@ -25,7 +25,7 @@ class ChangePassword extends LitElement {
             <input type="password" .value="${this.oldPassword}" @input="${(e: Event) => this.oldPassword = (e.target as HTMLInputElement).value}" placeholder="Старый пароль">
             <input type="password" .value="${this.newPassword}" @input="${(e: Event) => this.newPassword = (e.target as HTMLInputElement).value}" placeholder="Новый пароль">
             <input type="password" .value="${this.confirmPassword}" @input="${(e: Event) => this.confirmPassword = (e.target as HTMLInputElement).value}" placeholder="Подтвердите пароль">
-            <button class="nav-button" @click="${this.handleChangePassword}">Сменить пароль</button>
+            <button class="action-button" @click="${this.handleChangePassword}">Сменить пароль</button>
         `;
     }
 }

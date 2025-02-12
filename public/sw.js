@@ -3,22 +3,41 @@ importScripts(
 );
 
 const CACHE_NAME = 'pwa-cache-v1';
-const urlsToCache = [
+const ASSETS_TO_CACHE = [
     '/',
     '/index.html',
-    '/src/app-home.ts',
-    '/src/pages/search-tpo.ts',
-    '/src/pages/advance-payment.ts',
-    '/src/pages/change-password.ts',
-    '/src/pages/payment-history.ts',
-    '/src/components/header.ts',
-    '/src/styles/global-styles.ts'
+    '/src/app.js',
+    '/src/components/header.js',
+    '/src/pages/search-tpo.js',
+    '/src/pages/advance-payment.js',
+    '/src/pages/change-password.js',
+    '/src/pages/payment-history.js',
+    '/src/styles/global-styles.js',
+    '/manifest.json',
+    '/icons/icon-192x192.png',
+    '/icons/icon-512x512.png',
 ];
 
 self.addEventListener('install', (event) => {
     event.waitUntil(
         caches.open(CACHE_NAME)
-            .then((cache) => cache.addAll(urlsToCache)))
+            .then((cache) => cache.addAll(ASSETS_TO_CACHE))
+            .then(() => self.skipWaiting())
+    );
+});
+
+self.addEventListener('activate', (event) => {
+    event.waitUntil(
+        caches.keys().then((cacheNames) => {
+            return Promise.all(
+                cacheNames.map((cacheName) => {
+                    if (cacheName !== CACHE_NAME) {
+                        return caches.delete(cacheName);
+                    }
+                })
+            );
+        }).then(() => self.clients.claim())
+    );
 });
 
 self.addEventListener('fetch', (event) => {

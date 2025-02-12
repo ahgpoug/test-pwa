@@ -4,7 +4,7 @@ import { customElement, property, state } from 'lit/decorators.js';
 @customElement('app-header')
 // @ts-ignore
 class AppHeader extends LitElement {
-    static styles = css`
+    static readonly styles = css`
         :host {
             display: block;
         }
@@ -19,6 +19,7 @@ class AppHeader extends LitElement {
             position: sticky;
             top: 0;
             z-index: 1000;
+            height: 32px;
         }
 
         .back-button {
@@ -53,12 +54,12 @@ class AppHeader extends LitElement {
         .install-button {
             background: none;
             border: none;
-            color: white;
-            font-size: 14px;
             cursor: pointer;
-            padding: 8px 16px;
-            border-radius: 20px;
-            border: 1px solid white;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
             transition: background-color 0.3s ease;
         }
 
@@ -68,6 +69,12 @@ class AppHeader extends LitElement {
 
         .install-button:active {
             background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .install-icon {
+            width: 24px;
+            height: 24px;
+            fill: white;
         }
 
         .install-modal {
@@ -111,9 +118,9 @@ class AppHeader extends LitElement {
     @state() private showInstallButton: boolean = false;
     @state() private showInstallModal: boolean = false;
     private deferredPrompt: any = null;
-    private isIOS: boolean = /iPad|iPhone|iPod/.test(navigator.userAgent);
-    private isAndroid: boolean = /Android/.test(navigator.userAgent);
-    private isInStandaloneMode: boolean = (window.matchMedia('(display-mode: standalone)').matches) || document.referrer.includes('android-app://');
+    private readonly isIOS: boolean = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    private readonly isAndroid: boolean = /Android/.test(navigator.userAgent);
+    private readonly isInStandaloneMode: boolean = (window.matchMedia('(display-mode: standalone)').matches) || document.referrer.includes('android-app://');
 
     @property({ type: Boolean }) showBackButton: boolean = false;
     @property({ type: Function }) onBack: () => void = () => {};
@@ -184,8 +191,6 @@ class AppHeader extends LitElement {
     }
 
     render() {
-        console.log(this.deferredPrompt);
-
         return html`
             <header>
                 ${this.showBackButton ? html`<button class="back-button" @click="${this.onBack}">
@@ -199,7 +204,9 @@ class AppHeader extends LitElement {
 
                 ${!this.isInStandaloneMode && (this.showInstallButton || !this.deferredPrompt) ? html`
                     <button class="install-button" @click="${this.handleInstallClick}">
-                        ${this.deferredPrompt ? 'Установить' : 'Ярлык'}
+                        <svg class="install-icon" viewBox="0 0 24 24">
+                            <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                        </svg>
                     </button>
                 ` : ''}
             </header>
