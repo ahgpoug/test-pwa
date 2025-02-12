@@ -9,6 +9,7 @@
   "short_name": "ISC Broker",
   "theme_color": "#5147e1",
   "description": "ISC Broker",
+  "handle_links": "preferred",
   "orientation": "any",
   "background_color": "#5147e1",
   "related_applications": [],
@@ -45,7 +46,7 @@
     "simple"
   ],
   "categories": [
-    "social"
+    "finance"
   ],
   "shortcuts": [
     {
