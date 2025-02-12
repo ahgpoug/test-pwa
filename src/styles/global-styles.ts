@@ -40,10 +40,6 @@ export const globalStyles = css`
         background-color: #3700b3;
     }
 
-    button.action-button:hover {
-        background-color: #3700b3; /* Darker shade for hover */
-    }
-
     input {
         width: 100%;
         padding: 0.75rem;

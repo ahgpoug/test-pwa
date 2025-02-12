@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+
+    <title>Страница не найдена</title>
+    <script>
+        // Сохраняем оригинальный URL
+        sessionStorage.redirect = location.pathname;
+
+        // Перенаправляем на корневой путь
+        location.replace('/test-pwa/');
+    </script>
+</head>
+<body>
+    <!-- Пустое тело, так как это временная страница -->
+</body>
+</html>
