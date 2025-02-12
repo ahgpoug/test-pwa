@@ -13,6 +13,9 @@ type Page = '' | 'search-tpo' | 'advance-payment' | 'change-password' | 'payment
 // @ts-ignore
 class AppHome extends LitElement {
     static readonly styles = [globalStyles];
+    private readonly isInStandaloneMode: boolean = (window.matchMedia('(display-mode: standalone)').matches)
+        || (window.navigator as any).standalone === true
+        || document.referrer.includes('android-app://');
 
     @property({ type: String }) currentPage: string = window.location.pathname;
     @property({ type: Boolean }) showBackButton: boolean = false;
@@ -44,8 +47,38 @@ class AppHome extends LitElement {
         // Проставляем текущую страницу в зависимости от URL
         this.handlePopState();
 
+        this.setupBackButtonHandler();
+
         // Обработка нажатия кнопки "Назад" в браузере
         window.addEventListener('popstate', this.handlePopState);
+    }
+
+    isHomePage(): boolean {
+        return this.currentPage == ''
+            || this.currentPage == '/'
+            || this.currentPage == this.basePath;
+    }
+
+    private setupBackButtonHandler() {
+        // Блокировка кнопки "Назад" только для главной в standalone
+        window.onpopstate = (event) => {
+            if (this.isInStandaloneMode && this.isHomePage()) {
+                event.preventDefault();
+                this.handleExit();
+                return false;
+            }
+            return true;
+        };
+    }
+
+    private handleExit() {
+        // Попытка закрыть приложение
+        if (window.navigator && (window.navigator as any).app) {
+            (window.navigator as any).app.exitApp();
+        } else {
+            window.close();
+            window.stop();
+        }
     }
 
     disconnectedCallback() {
@@ -112,14 +145,12 @@ class AppHome extends LitElement {
     }
 
     render() {
-        console.log(`Current page: ${this.currentPage}`);
-
         return html`
             <app-header
                 .currentPage="${this.currentPage}"
                 .basePath="${this.basePath}"
                 .title="${this.getPageTitle()}"
-                .showBackButton="${this.currentPage != ''}"
+                .showBackButton="${!this.isHomePage()}"
                 .onBack="${() => this.navigateTo('')}"
             ></app-header>
             <main>

@@ -120,7 +120,9 @@ class AppHeader extends LitElement {
     private deferredPrompt: any = null;
     private readonly isIOS: boolean = /iPad|iPhone|iPod/.test(navigator.userAgent);
     private readonly isAndroid: boolean = /Android/.test(navigator.userAgent);
-    private readonly isInStandaloneMode: boolean = (window.matchMedia('(display-mode: standalone)').matches) || document.referrer.includes('android-app://');
+    private readonly isInStandaloneMode: boolean = (window.matchMedia('(display-mode: standalone)').matches)
+        || (window.navigator as any).standalone === true
+        || document.referrer.includes('android-app://');
 
     @property({ type: Boolean }) showBackButton: boolean = false;
     @property({ type: Function }) onBack: () => void = () => {};

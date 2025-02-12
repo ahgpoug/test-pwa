@@ -5,19 +5,19 @@ importScripts(
 const BASE_PATH = '/test-pwa';
 const CACHE_NAME = 'pwa-cache-v1';
 const ASSETS_TO_CACHE = [
-    `${BASE_PATH}/`,
-    `${BASE_PATH}/index.html`,
-    `${BASE_PATH}/404.html`,
-    `${BASE_PATH}/src/app.js`,
-    `${BASE_PATH}/src/components/header.js`,
-    `${BASE_PATH}/src/pages/search-tpo.js`,
-    `${BASE_PATH}/src/pages/advance-payment.js`,
-    `${BASE_PATH}/src/pages/change-password.js`,
-    `${BASE_PATH}/src/pages/payment-history.js`,
-    `${BASE_PATH}/src/styles/global-styles.js`,
-    `${BASE_PATH}/manifest.json`,
-    `${BASE_PATH}/icons/icon-192x192.png`,
-    `${BASE_PATH}/icons/icon-512x512.png`,
+    `/`,
+    `/index.html`,
+    `/404.html`,
+    `/src/app.js`,
+    `/src/components/header.js`,
+    `/src/pages/search-tpo.js`,
+    `/src/pages/advance-payment.js`,
+    `/src/pages/change-password.js`,
+    `/src/pages/payment-history.js`,
+    `/src/styles/global-styles.js`,
+    `/manifest.json`,
+    `/icons/icon-192x192.png`,
+    `/icons/icon-512x512.png`,
 ];
 
 self.addEventListener('install', (event) => {
