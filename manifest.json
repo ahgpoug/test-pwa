@@ -1,5 +1,6 @@
 {
   "id": "/",
+  "start_url": "/",
   "scope": "/",
   "name": "ISC Broker",
   "display": "standalone",
