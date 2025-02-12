@@ -2,7 +2,6 @@ importScripts(
     'https://storage.googleapis.com/workbox-cdn/releases/7.3.0/workbox-sw.js'
 );
 
-const BASE_PATH = '/test-pwa';
 const CACHE_NAME = 'pwa-cache-v1';
 const ASSETS_TO_CACHE = [
     `/`,

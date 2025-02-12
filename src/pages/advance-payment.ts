@@ -73,7 +73,9 @@ class AdvancePayment extends LitElement {
     }
 
     validatePassportIssueDate(date: string): boolean {
-        if (!date) return false;
+        if (!date) {
+            return false;
+        }
         const inputDate = new Date(date);
         const currentDate = new Date();
         return inputDate <= currentDate;

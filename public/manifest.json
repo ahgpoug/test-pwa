@@ -1,11 +1,15 @@
 {
   "id": "/",
+  "start_url": "/",
   "scope": "/",
-  "name": "test-pwa",
+  "lang": "ru",
+  "dir": "ltr",
+  "name": "ISC Broker",
   "display": "standalone",
-  "short_name": "starter",
+  "short_name": "ISC Broker",
   "theme_color": "#5147e1",
-  "description": "This is a test-pwa app",
+  "description": "ISC Broker",
+  "handle_links": "preferred",
   "orientation": "any",
   "background_color": "#5147e1",
   "related_applications": [],
@@ -42,13 +46,13 @@
     "simple"
   ],
   "categories": [
-    "social"
+    "finance"
   ],
   "shortcuts": [
     {
       "name": "ISC Broker",
       "short_name": "ISC Broker",
-      "description": "Open ISC Broker",
+      "description": "Открыть ISC Broker",
       "url": "/",
       "icons": [{ "src": "assets/icons/192x192.png", "sizes": "192x192" }]
     }
