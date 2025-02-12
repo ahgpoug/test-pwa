@@ -454,16 +454,16 @@
             <button class="action-button" @click="${()=>this.navigateTo("advance-payment")}">Авансовый платеж</button>
             <button class="action-button" @click="${()=>this.navigateTo("change-password")}">Сменить пароль</button>
             <button class="action-button" @click="${()=>this.navigateTo("payment-history")}">История платежей</button>
-        `}render(){return console.log(`/${this.currentPage}/`),console.log(this.basePath),c`
+        `}render(){return console.log(`/${this.currentPage}`),console.log(this.basePath),c`
             <app-header
                 @navigate="${r=>this.navigateTo(r.detail.page)}"
                 .currentPage="${this.currentPage}"
                 .title="${this.getPageTitle()}"
-                .showBackButton="${`/${this.currentPage}/`!=this.basePath}"
+                .showBackButton="${`/${this.currentPage}`!=this.basePath}"
                 .onBack="${()=>this.goBack()}"
             ></app-header>
             <main>
                 ${this.renderPage()}
             </main>
         `}};T.styles=[B];it([g({type:String})],T.prototype,"currentPage",2);it([g({type:Boolean})],T.prototype,"showBackButton",2);T=it([N("app-home")],T);
-//# sourceMappingURL=index-L3oZq1GD.js.map
+//# sourceMappingURL=index-C0VWFt8e.js.map
