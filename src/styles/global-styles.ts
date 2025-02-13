@@ -107,6 +107,7 @@ export const globalStyles = css`
         user-select: all;
         overflow: hidden;
         text-overflow: ellipsis;
+        box-sizing: border-box;
     }
 
     .share-button {
