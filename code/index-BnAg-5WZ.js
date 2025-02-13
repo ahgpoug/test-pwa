@@ -445,6 +445,7 @@
             border-radius: 8px;
             background: white;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
         }
 
         .tpo-field {
@@ -564,4 +565,4 @@
                 </div>
               `:""}
         `}};O.styles=[M];G([u()],O.prototype,"isLoading",2);G([b({type:String})],O.prototype,"currentPage",2);G([b({type:Boolean})],O.prototype,"showBackButton",2);O=G([L("app-home")],O);
-//# sourceMappingURL=index-DtHZY4_N.js.map
+//# sourceMappingURL=index-BnAg-5WZ.js.map
