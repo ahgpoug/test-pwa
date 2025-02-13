@@ -135,6 +135,7 @@
         user-select: all;
         overflow: hidden;
         text-overflow: ellipsis;
+        box-sizing: border-box;
     }
 
     .share-button {
@@ -565,4 +566,4 @@
                 </div>
               `:""}
         `}};O.styles=[M];G([u()],O.prototype,"isLoading",2);G([b({type:String})],O.prototype,"currentPage",2);G([b({type:Boolean})],O.prototype,"showBackButton",2);O=G([L("app-home")],O);
-//# sourceMappingURL=index-CWWDvaYv.js.map
+//# sourceMappingURL=index-DTAD3uWb.js.map
