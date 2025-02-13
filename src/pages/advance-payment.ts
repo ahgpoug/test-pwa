@@ -1,4 +1,4 @@
-import { LitElement, html, css } from 'lit';
+import { LitElement, html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { globalStyles } from '../styles/global-styles';
 
@@ -6,43 +6,7 @@ import { globalStyles } from '../styles/global-styles';
 // @ts-ignore
 class AdvancePayment extends LitElement {
 
-    static readonly styles = [css`
-        .link-container {
-            margin-top: 20px;
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
-
-        .link-field {
-            flex-grow: 1;
-            padding: 12px 16px;
-            border: 2px solid #6200ee;
-            border-radius: 8px;
-            font-size: 14px;
-            color: #333;
-            background: #f8f8f8;
-            cursor: text;
-            user-select: all;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .share-button {
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 5px;
-            display: flex;
-            align-items: center;
-        }
-
-        .share-icon {
-            width: 24px;
-            height: 24px;
-            fill: #6200ee;
-        }
-    `, globalStyles];
+    static readonly styles = [globalStyles];
 
     @state() private fio: string = '';
     @state() private inn: string = '';
@@ -53,7 +17,7 @@ class AdvancePayment extends LitElement {
     @property({ type: String }) generatedLink: string = '';
 
     // Регулярные выражения для валидации
-    private readonly fioRegex = /^((?![\s’(),.-])*[А-Яа-яЁёIV’(),.-]{2,}(?<![\s’(),.-])\s?){2,}(?<!\s)$/;
+    private readonly fioRegex = /^((?![\s’(),.-])+[А-Яа-яЁёIV’(),.-]{2,}\s(?<![’(),.-]))+((?![\s’(),.-])+[А-Яа-яЁёIV’(),.-]{2,}(?<![\s’(),.-]))+$/;
     private readonly innRegex = /^\d{12}$/;
     private readonly passportSeriesNumberRegex = /^\d{4}\s\d{6}$/;
 
@@ -83,12 +47,32 @@ class AdvancePayment extends LitElement {
 
     handleFioInput(e: Event) {
         this.fio = (e.target as HTMLInputElement).value;
+
+        const input = e.target as HTMLInputElement;
+        const cursorPosition = input.selectionStart;
+
+        // Удаляем лишние символы
+        let value = input.value
+            .replace(/[^А-Яа-яЁёIV’()\s,.-]+/g, '')
+            .replace(/\s+/g, ' ');
+
+        // Сохраняем новое значение
+        this.fio = value;
+
+        // Восстанавливаем позицию курсора
+        requestAnimationFrame(() => {
+            if (cursorPosition) {
+                const newCursorPos = this.calculateNewCursorPosition(cursorPosition, input.value, value);
+                input.setSelectionRange(newCursorPos, newCursorPos);
+            }
+        });
+
         this.validateForm();
+        input.value = this.fio; // Обновляем значение в DOM
     }
 
     handleInnInput(e: Event) {
         this.inn = (e.target as HTMLInputElement).value.replace(/\D/g, '');
-        this.validateForm();
 
         const input = e.target as HTMLInputElement;
         const cursorPosition = input.selectionStart;
@@ -96,7 +80,7 @@ class AdvancePayment extends LitElement {
         // Удаляем все нецифровые символы и пробелы
         let value = input.value.replace(/[^\d]/g, '');
 
-        // Форматируем по маске XXXX XXXXXX
+        // Форматируем по маске XXXXXXXXXXXX
         let formatted = '';
         if (value.length > 0) {
             formatted = value.slice(0, 12);

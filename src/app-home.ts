@@ -5,11 +5,10 @@ import { authService } from './services/auth-service';
 import './components/header';
 import './pages/search-tpo';
 import './pages/advance-payment';
-import './pages/change-password';
 import './pages/payment-history';
 import './pages/login-page';
 
-type Page = '' | 'search-tpo' | 'advance-payment' | 'change-password' | 'payment-history' | 'login-page';
+type Page = '' | 'search-tpo' | 'advance-payment' | 'payment-history' | 'login-page';
 
 @customElement('app-home')
 // @ts-ignore
@@ -39,6 +38,7 @@ class AppHome extends LitElement {
                     `${this.basePath}sw.js`,
                     { scope: this.basePath }
                 );
+
                 console.log('ServiceWorker registration successful with scope:', registration.scope);
             } catch (err) {
                 console.error('ServiceWorker registration failed:', err);
@@ -113,7 +113,6 @@ class AppHome extends LitElement {
     };
 
     navigateTo(page: Page) {
-        console.log(`Navigate to ${this.basePath}${page}`);
         history.pushState({}, '', `${this.basePath}${page}`);
         this.currentPage = page;
         this.requestUpdate();
@@ -132,8 +131,6 @@ class AppHome extends LitElement {
                 return 'Поиск квитанции по реквизитам';
             case 'advance-payment':
                 return 'Авансовый платеж';
-            case 'change-password':
-                return 'Сменить пароль';
             case 'payment-history':
                 return 'История платежей';
             default:
@@ -151,8 +148,6 @@ class AppHome extends LitElement {
                 return html`<search-tpo></search-tpo>`;
             case 'advance-payment':
                 return html`<advance-payment></advance-payment>`;
-            case 'change-password':
-                return html`<change-password></change-password>`;
             case 'payment-history':
                 return html`<payment-history></payment-history>`;
             case 'login-page':
@@ -172,7 +167,6 @@ class AppHome extends LitElement {
         return html`
             <button class="action-button" @click="${() => this.navigateTo('search-tpo')}">Поиск квитанции по реквизитам</button>
             <button class="action-button" @click="${() => this.navigateTo('advance-payment')}">Авансовый платеж</button>
-            <button class="action-button" @click="${() => this.navigateTo('change-password')}">Сменить пароль</button>
             <button class="action-button" @click="${() => this.navigateTo('payment-history')}">История платежей</button>
             <button class="action-button" @click="${() => this.logout()}">Смена пользователя</button>
         `;

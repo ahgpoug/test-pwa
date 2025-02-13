@@ -74,6 +74,43 @@ export const globalStyles = css`
         margin-bottom: 16px;
     }
 
+    .link-container {
+        margin-top: 15px;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        box-sizing: border-box;
+    }
+
+    .link-field {
+        flex-grow: 1;
+        padding: 12px 16px;
+        border: 2px solid #6200ee;
+        border-radius: 8px;
+        font-size: 14px;
+        color: #333;
+        background: #f8f8f8;
+        cursor: text;
+        user-select: all;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .share-button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 5px;
+        display: flex;
+        align-items: center;
+    }
+
+    .share-icon {
+        width: 24px;
+        height: 24px;
+        fill: #6200ee;
+    }
+
     label {
         display: block;
         margin-bottom: 8px;

@@ -15,9 +15,9 @@ class AuthService {
 
     isAuthenticated(): boolean {
         const token = this.getToken();
-        if (!token) return false;
-
-        console.log(JSON.parse(atob(token.split('.')[1])));
+        if (!token) {
+            return false;
+        }
 
         // Проверка срока действия токена
         const payload = JSON.parse(atob(token.split('.')[1]));

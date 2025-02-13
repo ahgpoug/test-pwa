@@ -1,33 +1,58 @@
-import { LitElement, html } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
+import { LitElement, html, css } from 'lit';
+import { customElement, state } from 'lit/decorators.js';
 import { globalStyles } from '../styles/global-styles';
 
-interface PaymentDetails {
-    fio: string;
-    docData: string;
-}
+interface TPOCard {
+    id: string;
+    amount: number;
+    date: string;
+    number: string;
+    link?: string;
+  }
 
 @customElement('search-tpo')
 // @ts-ignore
 class SearchTPO extends LitElement {
 
-    static readonly styles = [globalStyles];
+    static readonly styles = [css`
+        .search-results {
+            margin-top: 20px;
+            display: grid;
+            gap: 16px;
+        }
 
+        .tpo-card {
+            padding: 16px;
+            border: 1px solid #6200ee;
+            border-radius: 8px;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .tpo-field {
+            margin: 8px 0;
+        }
+      `, globalStyles];
+
+    @state() private tpoCards: TPOCard[] = [];
     @state() private fio: string = '';
     @state() private passportSeriesNumber: string = '';
     @state() private isFormValid: boolean = false;
+    @state() private error: string = '';
 
     // Регулярные выражения для валидации
-    private readonly fioRegex = /^((?![\s’(),.-])*[А-Яа-яЁёIV’(),.-]{2,}(?<![\s’(),.-])\s?){2,}(?<!\s)$/;
+    private readonly fioRegex = /^((?![\s’(),.-])+[А-Яа-яЁёIV’(),.-]{2,}\s(?<![’(),.-]))+((?![\s’(),.-])+[А-Яа-яЁёIV’(),.-]{2,}(?<![\s’(),.-]))+$/;
     private readonly passportSeriesNumberRegex = /^\d{4}\s\d{6}$/;
 
-    @property({ type: Object }) paymentDetails: PaymentDetails = {
-        fio: '',
-        docData: ''
-    };
-
     handleSearch() {
-        console.log('Поиск ТПО:', this.fio, this.passportSeriesNumber);
+        const count = Math.floor(Math.random() * 10) + 1;
+        if (count % 2) {
+            this.tpoCards = [];
+            this.error = "ТПО для оплаты не найдены";
+        } else {
+            this.error = '';
+            this.generateRandomCards();
+        }
     }
 
     validateForm() {
@@ -39,7 +64,28 @@ class SearchTPO extends LitElement {
 
     handleFioInput(e: Event) {
         this.fio = (e.target as HTMLInputElement).value;
+
+        const input = e.target as HTMLInputElement;
+        const cursorPosition = input.selectionStart;
+
+        // Удаляем лишние символы
+        let value = input.value
+            .replace(/[^А-Яа-яЁёIV’()\s,.-]+/g, '')
+            .replace(/\s+/g, ' ');
+
+        // Сохраняем новое значение
+        this.fio = value;
+
+        // Восстанавливаем позицию курсора
+        requestAnimationFrame(() => {
+            if (cursorPosition) {
+                const newCursorPos = this.calculateNewCursorPosition(cursorPosition, input.value, value);
+                input.setSelectionRange(newCursorPos, newCursorPos);
+            }
+        });
+
         this.validateForm();
+        input.value = this.fio; // Обновляем значение в DOM
     }
 
     handlePassportSeriesNumberInput(e: Event) {
@@ -79,6 +125,52 @@ class SearchTPO extends LitElement {
         return oldPos + diff;
     }
 
+    generateRandomCards() {
+        const count = Math.floor(Math.random() * 10) + 1;
+        const newCards: TPOCard[] = [];
+
+        for (let i = 0; i < count; i++) {
+          newCards.push({
+            id: Math.random().toString(36).substring(2, 9),
+            amount: Math.floor(Math.random() * 100000) + 1000,
+            date: new Date(Date.now() - Math.random() * 31536000000)
+              .toISOString()
+              .split('T')[0],
+            number: `ТПО-${Math.floor(Math.random() * 1000000)}`
+          });
+        }
+
+        this.tpoCards = newCards;
+    }
+
+    generateLink(card: TPOCard) {
+        const randomHash = Math.random().toString(36).substring(2, 8);
+        const newCards = this.tpoCards.map(c => {
+          if (c.id === card.id) {
+            return { ...c, link: `${window.location.origin}/payment/${randomHash}` };
+          }
+          return c;
+        });
+        this.tpoCards = newCards;
+    }
+
+    async shareLink(link: string) {
+        try {
+          if (navigator.share) {
+            await navigator.share({
+              title: 'Ссылка на платеж ТПО',
+              text: 'Ссылка для оплаты ТПО:',
+              url: link
+            });
+          } else {
+            await navigator.clipboard.writeText(link);
+            alert('Ссылка скопирована в буфер обмена!');
+          }
+        } catch (err) {
+          console.error('Ошибка при попытке поделиться:', err);
+        }
+    }
+
     render() {
         return html`
             <div class="form-group">
@@ -113,9 +205,42 @@ class SearchTPO extends LitElement {
             <button
                 class="action-button"
                 ?disabled="${!this.isFormValid}"
+                @click="${() => this.handleSearch()}"
             >
                 Поиск
             </button>
+            ${this.error ? html`<div class="error">${this.error}</div>` : ''}
+
+            <div class="search-results">
+                ${this.tpoCards.map(card => html`
+                <div class="tpo-card">
+                    <div class="tpo-field"><strong>Сумма: </strong>${card.amount} руб.</div>
+                    <div class="tpo-field"><strong>Дата: </strong>${card.date}</div>
+                    <div class="tpo-field"><strong>Номер ТПО: </strong>${card.number}</div>
+
+                    <button
+                        class="action-button"
+                        @click="${() => this.generateLink(card)}"
+                    >
+                        Создать ссылку
+                    </button>
+
+                    ${card.link ? html`
+                    <div class="link-container">
+                        <div class="link-field">${card.link}</div>
+                        <button
+                            class="share-button"
+                            @click=${() => this.shareLink(card.link!)}
+                        >
+                            <svg class="share-icon" viewBox="0 0 24 24">
+                                <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92c0-1.61-1.31-2.92-2.92-2.92z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    ` : ''}
+                </div>
+                `)}
+            </div>
         `;
     }
 }
