@@ -1,14 +1,8 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
+import { apiService } from '../services/api-service';
+import { TPOCard } from '../models/TPOCard';
 import { globalStyles } from '../styles/global-styles';
-
-interface TPOCard {
-    id: string;
-    amount: number;
-    date: string;
-    number: string;
-    link?: string;
-  }
 
 @customElement('search-tpo')
 // @ts-ignore
@@ -39,19 +33,31 @@ class SearchTPO extends LitElement {
     @state() private passportSeriesNumber: string = '';
     @state() private isFormValid: boolean = false;
     @state() private error: string = '';
+    @state() private isLoading: boolean = false;
 
     // Регулярные выражения для валидации
     private readonly fioRegex = /^((?![\s’(),.-])+[А-Яа-яЁёIV’(),.-]{2,}\s(?<![’(),.-]))+((?![\s’(),.-])+[А-Яа-яЁёIV’(),.-]{2,}(?<![\s’(),.-]))+$/;
     private readonly passportSeriesNumberRegex = /^\d{4}\s\d{6}$/;
 
-    handleSearch() {
-        const count = Math.floor(Math.random() * 10) + 1;
-        if (count % 2) {
-            this.tpoCards = [];
-            this.error = "ТПО для оплаты не найдены";
-        } else {
-            this.error = '';
-            this.generateRandomCards();
+    async handleSearchTPO() {
+        if (this.isLoading) {
+            return;
+        }
+
+        this.isLoading = true;
+        this.tpoCards = [];
+        this.error = '';
+
+        try {
+            const cards = await apiService.fetchTPOList({
+                fio: this.fio.trim(),
+                passportSeriesNumber: this.passportSeriesNumber
+            });
+            this.tpoCards = cards;
+        } catch (error) {
+            this.error = 'Ошибка поиска';
+        } finally {
+            this.isLoading = false;
         }
     }
 
@@ -125,24 +131,6 @@ class SearchTPO extends LitElement {
         return oldPos + diff;
     }
 
-    generateRandomCards() {
-        const count = Math.floor(Math.random() * 10) + 1;
-        const newCards: TPOCard[] = [];
-
-        for (let i = 0; i < count; i++) {
-          newCards.push({
-            id: Math.random().toString(36).substring(2, 9),
-            amount: Math.floor(Math.random() * 100000) + 1000,
-            date: new Date(Date.now() - Math.random() * 31536000000)
-              .toISOString()
-              .split('T')[0],
-            number: `ТПО-${Math.floor(Math.random() * 1000000)}`
-          });
-        }
-
-        this.tpoCards = newCards;
-    }
-
     generateLink(card: TPOCard) {
         const randomHash = Math.random().toString(36).substring(2, 8);
         const newCards = this.tpoCards.map(c => {
@@ -204,12 +192,18 @@ class SearchTPO extends LitElement {
 
             <button
                 class="action-button"
-                ?disabled="${!this.isFormValid}"
-                @click="${() => this.handleSearch()}"
+                ?disabled="${!this.isFormValid || this.isLoading}"
+                @click="${() => this.handleSearchTPO()}"
             >
-                Поиск
+                ${this.isLoading ? 'Поиск...' : 'Поиск'}
             </button>
             ${this.error ? html`<div class="error">${this.error}</div>` : ''}
+
+            ${this.isLoading ? html`
+                <div class="loading-overlay">
+                  <div class="spinner"></div>
+                </div>
+              ` : ''}
 
             <div class="search-results">
                 ${this.tpoCards.map(card => html`

@@ -1,4 +1,5 @@
 import { authService } from './auth-service';
+import { TPOCard } from '../models/TPOCard';
 
 class ApiService {
     private readonly baseUrl = 'https://api.example.com';
@@ -20,6 +21,24 @@ class ApiService {
 
         const { token } = await response.json();
         return token;*/
+    }
+
+    // @ts-ignore
+    async fetchTPOList(params: { fio: string; passportSeriesNumber: string }): Promise<TPOCard[]> {
+        // Эмуляция задержки сети
+        const delay = Math.random() * 2000 + 1000; // 1-3 секунды
+        await new Promise(resolve => setTimeout(resolve, delay));
+
+        // Генерация случайных карточек
+        const count = Math.floor(Math.random() * 10) + 1;
+        return Array.from({ length: count }, (_, __) => ({
+            id: Math.random().toString(36).substring(2, 9),
+            amount: Math.floor(Math.random() * 100000) + 1000,
+            date: new Date(Date.now() - Math.random() * 31536000000)
+                .toISOString()
+                .split('T')[0],
+            number: `ТПО-${Math.floor(Math.random() * 1000000)}`
+        }));
     }
 
     async fetchProtectedData(): Promise<any> {
