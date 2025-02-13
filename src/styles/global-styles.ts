@@ -102,12 +102,10 @@ export const globalStyles = css`
         border-radius: 8px;
         font-size: 1rem;
         color: #333;
-        background: #f8f8f8;
         cursor: text;
         user-select: all;
         overflow: hidden;
         text-overflow: ellipsis;
-        box-sizing: border-box;
     }
 
     .share-button {
