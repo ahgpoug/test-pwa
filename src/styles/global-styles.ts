@@ -4,7 +4,6 @@ export const globalStyles = css`
     :host {
         display: block;
         font-family: 'Roboto', sans-serif;
-        background-color: #f5f5f5;
     }
 
     main {
@@ -60,11 +59,16 @@ export const globalStyles = css`
     }
 
     .error-container {
-        margin-top: 15px;
-        display: flex;
-        gap: 8px;
-        align-items: center;
-        box-sizing: border-box;
+        padding: 16px;
+        border: 1px solid #6200ee;
+        border-radius: 8px;
+        background: white;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .error {
+        color: #6200ee;
+        text-align: center;
     }
 
     .error-message {
@@ -92,10 +96,11 @@ export const globalStyles = css`
 
     .link-field {
         flex-grow: 1;
-        padding: 12px 16px;
+        padding: 0.75rem;
+        margin: 0.5rem 0;
         border: 2px solid #6200ee;
         border-radius: 8px;
-        font-size: 14px;
+        font-size: 1rem;
         color: #333;
         background: #f8f8f8;
         cursor: text;

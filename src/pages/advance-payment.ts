@@ -13,6 +13,7 @@ class AdvancePayment extends LitElement {
     @state() private passportSeriesNumber: string = '';
     @state() private passportIssueDate: string = '';
     @state() private isFormValid: boolean = false;
+    @state() private error: string = '';
 
     @property({ type: String }) generatedLink: string = '';
 
@@ -20,6 +21,34 @@ class AdvancePayment extends LitElement {
     private readonly fioRegex = /^((?![\s’(),.-])+[А-Яа-яЁёIV’(),.-]{2,}\s(?<![’(),.-]))+((?![\s’(),.-])+[А-Яа-яЁёIV’(),.-]{2,}(?<![\s’(),.-]))+$/;
     private readonly innRegex = /^\d{12}$/;
     private readonly passportSeriesNumberRegex = /^\d{4}\s\d{6}$/;
+
+    async handleGenerateLink() {
+        window.dispatchEvent(new CustomEvent("setloadingstate", { detail: true }));
+
+        this.generatedLink = '';
+        this.error = '';
+
+        try {
+            // Эмуляция задержки сети TODO
+            const delay = Math.random() * 2000 + 1000; // 1-3 секунды
+            await new Promise(resolve => setTimeout(resolve, delay));
+
+            this.generateRandomLink();
+        } catch (error) {
+            this.error = 'Ошибка создания ссылки';
+        } finally {
+            this.clearForm();
+            window.dispatchEvent(new CustomEvent("setloadingstate", { detail: false }));
+        }
+    }
+
+    clearForm() {
+        this.fio = '';
+        this.inn = '';
+        this.passportSeriesNumber = '';
+        this.passportIssueDate = '';
+        this.validateForm();
+    }
 
     generateRandomLink() {
         // Генерация случайного хэша из 8 символов
@@ -222,11 +251,12 @@ class AdvancePayment extends LitElement {
 
             <button
                 class="action-button"
-                @click="${this.generateRandomLink}"
+                @click="${this.handleGenerateLink}"
                 ?disabled="${!this.isFormValid}"
             >
                 Создать ссылку
             </button>
+            ${this.error ? html`<div class="error-container"><div class="error">${this.error}</div></div>` : ''}
 
             ${this.generatedLink ? html`
                 <div class="link-container">

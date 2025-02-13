@@ -33,18 +33,14 @@ class SearchTPO extends LitElement {
     @state() private passportSeriesNumber: string = '';
     @state() private isFormValid: boolean = false;
     @state() private error: string = '';
-    @state() private isLoading: boolean = false;
 
     // Регулярные выражения для валидации
     private readonly fioRegex = /^((?![\s’(),.-])+[А-Яа-яЁёIV’(),.-]{2,}\s(?<![’(),.-]))+((?![\s’(),.-])+[А-Яа-яЁёIV’(),.-]{2,}(?<![\s’(),.-]))+$/;
     private readonly passportSeriesNumberRegex = /^\d{4}\s\d{6}$/;
 
     async handleSearchTPO() {
-        if (this.isLoading) {
-            return;
-        }
+        window.dispatchEvent(new CustomEvent("setloadingstate", { detail: true }));
 
-        this.isLoading = true;
         this.tpoCards = [];
         this.error = '';
 
@@ -58,12 +54,11 @@ class SearchTPO extends LitElement {
             this.error = 'Ошибка поиска';
         } finally {
             this.clearForm();
-            this.isLoading = false;
+            window.dispatchEvent(new CustomEvent("setloadingstate", { detail: false }));
         }
     }
 
     clearForm() {
-        this.error = '';
         this.fio = '';
         this.passportSeriesNumber = '';
         this.validateForm();
@@ -139,7 +134,13 @@ class SearchTPO extends LitElement {
         return oldPos + diff;
     }
 
-    generateLink(card: TPOCard) {
+    async generateLink(card: TPOCard) {
+        window.dispatchEvent(new CustomEvent("setloadingstate", { detail: true }));
+
+        // Эмуляция задержки сети TODO
+        const delay = Math.random() * 2000 + 1000; // 1-3 секунды
+        await new Promise(resolve => setTimeout(resolve, delay));
+
         const randomHash = Math.random().toString(36).substring(2, 8);
         const newCards = this.tpoCards.map(c => {
           if (c.id === card.id) {
@@ -148,6 +149,8 @@ class SearchTPO extends LitElement {
           return c;
         });
         this.tpoCards = newCards;
+
+        window.dispatchEvent(new CustomEvent("setloadingstate", { detail: false }));
     }
 
     async shareLink(link: string) {
@@ -163,7 +166,7 @@ class SearchTPO extends LitElement {
             alert('Ссылка скопирована в буфер обмена!');
           }
         } catch (err) {
-          console.error('Ошибка при попытке поделиться:', err);
+            console.error('Ошибка при попытке поделиться:', err);
         }
     }
 
@@ -200,18 +203,12 @@ class SearchTPO extends LitElement {
 
             <button
                 class="action-button"
-                ?disabled="${!this.isFormValid || this.isLoading}"
-                @click="${() => this.handleSearchTPO()}"
+                @click="${this.handleSearchTPO}"
+                ?disabled="${!this.isFormValid}"
             >
-                ${this.isLoading ? 'Поиск...' : 'Поиск'}
+                Поиск
             </button>
-            ${this.error ? html`<div class="error">${this.error}</div>` : ''}
-
-            ${this.isLoading ? html`
-                <div class="loading-overlay">
-                  <div class="spinner"></div>
-                </div>
-              ` : ''}
+            ${this.error ? html`<div class="error-container"><div class="error">${this.error}</div></div>` : ''}
 
             <div class="search-results">
                 ${this.tpoCards.map(card => html`

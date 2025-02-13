@@ -1,5 +1,5 @@
 import { LitElement, html } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
 import { globalStyles } from './styles/global-styles';
 import { authService } from './services/auth-service';
 import './components/header';
@@ -17,6 +17,8 @@ class AppHome extends LitElement {
     private readonly isInStandaloneMode: boolean = (window.matchMedia('(display-mode: standalone)').matches)
         || (window.navigator as any).standalone === true
         || document.referrer.includes('android-app://');
+
+    @state() private isLoading: boolean = false;
 
     @property({ type: String }) currentPage: string = window.location.pathname;
     @property({ type: Boolean }) showBackButton: boolean = false;
@@ -55,12 +57,20 @@ class AppHome extends LitElement {
         // Проставляем текущую страницу в зависимости от URL
         this.handlePopState();
 
-        this.setupBackButtonHandler();
+        // Обработка события показа загрузки
+        window.addEventListener('setloadingstate', this.handleLoadingState);
 
         // Обработка нажатия кнопки "Назад" в браузере
+        this.setupBackButtonHandler();
         window.addEventListener('popstate', this.handlePopState);
 
         this.checkAuth();
+    }
+
+    disconnectedCallback() {
+        super.disconnectedCallback();
+        window.removeEventListener('popstate', this.handlePopState);
+        window.removeEventListener('setloadingstate', this.handleLoadingState);
     }
 
     isHomePage(): boolean {
@@ -92,11 +102,6 @@ class AppHome extends LitElement {
         }
     }
 
-    disconnectedCallback() {
-        super.disconnectedCallback();
-        window.removeEventListener('popstate', this.handlePopState);
-    }
-
     handlePopState = () => {
         const path = window.location.pathname;
         const basePath = this.basePath;
@@ -110,6 +115,10 @@ class AppHome extends LitElement {
 
         this.checkAuth();
         this.requestUpdate();
+    };
+
+    handleLoadingState = (e: CustomEventInit<boolean>) => {
+        this.isLoading = e.detail || false;
     };
 
     navigateTo(page: Page) {
@@ -185,6 +194,11 @@ class AppHome extends LitElement {
             <main>
                 ${this.renderPage()}
             </main>
+            ${this.isLoading ? html`
+                <div class="loading-overlay">
+                  <div class="spinner"></div>
+                </div>
+              ` : ''}
         `;
     }
 }
