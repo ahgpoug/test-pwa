@@ -5,14 +5,14 @@ export const globalStyles = css`
         display: block;
         font-family: 'Roboto', sans-serif;
         background-color: #f5f5f5;
-        min-height: 100vh;
     }
 
     main {
         padding: 1rem;
         max-width: 600px;
         margin: 0 auto;
-        min-height: calc(100vh - 120px); /* Учитываем высоту header и footer */
+        min-height: calc(-32px); /* Учитываем высоту header */
+        padding-top: 32px;
     }
 
     button.action-button {
@@ -57,6 +57,14 @@ export const globalStyles = css`
 
     input.invalid {
         border-color: #ff4444;
+    }
+
+    .error-container {
+        margin-top: 15px;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        box-sizing: border-box;
     }
 
     .error-message {

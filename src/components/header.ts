@@ -1,12 +1,14 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
+import { globalStyles } from '../styles/global-styles';
 
 @customElement('app-header')
 // @ts-ignore
 class AppHeader extends LitElement {
-    static readonly styles = css`
+    static readonly styles = [css`
         :host {
-            display: block;
+            position: sticky;
+            top: 0;
         }
 
         header {
@@ -113,7 +115,7 @@ class AppHeader extends LitElement {
             margin: 16px 0;
             line-height: 1.5;
         }
-    `;
+    `, globalStyles];
 
     @state() private showInstallButton: boolean = false;
     @state() private showInstallModal: boolean = false;

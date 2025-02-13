@@ -57,8 +57,16 @@ class SearchTPO extends LitElement {
         } catch (error) {
             this.error = 'Ошибка поиска';
         } finally {
+            this.clearForm();
             this.isLoading = false;
         }
+    }
+
+    clearForm() {
+        this.error = '';
+        this.fio = '';
+        this.passportSeriesNumber = '';
+        this.validateForm();
     }
 
     validateForm() {
