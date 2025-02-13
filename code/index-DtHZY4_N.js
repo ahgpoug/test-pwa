@@ -130,12 +130,10 @@
         border-radius: 8px;
         font-size: 1rem;
         color: #333;
-        background: #f8f8f8;
         cursor: text;
         user-select: all;
         overflow: hidden;
         text-overflow: ellipsis;
-        box-sizing: border-box;
     }
 
     .share-button {
@@ -566,4 +564,4 @@
                 </div>
               `:""}
         `}};O.styles=[M];G([u()],O.prototype,"isLoading",2);G([b({type:String})],O.prototype,"currentPage",2);G([b({type:Boolean})],O.prototype,"showBackButton",2);O=G([L("app-home")],O);
-//# sourceMappingURL=index-DTAD3uWb.js.map
+//# sourceMappingURL=index-DtHZY4_N.js.map
