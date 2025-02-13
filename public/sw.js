@@ -7,16 +7,17 @@ const ASSETS_TO_CACHE = [
     `/`,
     `/index.html`,
     `/404.html`,
-    `/src/app.js`,
+    `/src/app-home.js`,
     `/src/components/header.js`,
     `/src/pages/search-tpo.js`,
     `/src/pages/advance-payment.js`,
     `/src/pages/change-password.js`,
     `/src/pages/payment-history.js`,
+    `/src/pages/login-page.js`,
     `/src/styles/global-styles.js`,
     `/manifest.json`,
-    `/icons/icon-192x192.png`,
-    `/icons/icon-512x512.png`,
+    `/icons/192x192.png`,
+    `/icons/512x512.png`,
 ];
 
 self.addEventListener('install', (event) => {

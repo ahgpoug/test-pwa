@@ -1,13 +1,15 @@
 import { LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { globalStyles } from './styles/global-styles';
+import { authService } from './services/auth-service';
 import './components/header';
 import './pages/search-tpo';
 import './pages/advance-payment';
 import './pages/change-password';
 import './pages/payment-history';
+import './pages/login-page';
 
-type Page = '' | 'search-tpo' | 'advance-payment' | 'change-password' | 'payment-history';
+type Page = '' | 'search-tpo' | 'advance-payment' | 'change-password' | 'payment-history' | 'login-page';
 
 @customElement('app-home')
 // @ts-ignore
@@ -22,6 +24,12 @@ class AppHome extends LitElement {
 
     private get basePath() {
         return import.meta.env.BASE_URL;
+    }
+
+    private checkAuth() {
+        if (!authService.isAuthenticated() && this.currentPage !== 'login-page') {
+            this.navigateTo('login-page');
+        }
     }
 
     private async registerServiceWorker() {
@@ -51,11 +59,14 @@ class AppHome extends LitElement {
 
         // Обработка нажатия кнопки "Назад" в браузере
         window.addEventListener('popstate', this.handlePopState);
+
+        this.checkAuth();
     }
 
     isHomePage(): boolean {
         return this.currentPage == ''
             || this.currentPage == '/'
+            || this.currentPage == 'login-page'
             || this.currentPage == this.basePath;
     }
 
@@ -73,7 +84,7 @@ class AppHome extends LitElement {
 
     private handleExit() {
         // Попытка закрыть приложение
-        if (window.navigator && (window.navigator as any).app) {
+        if (this.isInStandaloneMode) {
             (window.navigator as any).app.exitApp();
         } else {
             window.close();
@@ -96,17 +107,27 @@ class AppHome extends LitElement {
             : path.replace(/^\//, '');
 
         this.currentPage = page || '';
+
+        this.checkAuth();
         this.requestUpdate();
     };
 
     navigateTo(page: Page) {
+        console.log(`Navigate to ${this.basePath}${page}`);
         history.pushState({}, '', `${this.basePath}${page}`);
         this.currentPage = page;
         this.requestUpdate();
     }
 
+    logout() {
+        authService.clearToken();
+        this.navigateTo('login-page');
+    }
+
     getPageTitle() {
         switch (this.currentPage) {
+            case 'login-page':
+                return 'Авторизация';
             case 'search-tpo':
                 return 'Поиск квитанции по реквизитам';
             case 'advance-payment':
@@ -121,6 +142,10 @@ class AppHome extends LitElement {
     }
 
     renderPage() {
+        if (!authService.isAuthenticated() && this.currentPage !== 'login-page') {
+            this.navigateTo('login-page');
+        }
+
         switch (this.currentPage) {
             case 'search-tpo':
                 return html`<search-tpo></search-tpo>`;
@@ -130,9 +155,17 @@ class AppHome extends LitElement {
                 return html`<change-password></change-password>`;
             case 'payment-history':
                 return html`<payment-history></payment-history>`;
+            case 'login-page':
+                return this.renderLoginPage();
             default:
                 return this.renderHome();
         }
+    }
+
+    renderLoginPage() {
+        return html`<login-page
+            .onSuccessLogin="${() => this.navigateTo('')}"
+        ></login-page>`;
     }
 
     renderHome() {
@@ -141,6 +174,7 @@ class AppHome extends LitElement {
             <button class="action-button" @click="${() => this.navigateTo('advance-payment')}">Авансовый платеж</button>
             <button class="action-button" @click="${() => this.navigateTo('change-password')}">Сменить пароль</button>
             <button class="action-button" @click="${() => this.navigateTo('payment-history')}">История платежей</button>
+            <button class="action-button" @click="${() => this.logout()}">Смена пользователя</button>
         `;
     }
 
@@ -151,6 +185,7 @@ class AppHome extends LitElement {
                 .basePath="${this.basePath}"
                 .title="${this.getPageTitle()}"
                 .showBackButton="${!this.isHomePage()}"
+                .isLoginPage="${this.currentPage === 'login-page'}"
                 .onBack="${() => this.navigateTo('')}"
             ></app-header>
             <main>

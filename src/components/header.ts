@@ -125,6 +125,7 @@ class AppHeader extends LitElement {
         || document.referrer.includes('android-app://');
 
     @property({ type: Boolean }) showBackButton: boolean = false;
+    @property({ type: Boolean }) isLoginPage: boolean = false;
     @property({ type: Function }) onBack: () => void = () => {};
 
     connectedCallback() {
@@ -204,7 +205,7 @@ class AppHeader extends LitElement {
 
                 <div class="title">${this.title}</div>
 
-                ${!this.isInStandaloneMode && (this.showInstallButton || !this.deferredPrompt) ? html`
+                ${!this.isInStandaloneMode && !this.isLoginPage && (this.showInstallButton || !this.deferredPrompt) ? html`
                     <button class="install-button" @click="${this.handleInstallClick}">
                         <svg class="install-icon" viewBox="0 0 24 24">
                             <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
