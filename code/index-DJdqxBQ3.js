@@ -103,7 +103,7 @@
     }
 
     .link-container {
-        margin-top: 20px;
+        margin-top: 15px;
         display: flex;
         gap: 8px;
         align-items: center;
@@ -523,4 +523,4 @@
                 ${this.renderPage()}
             </main>
         `}};F.styles=[L];nt([f({type:String})],F.prototype,"currentPage",2);nt([f({type:Boolean})],F.prototype,"showBackButton",2);F=nt([C("app-home")],F);
-//# sourceMappingURL=index-kcJzlsK2.js.map
+//# sourceMappingURL=index-DJdqxBQ3.js.map
