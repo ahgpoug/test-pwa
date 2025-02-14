@@ -1,0 +1,14 @@
+services:
+  pwa:
+    container_name: pwa
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '8080:8080'
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

@@ -2,24 +2,26 @@ importScripts(
     'https://storage.googleapis.com/workbox-cdn/releases/7.3.0/workbox-sw.js'
 );
 
+const BASE_URL = '/test-pwa'
 const CACHE_NAME = 'pwa-cache-v1';
 const ASSETS_TO_CACHE = [
-    `/`,
-    `/index.html`,
-    `/404.html`,
-    `/src/app-home.js`,
-    `/src/components/header.js`,
-    `/src/pages/search-tpo.js`,
-    `/src/pages/advance-payment.js`,
-    `/src/pages/payment-history.js`,
-    `/src/pages/login-page.js`,
-    `/src/styles/global-styles.js`,
-    `/manifest.json`,
-    `/icons/16x16.png`,
-    `/icons/32x32.png`,
-    `/icons/48x48.png`,
-    `/icons/192x192.png`,
-    `/icons/512x512.png`,
+    `${BASE_URL}/`,
+    `${BASE_URL}/index.html`,
+    `${BASE_URL}/404.html`,
+    `${BASE_URL}/src/app-home.js`,
+    `${BASE_URL}/src/components/header.js`,
+    `${BASE_URL}/src/components/share-icon.js`,
+    `${BASE_URL}/src/pages/search-tpo.js`,
+    `${BASE_URL}/src/pages/advance-payment.js`,
+    `${BASE_URL}/src/pages/payment-history.js`,
+    `${BASE_URL}/src/pages/login-page.js`,
+    `${BASE_URL}/src/styles/global-styles.js`,
+    `${BASE_URL}/manifest.json`,
+    `${BASE_URL}/icons/16x16.png`,
+    `${BASE_URL}/icons/32x32.png`,
+    `${BASE_URL}/icons/48x48.png`,
+    `${BASE_URL}/icons/192x192.png`,
+    `${BASE_URL}/icons/512x512.png`,
 ];
 
 self.addEventListener('install', (event) => {

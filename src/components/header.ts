@@ -169,30 +169,39 @@ class AppHeader extends LitElement {
                         </svg>
                     </button>
 
-                    ${this.isIOS ? html`
-                        <h3>Добавить на экран "Домой"</h3>
-                        <div class="instructions">
-                            1. Нажмите на кнопку "Поделиться"<br>
-                            2. Выберите 'На экран "Домой"'<br>
-                            3. Нажмите "Добавить"
-                        </div>
-                    ` : this.isAndroid ? html`
-                        <h3>Добавить на главный экран</h3>
-                        <div class="instructions">
-                            1. Откройте меню браузера (три точки)<br>
-                            2. Выберите "Добавить на главный экран"<br>
-                            3. Нажмите "Добавить"
-                        </div>
-                    ` : html`
-                        <h3>Сохранить в закладки</h3>
-                        <div class="instructions">
-                            Нажмите Ctrl+D чтобы добавить в закладки<br>
-                            Или используйте меню браузера
-                        </div>
-                    `}
+                    ${this.isIOS ? this.renderIOSContent() : this.isAndroid ? this.renderAndroidContent() : this.renderDesktopContent()}
                 </div>
             </div>
         `;
+    }
+
+    renderIOSContent() {
+        return html`
+            <h3>Добавить на экран "Домой"</h3>
+            <div class="instructions">
+                1. Нажмите на кнопку "Поделиться"<br>
+                2. Выберите 'На экран "Домой"'<br>
+                3. Нажмите "Добавить"
+            </div>`;
+    }
+
+    renderAndroidContent() {
+        return html`
+            <h3>Добавить на главный экран</h3>
+            <div class="instructions">
+                1. Откройте меню браузера (три точки)<br>
+                2. Выберите "Добавить на главный экран"<br>
+                3. Нажмите "Добавить"
+            </div>`;
+    }
+
+    renderDesktopContent() {
+        return html`
+            <h3>Сохранить в закладки</h3>
+            <div class="instructions">
+                Нажмите Ctrl+D чтобы добавить в закладки<br>
+                Или используйте меню браузера
+            </div>`;
     }
 
     render() {

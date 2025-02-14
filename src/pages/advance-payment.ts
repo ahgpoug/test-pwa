@@ -1,4 +1,5 @@
 import { LitElement, html } from 'lit';
+import { isValidInn } from '../services/inn-checker';
 import { customElement, property, state } from 'lit/decorators.js';
 import { globalStyles } from '../styles/global-styles';
 
@@ -58,7 +59,7 @@ class AdvancePayment extends LitElement {
 
     validateForm() {
         const isFioValid = this.fioRegex.test(this.fio);
-        const isInnValid = this.innRegex.test(this.inn);
+        const isInnValid = this.innRegex.test(this.inn) && isValidInn(this.inn);
         const isPassportSeriesNumberValid = this.passportSeriesNumberRegex.test(this.passportSeriesNumber);
         const isPassportIssueDateValid = this.validatePassportIssueDate(this.passportIssueDate);
 
@@ -211,13 +212,13 @@ class AdvancePayment extends LitElement {
                     type="text"
                     .value="${this.inn}"
                     @input="${this.handleInnInput}"
-                    class="${!this.innRegex.test(this.inn) && this.inn ? 'invalid' : ''}"
+                    class="${(!this.innRegex.test(this.inn) || !isValidInn(this.inn)) && this.inn ? 'invalid' : ''}"
                     placeholder="123456789012"
                     inputmode="numeric"
                     pattern="${this.innRegex}"
                     maxlength="12"
                 />
-                <div class="error-message">ИНН должен состоять из 12 цифр</div>
+                <div class="error-message">Введите корректный ИНН физического лица</div>
             </div>
 
             <div class="form-group">

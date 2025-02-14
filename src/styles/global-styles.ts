@@ -11,7 +11,6 @@ export const globalStyles = css`
         max-width: 600px;
         margin: 0 auto;
         min-height: calc(-32px); /* Учитываем высоту header */
-        padding-top: 32px;
     }
 
     button.action-button {

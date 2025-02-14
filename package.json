@@ -22,7 +22,8 @@
     "urlpattern-polyfill": "^10.0.0",
     "workbox-build": "^7.3.0",
     "workbox-core": "^7.3.0",
-    "workbox-precaching": "^7.3.0"
+    "workbox-precaching": "^7.3.0",
+    "bcryptjs": "^3.0.0"
   },
   "devDependencies": {
     "gh-pages": "^6.3.0",

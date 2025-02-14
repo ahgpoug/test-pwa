@@ -1,7 +1,7 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { apiService } from '../services/api-service';
-import { TPOCard } from '../models/TPOCard';
+import { TPO } from '../models/tpo';
 import { globalStyles } from '../styles/global-styles';
 
 @customElement('search-tpo')
@@ -29,7 +29,7 @@ class SearchTPO extends LitElement {
         }
       `, globalStyles];
 
-    @state() private tpoCards: TPOCard[] = [];
+    @state() private tpos: TPO[] = [];
     @state() private fio: string = '';
     @state() private passportSeriesNumber: string = '';
     @state() private isFormValid: boolean = false;
@@ -42,15 +42,12 @@ class SearchTPO extends LitElement {
     async handleSearchTPO() {
         window.dispatchEvent(new CustomEvent("setloadingstate", { detail: true }));
 
-        this.tpoCards = [];
+        this.tpos = [];
         this.error = '';
 
         try {
-            const cards = await apiService.fetchTPOList({
-                fio: this.fio.trim(),
-                passportSeriesNumber: this.passportSeriesNumber
-            });
-            this.tpoCards = cards;
+            const tpos = await apiService.fetchTPOList(this.fio.trim(), this.passportSeriesNumber);
+            this.tpos = tpos;
         } catch (error) {
             this.error = 'Ошибка поиска';
         } finally {
@@ -135,7 +132,7 @@ class SearchTPO extends LitElement {
         return oldPos + diff;
     }
 
-    async generateLink(card: TPOCard) {
+    async generateLink(tpo: TPO) {
         window.dispatchEvent(new CustomEvent("setloadingstate", { detail: true }));
 
         // Эмуляция задержки сети TODO
@@ -143,13 +140,13 @@ class SearchTPO extends LitElement {
         await new Promise(resolve => setTimeout(resolve, delay));
 
         const randomHash = Math.random().toString(36).substring(2, 8);
-        const newCards = this.tpoCards.map(c => {
-          if (c.id === card.id) {
+        const newTpos = this.tpos.map(c => {
+          if (c.id === tpo.id) {
             return { ...c, link: `${window.location.origin}/payment/${randomHash}` };
           }
           return c;
         });
-        this.tpoCards = newCards;
+        this.tpos = newTpos;
 
         window.dispatchEvent(new CustomEvent("setloadingstate", { detail: false }));
     }
@@ -212,25 +209,26 @@ class SearchTPO extends LitElement {
             ${this.error ? html`<div class="error-container"><div class="error">${this.error}</div></div>` : ''}
 
             <div class="search-results">
-                ${this.tpoCards.map(card => html`
+                ${this.tpos.map(tpo => html`
                 <div class="tpo-card">
-                    <div class="tpo-field"><strong>Сумма: </strong>${card.amount} руб.</div>
-                    <div class="tpo-field"><strong>Дата: </strong>${card.date}</div>
-                    <div class="tpo-field"><strong>Номер ТПО: </strong>${card.number}</div>
+                    <div class="tpo-field"><strong>Сумма: </strong>${tpo.amount} руб.</div>
+                    <div class="tpo-field"><strong>Дата: </strong>${tpo.date}</div>
+                    <div class="tpo-field"><strong>Номер ТПО: </strong>${tpo.number}</div>
 
                     <button
                         class="action-button"
-                        @click="${() => this.generateLink(card)}"
+                        @click="${() => this.generateLink(tpo)}"
+                        ?disabled="${tpo.link}"
                     >
                         Создать ссылку
                     </button>
 
-                    ${card.link ? html`
+                    ${tpo.link ? html`
                     <div class="link-container">
-                        <div class="link-field">${card.link}</div>
+                        <div class="link-field">${tpo.link}</div>
                         <button
                             class="share-button"
-                            @click=${() => this.shareLink(card.link!)}
+                            @click=${() => this.shareLink(tpo.link!)}
                         >
                             <svg class="share-icon" viewBox="0 0 24 24">
                                 <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92c0-1.61-1.31-2.92-2.92-2.92z"/>

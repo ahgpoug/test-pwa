@@ -1,4 +1,4 @@
-export interface TPOCard {
+export interface TPO {
     id: string;
     amount: number;
     date: string;

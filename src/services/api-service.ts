@@ -1,7 +1,9 @@
-import { authService } from './auth-service';
-import { TPOCard } from '../models/TPOCard';
+//import { authService } from './auth-service';
+import { TPO } from '../models/tpo';
+import { PaymentLink } from '../models/payment-link';
 
 class ApiService {
+    // @ts-ignore
     private readonly baseUrl = 'https://api.example.com';
 
     // TODO
@@ -23,9 +25,42 @@ class ApiService {
         return token;*/
     }
 
+    async fetchPaymentHistory(): Promise<PaymentLink[]> {
+        // Эмуляция задержки сети TODO
+        const delay = Math.random() * 2000 + 1000; // 1-3 секунды
+        await new Promise(resolve => setTimeout(resolve, delay));
+
+        return [
+            {
+                id: '1',
+                amount: 1000,
+                date: '2023-10-01',
+                number: 'ТПО-123456789012',
+                link: 'https://example.com/payment/123456789012',
+                status: 'Оплачено'
+            },
+            {
+                id: '2',
+                amount: 1500,
+                date: '2023-10-05',
+                number: 'ТПО-123456789012',
+                link: 'https://example.com/payment/123456789012',
+                status: 'Оплачено'
+            },
+            {
+                id: '3',
+                amount: 2000,
+                date: '2023-10-10',
+                number: 'ТПО-123456789012',
+                link: 'https://example.com/payment/123456789012',
+                status: 'Оплачено'
+            }
+        ];
+    }
+
     // @ts-ignore
-    async fetchTPOList(params: { fio: string; passportSeriesNumber: string }): Promise<TPOCard[]> {
-        // Эмуляция задержки сети
+    async fetchTPOList(fio: string, passportSeriesNumber: string): Promise<TPO[]> {
+        // Эмуляция задержки сети TODO
         const delay = Math.random() * 2000 + 1000; // 1-3 секунды
         await new Promise(resolve => setTimeout(resolve, delay));
 
@@ -39,23 +74,47 @@ class ApiService {
                 .split('T')[0],
             number: `ТПО-${Math.floor(Math.random() * 1000000)}`
         }));
-    }
 
-    async fetchProtectedData(): Promise<any> {
-        const token = authService.getToken();
-        if (!token) {
+        //TODO
+        /*const token = authService.getToken();
+        if (!token || !authService.isAuthenticated) {
             throw new Error('Требуется авторизация');
         }
 
-        const response = await fetch(`${this.baseUrl}/protected`, {
-            headers: { Authorization: `Bearer ${token}` },
+        const response = await fetch(`${this.baseUrl}/searchtpoapi`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify(
+                {
+                    'payerList': [
+                        {
+                            'payerFio': fio,
+                            'identityCardSeries': passportSeriesNumber.slice(0, 4),
+                            'identityCardNumber': passportSeriesNumber.slice(-6)
+                        }
+                    ]
+                }
+            )
         });
 
         if (!response.ok) {
             throw new Error('Ошибка запроса');
         }
 
-        return response.json();
+        var tpos: TPO[] = [];
+        (await response.json()).tpos.forEach((tpo: any) => {
+            tpos.push({
+                id: tpo.tpoId,
+                amount: tpo.amount,
+                date: tpo.date,
+                number: tpo.tpoNumber
+            })
+        });
+
+        return tpos;*/
     }
 }
 
