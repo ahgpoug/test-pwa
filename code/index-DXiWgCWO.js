@@ -39,7 +39,6 @@
         max-width: 600px;
         margin: 0 auto;
         min-height: calc(-32px); /* Учитываем высоту header */
-        padding-top: 32px;
     }
 
     button.action-button {
@@ -644,4 +643,4 @@
                 </div>
               `:""}
         `}};N.styles=[L];Q([g()],N.prototype,"isLoading",2);Q([x({type:String})],N.prototype,"currentPage",2);Q([x({type:Boolean})],N.prototype,"showBackButton",2);N=Q([O("app-home")],N);
-//# sourceMappingURL=index-DgRV3uL-.js.map
+//# sourceMappingURL=index-DXiWgCWO.js.map
