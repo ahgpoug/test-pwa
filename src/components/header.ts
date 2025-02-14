@@ -1,5 +1,7 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
+import { ModalWindowService } from '../services/modal-window-service';
+
 import { globalStyles } from '../styles/global-styles';
 
 @customElement('app-header')
@@ -78,47 +80,9 @@ class AppHeader extends LitElement {
             height: 24px;
             fill: white;
         }
-
-        .install-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1001;
-        }
-
-        .modal-content {
-            background: white;
-            padding: 24px;
-            border-radius: 12px;
-            max-width: 400px;
-            width: 90%;
-            position: relative;
-        }
-
-        .close-button {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 4px;
-        }
-
-        .instructions {
-            margin: 16px 0;
-            line-height: 1.5;
-        }
     `, globalStyles];
 
     @state() private showInstallButton: boolean = false;
-    @state() private showInstallModal: boolean = false;
     private deferredPrompt: any = null;
     private readonly isIOS: boolean = /iPad|iPhone|iPod/.test(navigator.userAgent);
     private readonly isAndroid: boolean = /Android/.test(navigator.userAgent);
@@ -150,59 +114,24 @@ class AppHeader extends LitElement {
             if (outcome === 'accepted') this.showInstallButton = false;
         } else {
             // Показать инструкции для ручной установки
-            this.showInstallModal = true;
+            this.showInstallModal();
         }
     };
+
+    showInstallModal() {
+        if (this.isIOS) {
+            ModalWindowService.show('Добавить на экран "Домой"', 'Нажмите Ctrl+D чтобы добавить в закладки\n1. Нажмите на кнопку "Поделиться"\n2. Выберите "Добавить на экран "Домой""\n3. Нажмите "Добавить"');
+        } else if (this.isAndroid) {
+            ModalWindowService.show('Добавить на главный экран', '1. Откройте меню браузера (три точки)\n2. Выберите "Добавить на главный экран"\n3. Нажмите "Добавить"');
+        } else {
+            ModalWindowService.show('Добавить на главный экран', 'Нажмите Ctrl+D чтобы добавить в закладки\nИли используйте меню браузера');
+        }
+    }
 
     handleAppInstalled = () => {
         // Скрываем кнопку "Установить" после установки
         this.showInstallButton = false;
     };
-
-    renderInstallModal() {
-        return html`
-            <div class="install-modal" @click="${() => this.showInstallModal = false}">
-                <div class="modal-content" @click="${(e: Event) => e.stopPropagation()}">
-                    <button class="close-button" @click="${() => this.showInstallModal = false}">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <path d="M18 6L6 18M6 6l12 12" stroke-width="2"/>
-                        </svg>
-                    </button>
-
-                    ${this.isIOS ? this.renderIOSContent() : this.isAndroid ? this.renderAndroidContent() : this.renderDesktopContent()}
-                </div>
-            </div>
-        `;
-    }
-
-    renderIOSContent() {
-        return html`
-            <h3>Добавить на экран "Домой"</h3>
-            <div class="instructions">
-                1. Нажмите на кнопку "Поделиться"<br>
-                2. Выберите 'На экран "Домой"'<br>
-                3. Нажмите "Добавить"
-            </div>`;
-    }
-
-    renderAndroidContent() {
-        return html`
-            <h3>Добавить на главный экран</h3>
-            <div class="instructions">
-                1. Откройте меню браузера (три точки)<br>
-                2. Выберите "Добавить на главный экран"<br>
-                3. Нажмите "Добавить"
-            </div>`;
-    }
-
-    renderDesktopContent() {
-        return html`
-            <h3>Сохранить в закладки</h3>
-            <div class="instructions">
-                Нажмите Ctrl+D чтобы добавить в закладки<br>
-                Или используйте меню браузера
-            </div>`;
-    }
 
     render() {
         return html`
@@ -224,8 +153,6 @@ class AppHeader extends LitElement {
                     </button>
                 ` : ''}
             </header>
-
-            ${this.showInstallModal ? this.renderInstallModal() : ''}
         `;
     }
 }

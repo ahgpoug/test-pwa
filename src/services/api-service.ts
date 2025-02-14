@@ -1,4 +1,4 @@
-//import { authService } from './auth-service';
+import { authService } from './auth-service';
 import { TPO } from '../models/tpo';
 import { PaymentLink } from '../models/payment-link';
 
@@ -78,6 +78,8 @@ class ApiService {
         //TODO
         /*const token = authService.getToken();
         if (!token || !authService.isAuthenticated) {
+            authService.logout();
+            window.dispatchEvent(new CustomEvent("navigateto", { detail: 'login-page' }));
             throw new Error('Требуется авторизация');
         }
 

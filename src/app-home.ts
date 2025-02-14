@@ -2,13 +2,12 @@ import { LitElement, html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { globalStyles } from './styles/global-styles';
 import { authService } from './services/auth-service';
+import { PopupNotificationService } from './services/popup-notification-service';
 import './components/header';
 import './pages/search-tpo';
 import './pages/advance-payment';
 import './pages/payment-history';
 import './pages/login-page';
-
-type Page = '' | 'search-tpo' | 'advance-payment' | 'payment-history' | 'login-page';
 
 @customElement('app-home')
 // @ts-ignore
@@ -54,8 +53,14 @@ class AppHome extends LitElement {
         // Регистрация Service Worker
         this.registerServiceWorker();
 
+        // Регистрация Notification
+        PopupNotificationService.initialize();
+
         // Проставляем текущую страницу в зависимости от URL
         this.handlePopState();
+
+        // Обработка перехода на другую страницу
+        window.addEventListener('navigateto', this.handleNavigateTo);
 
         // Обработка события показа загрузки
         window.addEventListener('setloadingstate', this.handleLoadingState);
@@ -69,6 +74,7 @@ class AppHome extends LitElement {
 
     disconnectedCallback() {
         super.disconnectedCallback();
+        window.removeEventListener('navigateto', this.handleNavigateTo);
         window.removeEventListener('popstate', this.handlePopState);
         window.removeEventListener('setloadingstate', this.handleLoadingState);
     }
@@ -121,15 +127,14 @@ class AppHome extends LitElement {
         this.isLoading = e.detail || false;
     };
 
-    navigateTo(page: Page) {
+    handleNavigateTo = (e: CustomEventInit<string>) => {
+        this.navigateTo(e.detail ?? '');
+    };
+
+    navigateTo(page: string) {
         history.pushState({}, '', `${this.basePath}${page}`);
         this.currentPage = page;
         this.requestUpdate();
-    }
-
-    logout() {
-        authService.clearToken();
-        this.navigateTo('login-page');
     }
 
     getPageTitle() {
@@ -149,7 +154,7 @@ class AppHome extends LitElement {
 
     renderPage() {
         if (!authService.isAuthenticated() && this.currentPage !== 'login-page') {
-            this.navigateTo('login-page');
+            window.dispatchEvent(new CustomEvent("navigateto", { detail: 'login-page' }));
         }
 
         switch (this.currentPage) {
@@ -168,16 +173,16 @@ class AppHome extends LitElement {
 
     renderLoginPage() {
         return html`<login-page
-            .onSuccessLogin="${() => this.navigateTo('')}"
+            .onSuccessLogin="${() => window.dispatchEvent(new CustomEvent("navigateto", { detail: '' }))}"
         ></login-page>`;
     }
 
     renderHome() {
         return html`
-            <button class="action-button" @click="${() => this.navigateTo('search-tpo')}">Поиск квитанции по реквизитам</button>
-            <button class="action-button" @click="${() => this.navigateTo('advance-payment')}">Авансовый платеж</button>
-            <button class="action-button" @click="${() => this.navigateTo('payment-history')}">История платежей</button>
-            <button class="action-button" @click="${() => this.logout()}">Смена пользователя</button>
+            <button class="action-button" @click="${() => window.dispatchEvent(new CustomEvent("navigateto", { detail: 'search-tpo' }))}">Поиск квитанции по реквизитам</button>
+            <button class="action-button" @click="${() => window.dispatchEvent(new CustomEvent("navigateto", { detail: 'advance-payment' }))}">Авансовый платеж</button>
+            <button class="action-button" @click="${() => window.dispatchEvent(new CustomEvent("navigateto", { detail: 'payment-history' }))}">История платежей</button>
+            <button class="action-button" @click="${() => authService.logout()}">Смена пользователя</button>
         `;
     }
 
@@ -189,7 +194,7 @@ class AppHome extends LitElement {
                 .title="${this.getPageTitle()}"
                 .showBackButton="${!this.isHomePage()}"
                 .isLoginPage="${this.currentPage === 'login-page'}"
-                .onBack="${() => this.navigateTo('')}"
+                .onBack="${() => window.dispatchEvent(new CustomEvent("navigateto", { detail: '' }))}"
             ></app-header>
             <main>
                 ${this.renderPage()}

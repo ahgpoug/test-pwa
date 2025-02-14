@@ -23,6 +23,11 @@ class AuthService {
         const payload = JSON.parse(atob(token.split('.')[1]));
         return payload.exp * 1000 > Date.now();
     }
+
+    logout(): void {
+        this.clearToken();
+        window.dispatchEvent(new CustomEvent("navigateto", { detail: 'login-page' }));
+    }
 }
 
 export const authService = new AuthService();

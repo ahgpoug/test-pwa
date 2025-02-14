@@ -2,6 +2,7 @@ import { LitElement, html, css } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { apiService } from '../services/api-service';
 import { TPO } from '../models/tpo';
+import { PopupNotificationService } from '../services/popup-notification-service';
 import { globalStyles } from '../styles/global-styles';
 
 @customElement('search-tpo')
@@ -54,6 +55,8 @@ class SearchTPO extends LitElement {
             this.clearForm();
             window.dispatchEvent(new CustomEvent("setloadingstate", { detail: false }));
         }
+
+        PopupNotificationService.show('Данные успешно сохранены', 'success');
     }
 
     clearForm() {
