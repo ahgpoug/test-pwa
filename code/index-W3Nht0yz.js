@@ -412,6 +412,7 @@
                     <button
                         class="action-button"
                         @click="${()=>this.generateLink(r)}"
+                        ?disabled="${r.link}"
                     >
                         Создать ссылку
                     </button>
@@ -565,4 +566,4 @@
                 </div>
               `:""}
         `}};O.styles=[M];G([u()],O.prototype,"isLoading",2);G([b({type:String})],O.prototype,"currentPage",2);G([b({type:Boolean})],O.prototype,"showBackButton",2);O=G([L("app-home")],O);
-//# sourceMappingURL=index-DO7wbZ79.js.map
+//# sourceMappingURL=index-W3Nht0yz.js.map
