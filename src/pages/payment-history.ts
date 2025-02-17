@@ -3,7 +3,9 @@ import { until } from 'lit/directives/until.js';
 import { customElement } from 'lit/decorators.js';
 import { PaymentLink } from '../models/payment-link';
 import { apiService } from '../services/api-service';
+import { PopupNotificationService } from '../services/popup-notification-service';
 import { LoadingOverlayService } from '../services/loading-overlay-service';
+import { ShareService } from '../services/share-service';
 
 import { globalStyles } from '../styles/global-styles';
 
@@ -53,23 +55,6 @@ class PaymentHistory extends LitElement {
         }
         `, globalStyles];
 
-    async shareLink(link: string) {
-        try {
-            if (navigator.share) {
-                await navigator.share({
-                    title: 'Ссылка на платеж',
-                    text: 'Ссылка для оплаты:',
-                    url: link
-                });
-            } else {
-                await navigator.clipboard.writeText(link);
-                alert('Ссылка скопирована в буфер обмена!');
-            }
-        } catch (err) {
-            console.error('Ошибка при попытке поделиться:', err);
-        }
-    }
-
     async renderPaymentLinks() {
         LoadingOverlayService.show();
 
@@ -92,7 +77,7 @@ class PaymentHistory extends LitElement {
                     <div class="link-field">${paymentLink.link}</div>
                     <button
                         class="share-button"
-                        @click=${() => this.shareLink(paymentLink.link!)}
+                        @click=${() => ShareService.shareLink(paymentLink.link!)}
                     >
                         <svg class="share-icon" viewBox="0 0 24 24">
                             <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92c0-1.61-1.31-2.92-2.92-2.92z"/>

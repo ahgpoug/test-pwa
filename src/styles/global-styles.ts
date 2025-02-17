@@ -57,19 +57,6 @@ export const globalStyles = css`
         border-color: #ff4444;
     }
 
-    .error-container {
-        padding: 16px;
-        border: 1px solid #6200ee;
-        border-radius: 8px;
-        background: white;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .error {
-        color: #6200ee;
-        text-align: center;
-    }
-
     .error-message {
         color: #ff4444;
         font-size: 12px;
