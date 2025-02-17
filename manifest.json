@@ -3,11 +3,11 @@
   "scope": "/",
   "lang": "ru",
   "dir": "ltr",
-  "name": "ISC Broker",
+  "name": "ЛК Брокера",
   "display": "standalone",
-  "short_name": "ISC Broker",
+  "short_name": "ЛК Брокера",
   "theme_color": "#5147e1",
-  "description": "ISC Broker",
+  "description": "ЛК Брокера",
   "handle_links": "preferred",
   "orientation": "any",
   "background_color": "#5147e1",
@@ -59,9 +59,9 @@
   ],
   "shortcuts": [
     {
-      "name": "ISC Broker",
-      "short_name": "ISC Broker",
-      "description": "Открыть ISC Broker",
+      "name": "ЛК Брокера",
+      "short_name": "ЛК Брокера",
+      "description": "Открыть ЛК Брокера",
       "url": "/",
       "icons": [{ "src": "assets/icons/192x192.png", "sizes": "192x192" }]
     }
