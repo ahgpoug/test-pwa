@@ -1,23 +1,24 @@
 import { LitElement, html } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
-import { globalStyles } from './styles/global-styles';
+import { customElement, property } from 'lit/decorators.js';
 import { authService } from './services/auth-service';
 import { PopupNotificationService } from './services/popup-notification-service';
+import { LoadingOverlayService } from './services/loading-overlay-service';
 import './components/header';
 import './pages/search-tpo';
 import './pages/advance-payment';
 import './pages/payment-history';
 import './pages/login-page';
 
+import { globalStyles } from './styles/global-styles';
+
 @customElement('app-home')
 // @ts-ignore
 class AppHome extends LitElement {
     static readonly styles = [globalStyles];
+
     private readonly isInStandaloneMode: boolean = (window.matchMedia('(display-mode: standalone)').matches)
         || (window.navigator as any).standalone === true
         || document.referrer.includes('android-app://');
-
-    @state() private isLoading: boolean = false;
 
     @property({ type: String }) currentPage: string = window.location.pathname;
     @property({ type: Boolean }) showBackButton: boolean = false;
@@ -56,14 +57,14 @@ class AppHome extends LitElement {
         // Регистрация Notification
         PopupNotificationService.initialize();
 
+        // Регистрация Loading
+        LoadingOverlayService.initialize();
+
         // Проставляем текущую страницу в зависимости от URL
         this.handlePopState();
 
         // Обработка перехода на другую страницу
         window.addEventListener('navigateto', this.handleNavigateTo);
-
-        // Обработка события показа загрузки
-        window.addEventListener('setloadingstate', this.handleLoadingState);
 
         // Обработка нажатия кнопки "Назад" в браузере
         this.setupBackButtonHandler();
@@ -76,7 +77,6 @@ class AppHome extends LitElement {
         super.disconnectedCallback();
         window.removeEventListener('navigateto', this.handleNavigateTo);
         window.removeEventListener('popstate', this.handlePopState);
-        window.removeEventListener('setloadingstate', this.handleLoadingState);
     }
 
     isHomePage(): boolean {
@@ -89,11 +89,19 @@ class AppHome extends LitElement {
     private setupBackButtonHandler() {
         // Блокировка кнопки "Назад" только для главной в standalone
         window.onpopstate = (event) => {
-            if (this.isInStandaloneMode && this.isHomePage()) {
-                event.preventDefault();
-                this.handleExit();
-                return false;
+            if (this.isInStandaloneMode) {
+                if (LoadingOverlayService.isVisible()) {
+                    event.preventDefault();
+                    return false;
+                }
+
+                if (this.isHomePage()) {
+                    event.preventDefault();
+                    this.handleExit();
+                    return false;
+                }
             }
+
             return true;
         };
     }
@@ -123,10 +131,6 @@ class AppHome extends LitElement {
         this.requestUpdate();
     };
 
-    handleLoadingState = (e: CustomEventInit<boolean>) => {
-        this.isLoading = e.detail || false;
-    };
-
     handleNavigateTo = (e: CustomEventInit<string>) => {
         this.navigateTo(e.detail ?? '');
     };
@@ -153,6 +157,8 @@ class AppHome extends LitElement {
     }
 
     renderPage() {
+        LoadingOverlayService.hide();
+
         if (!authService.isAuthenticated() && this.currentPage !== 'login-page') {
             window.dispatchEvent(new CustomEvent("navigateto", { detail: 'login-page' }));
         }
@@ -199,11 +205,6 @@ class AppHome extends LitElement {
             <main>
                 ${this.renderPage()}
             </main>
-            ${this.isLoading ? html`
-                <div class="loading-overlay">
-                  <div class="spinner"></div>
-                </div>
-              ` : ''}
         `;
     }
 }

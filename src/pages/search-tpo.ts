@@ -3,6 +3,8 @@ import { customElement, state } from 'lit/decorators.js';
 import { apiService } from '../services/api-service';
 import { TPO } from '../models/tpo';
 import { PopupNotificationService } from '../services/popup-notification-service';
+import { LoadingOverlayService } from '../services/loading-overlay-service';
+
 import { globalStyles } from '../styles/global-styles';
 
 @customElement('search-tpo')
@@ -34,29 +36,25 @@ class SearchTPO extends LitElement {
     @state() private fio: string = '';
     @state() private passportSeriesNumber: string = '';
     @state() private isFormValid: boolean = false;
-    @state() private error: string = '';
 
     // Регулярные выражения для валидации
     private readonly fioRegex = /^((?![\s’(),.-])+[А-Яа-яЁёIV’(),.-]{2,}\s(?<![’(),.-]))+((?![\s’(),.-])+[А-Яа-яЁёIV’(),.-]{2,}(?<![\s’(),.-]))+$/;
     private readonly passportSeriesNumberRegex = /^\d{4}\s\d{6}$/;
 
     async handleSearchTPO() {
-        window.dispatchEvent(new CustomEvent("setloadingstate", { detail: true }));
+        LoadingOverlayService.show();
 
         this.tpos = [];
-        this.error = '';
 
         try {
             const tpos = await apiService.fetchTPOList(this.fio.trim(), this.passportSeriesNumber);
             this.tpos = tpos;
         } catch (error) {
-            this.error = 'Ошибка поиска';
+            PopupNotificationService.show('Произошла ошибка. Пожалуйста, попробуйте позже', 'error');
         } finally {
             this.clearForm();
-            window.dispatchEvent(new CustomEvent("setloadingstate", { detail: false }));
+            LoadingOverlayService.hide();
         }
-
-        PopupNotificationService.show('Данные успешно сохранены', 'success');
     }
 
     clearForm() {
@@ -136,7 +134,7 @@ class SearchTPO extends LitElement {
     }
 
     async generateLink(tpo: TPO) {
-        window.dispatchEvent(new CustomEvent("setloadingstate", { detail: true }));
+        LoadingOverlayService.show();
 
         // Эмуляция задержки сети TODO
         const delay = Math.random() * 2000 + 1000; // 1-3 секунды
@@ -151,7 +149,7 @@ class SearchTPO extends LitElement {
         });
         this.tpos = newTpos;
 
-        window.dispatchEvent(new CustomEvent("setloadingstate", { detail: false }));
+        LoadingOverlayService.hide();
     }
 
     async shareLink(link: string) {
@@ -209,7 +207,6 @@ class SearchTPO extends LitElement {
             >
                 Поиск
             </button>
-            ${this.error ? html`<div class="error-container"><div class="error">${this.error}</div></div>` : ''}
 
             <div class="search-results">
                 ${this.tpos.map(tpo => html`

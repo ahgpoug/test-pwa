@@ -1,6 +1,8 @@
 import { LitElement, html } from 'lit';
 import { isValidInn } from '../services/inn-checker';
 import { customElement, property, state } from 'lit/decorators.js';
+import { LoadingOverlayService } from '../services/loading-overlay-service';
+
 import { globalStyles } from '../styles/global-styles';
 
 @customElement('advance-payment')
@@ -24,7 +26,7 @@ class AdvancePayment extends LitElement {
     private readonly passportSeriesNumberRegex = /^\d{4}\s\d{6}$/;
 
     async handleGenerateLink() {
-        window.dispatchEvent(new CustomEvent("setloadingstate", { detail: true }));
+        LoadingOverlayService.show();
 
         this.generatedLink = '';
         this.error = '';
@@ -39,7 +41,7 @@ class AdvancePayment extends LitElement {
             this.error = 'Ошибка создания ссылки';
         } finally {
             this.clearForm();
-            window.dispatchEvent(new CustomEvent("setloadingstate", { detail: false }));
+            LoadingOverlayService.hide();
         }
     }
 

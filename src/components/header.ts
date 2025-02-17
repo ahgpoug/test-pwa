@@ -17,13 +17,15 @@ class AppHeader extends LitElement {
             display: flex;
             align-items: center;
             padding: 16px;
-            background-color: #6200ee; /* Material Design primary color */
+            background-color: #6200ee;
             color: white;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            position: sticky;
+            position: fixed;
             top: 0;
+            left: 0;
+            right: 0;
             z-index: 1000;
-            height: 32px;
+            height: 48px; /* Увеличиваем высоту для лучшего отображения */
         }
 
         .back-button {

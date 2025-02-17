@@ -1,9 +1,11 @@
 import { LitElement, html, css } from 'lit';
 import { until } from 'lit/directives/until.js';
 import { customElement } from 'lit/decorators.js';
-import { globalStyles } from '../styles/global-styles';
 import { PaymentLink } from '../models/payment-link';
 import { apiService } from '../services/api-service';
+import { LoadingOverlayService } from '../services/loading-overlay-service';
+
+import { globalStyles } from '../styles/global-styles';
 
 @customElement('payment-history')
 // @ts-ignore
@@ -69,12 +71,12 @@ class PaymentHistory extends LitElement {
     }
 
     async renderPaymentLinks() {
-        window.dispatchEvent(new CustomEvent("setloadingstate", { detail: true }));
+        LoadingOverlayService.show();
 
         const paymentLinks = await apiService.fetchPaymentHistory();
         const content = html`${paymentLinks.map(paymentLink => this.renderPaymentLinkCard(paymentLink))}`;
 
-        window.dispatchEvent(new CustomEvent("setloadingstate", { detail: false }));
+        LoadingOverlayService.hide();
         return content;
     }
 

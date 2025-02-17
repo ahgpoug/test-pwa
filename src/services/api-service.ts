@@ -1,4 +1,6 @@
+// @ts-ignore
 import { authService } from './auth-service';
+// @ts-ignore
 import { TPO } from '../models/tpo';
 import { PaymentLink } from '../models/payment-link';
 
