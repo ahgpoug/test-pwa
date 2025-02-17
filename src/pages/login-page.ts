@@ -2,6 +2,7 @@ import { LitElement, html } from 'lit';
 import { customElement, state, property } from 'lit/decorators.js';
 import { apiService } from '../services/api-service';
 import { authService } from '../services/auth-service';
+import { PopupNotificationService } from '../services/popup-notification-service';
 
 import { globalStyles } from '../styles/global-styles';
 
@@ -13,7 +14,6 @@ class LoginPage extends LitElement {
 
     @state() private login: string = '';
     @state() private password: string = '';
-    @state() private error: string = '';
     @property({ type: Function }) onSuccessLogin: () => void = () => {};
 
     private async handleLogin() {
@@ -22,7 +22,7 @@ class LoginPage extends LitElement {
             authService.setToken(token);
             this.onSuccessLogin();
         } catch (err) {
-            this.error = 'Ошибка авторизации';
+            PopupNotificationService.show('Ошибка авторизации', 'error');
         }
     }
 
@@ -35,7 +35,6 @@ class LoginPage extends LitElement {
             <input type="text" .value="${this.login}" @input="${(e: Event) => this.login = (e.target as HTMLInputElement).value}" placeholder="Логин">
             <input type="password" .value="${this.password}" @input="${(e: Event) => this.password = (e.target as HTMLInputElement).value}" placeholder="Пароль">
             <button class="action-button" @click="${this.handleLogin}">Войти</button>
-            ${this.error ? html`<div class="error">${this.error}</div>` : ''}
         `;
     }
 }

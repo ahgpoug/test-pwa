@@ -11,7 +11,7 @@ export class PopupNotification extends LitElement {
             position: fixed;
             left: 0;
             right: 0;
-            bottom: 20px; /* Отступ от низа экрана */
+            top: 20px; /* Отступ от низа экрана */
             z-index: 9000;
             display: flex;
             justify-content: center;
@@ -22,8 +22,8 @@ export class PopupNotification extends LitElement {
         .popup-notification {
             padding: 12px 24px;
             border-radius: 28px;
-            background-color: #6200ee;
-            color: white;
+            background-color: white;
+            color: #6200ee;
             font-size: 14px;
             display: flex;
             align-items: center;
@@ -33,7 +33,7 @@ export class PopupNotification extends LitElement {
         }
 
         .popup-notification-hidden {
-            transform: translateY(calc(100% + 20px)); /* Уезжает за пределы экрана + отступ */
+            transform: translateY(calc(-20px)); /* Уезжает за пределы экрана + отступ */
             opacity: 0;
             transition:
                 transform 0.3s ease,
@@ -54,7 +54,7 @@ export class PopupNotification extends LitElement {
         }
 
         .popup-notification.info svg path {
-            fill:rgb(255, 255, 255) !important;
+            fill:#000000 !important;
         }
 
         .popup-notification.warning svg path {

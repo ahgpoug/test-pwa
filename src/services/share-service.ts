@@ -14,8 +14,10 @@ export class ShareService {
                 await navigator.clipboard.writeText(link);
                 PopupNotificationService.show('Ссылка скопирована в буфер обмена', 'success');
             }
-        } catch (err) {
-            PopupNotificationService.show('Произошла ошибка. Пожалуйста, попробуйте позже', 'error');
+        } catch (err: any) {
+            if (!err.toString().includes('AbortError')) {
+                PopupNotificationService.show('Произошла ошибка. Пожалуйста, попробуйте позже', 'error');
+            }
         }
     }
 }

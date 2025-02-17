@@ -3,7 +3,6 @@ import { until } from 'lit/directives/until.js';
 import { customElement } from 'lit/decorators.js';
 import { PaymentLink } from '../models/payment-link';
 import { apiService } from '../services/api-service';
-import { PopupNotificationService } from '../services/popup-notification-service';
 import { LoadingOverlayService } from '../services/loading-overlay-service';
 import { ShareService } from '../services/share-service';
 
