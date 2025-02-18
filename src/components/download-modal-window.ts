@@ -84,15 +84,19 @@ export class DownloadModalWindow extends LitElement {
                 </a>
             ` : ''}
 
-            <a href="https://play.google.com/store" class="store-link">
+            <a target="_blank" rel="noopener noreferrer" href="https://play.google.com/store" class="store-link">
                 <img src="${this.basePath + '/assets/icons/GOOGLE.png'}" class="store-icon" type="image/png" alt="Google Play">
             </a>
 
-            <a href="https://play.google.com/store" class="store-link">
+            <a target="_blank" rel="noopener noreferrer" href="https://apps.rustore.ru" class="store-link">
                 <img src="${this.basePath + '/assets/icons/RUSTORE.png'}" class="store-icon" type="image/png" alt="RuStore">
             </a>
 
-            <a href="https://appgallery.huawei.com" class="store-link">
+            <a target="_blank" rel="noopener noreferrer" href="https://galaxystore.ru/" class="store-link">
+                <img src="${this.basePath + '/assets/icons/GALAXY_STORE.png'}" class="store-icon" type="image/png" alt="Galaxy Store">
+            </a>
+
+            <a target="_blank" rel="noopener noreferrer" href="https://appgallery.huawei.com" class="store-link">
                 <img src="${this.basePath + '/assets/icons/HUAWEI.png'}" class="store-icon" type="image/png" alt="Huawei AppGallery">
             </a>
         `;
@@ -100,7 +104,7 @@ export class DownloadModalWindow extends LitElement {
 
     private renderIOS() {
         return html`
-            <a href="https://apps.apple.com" class="store-link">
+            <a target="_blank" rel="noopener noreferrer" href="https://apps.apple.com" class="store-link">
                 <img src="${this.basePath + '/assets/icons/APPLE.png'}" class="store-icon" type="image/png" alt="App Store">
             </a>
 
