@@ -15,6 +15,12 @@ const ASSETS_TO_CACHE = [
     `${BASE_URL}/assets/icons/48x48.png`,
     `${BASE_URL}/assets/icons/192x192.png`,
     `${BASE_URL}/assets/icons/512x512.png`,
+    `${BASE_URL}/assets/icons/INSTALL.png`,
+    `${BASE_URL}/assets/icons/ADD_TO_HOME_SCREEN.png`,
+    `${BASE_URL}/assets/icons/APPLE.png`,
+    `${BASE_URL}/assets/icons/GOOGLE.png`,
+    `${BASE_URL}/assets/icons/RUSTORE.png`,
+    `${BASE_URL}/assets/icons/HUAWEI.png`,
 ];
 
 self.addEventListener('install', (event) => {

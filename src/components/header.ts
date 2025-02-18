@@ -1,6 +1,7 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
-import { ModalWindowService } from '../services/modal-window-service';
+import { DownloadModalWindowService } from '../services/download-modal-window-service';
+import { DownloadModalWindowType } from './download-modal-window';
 
 import { globalStyles } from '../styles/global-styles';
 
@@ -109,26 +110,10 @@ class AppHeader extends LitElement {
     };
 
     handleInstallClick = async () => {
-        if (this.deferredPrompt) {
-            // Стандартная установка PWA
-            this.deferredPrompt.prompt();
-            const { outcome } = await this.deferredPrompt.userChoice;
-            if (outcome === 'accepted') this.showInstallButton = false;
-        } else {
-            // Показать инструкции для ручной установки
-            this.showInstallModal();
-        }
+        let platform : DownloadModalWindowType  = this.isIOS ? 'ios' : this.isAndroid ? 'android' : 'other';
+        let deferredPrompt = this.deferredPrompt;
+        DownloadModalWindowService.show(platform, deferredPrompt);
     };
-
-    showInstallModal() {
-        if (this.isIOS) {
-            ModalWindowService.show('Добавить на экран "Домой"', 'Нажмите Ctrl+D чтобы добавить в закладки\n1. Нажмите на кнопку "Поделиться"\n2. Выберите "Добавить на экран "Домой""\n3. Нажмите "Добавить"');
-        } else if (this.isAndroid) {
-            ModalWindowService.show('Добавить на главный экран', '1. Откройте меню браузера (три точки)\n2. Выберите "Добавить на главный экран"\n3. Нажмите "Добавить"');
-        } else {
-            ModalWindowService.show('Добавить на главный экран', 'Нажмите Ctrl+D чтобы добавить в закладки\nИли используйте меню браузера');
-        }
-    }
 
     handleAppInstalled = () => {
         // Скрываем кнопку "Установить" после установки
