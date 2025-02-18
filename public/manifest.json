@@ -1,6 +1,7 @@
 {
   "id": "/",
-  "scope": "/",
+  "start_url": "./",
+  "scope": ".",
   "lang": "ru",
   "dir": "ltr",
   "name": "ЛК Брокера",
@@ -17,6 +18,29 @@
   "launch_handler": {
     "client_mode": "focus-existing"
   },
+  "screenshots": [
+    {
+      "src": "assets/screenshots/search-tpo-wide.png",
+      "sizes": "1920x953",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Поиск квитанции по реквизитам"
+    },
+    {
+        "src": "assets/screenshots/search-tpo-android.png",
+        "sizes": "1440x3200",
+        "type": "image/png",
+        "platform": "android",
+        "label": "Поиск квитанции по реквизитам"
+      },
+      {
+        "src": "assets/screenshots/search-tpo-ios.png",
+        "sizes": "1284x2778",
+        "type": "image/png",
+        "platform": "ios",
+        "label": "Поиск квитанции по реквизитам"
+      }
+  ],
   "icons": [
     {
         "src": "assets/icons/1024x1024.png",
@@ -62,7 +86,7 @@
       "name": "ЛК Брокера",
       "short_name": "ЛК Брокера",
       "description": "Открыть ЛК Брокера",
-      "url": "/",
+      "url": "./",
       "icons": [{ "src": "assets/icons/192x192.png", "sizes": "192x192" }]
     }
   ]

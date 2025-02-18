@@ -8,7 +8,7 @@ export const globalStyles = css`
 
     main {
         padding: 1rem;
-        padding-top: 72px; /* Высота header + отступ */
+        padding-top: 90px; /* Высота header + отступ */
         max-width: 600px;
         margin: 0 auto;
     }
