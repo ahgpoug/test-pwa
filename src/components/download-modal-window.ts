@@ -10,18 +10,23 @@ export type DownloadModalWindowType = 'android' | 'ios' | 'other';
 export class DownloadModalWindow extends LitElement {
     static readonly styles = [globalStyles, css`
         .platform-section {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
             align-items: center;
+            justify-items: center;
             text-align: center;
         }
 
         .store-link {
             cursor: pointer;
-            align-items: center;
             margin: auto;
+            width: 100%; /* Чтобы ссылки занимали всю ширину ячейки */
         }
 
         .store-icon {
-            max-width: 300px;
+            width: 100%;
+            max-width: 195px;
             height: auto;
         }
 
