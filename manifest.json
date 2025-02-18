@@ -1,7 +1,6 @@
 {
   "id": "/",
-  "start_url": "./",
-  "scope": ".",
+  "start_url": "/",
   "lang": "ru",
   "dir": "ltr",
   "name": "ЛК Брокера",
