@@ -139,7 +139,7 @@
 
     main {
         padding: 1rem;
-        padding-top: 72px; /* Высота header + отступ */
+        padding-top: 90px; /* Высота header + отступ */
         max-width: 600px;
         margin: 0 auto;
     }
@@ -688,4 +688,4 @@
                 ${this.renderPage()}
             </main>
         `}};q.styles=[N];vt([x({type:String})],q.prototype,"currentPage",2);vt([x({type:Boolean})],q.prototype,"showBackButton",2);q=vt([b("app-home")],q);
-//# sourceMappingURL=index-Co34hBLT.js.map
+//# sourceMappingURL=index-CvQ9hDHv.js.map
