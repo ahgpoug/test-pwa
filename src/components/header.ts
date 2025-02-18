@@ -25,7 +25,7 @@ class AppHeader extends LitElement {
             left: 0;
             right: 0;
             z-index: 1000;
-            height: 48px; /* Увеличиваем высоту для лучшего отображения */
+            height: 32px; /* Увеличиваем высоту для лучшего отображения */
         }
 
         .back-button {

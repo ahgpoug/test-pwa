@@ -72,6 +72,7 @@ class AdvancePayment extends LitElement {
         if (!date) {
             return false;
         }
+
         const inputDate = new Date(date);
         const currentDate = new Date();
         return inputDate <= currentDate;
