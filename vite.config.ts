@@ -9,7 +9,15 @@ export default defineConfig({
         assetsDir: "code",
         target: ["esnext"],
         cssMinify: true,
-        lib: false
+        lib: false,
+        rollupOptions: {
+            output: {
+                entryFileNames: 'code/code.js',
+                assetFileNames: 'code/code.css',
+                chunkFileNames: "code/code-chunk.js",
+                manualChunks: undefined,
+            }
+        }
     },
     plugins: [
         VitePWA({
