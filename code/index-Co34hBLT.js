@@ -139,7 +139,7 @@
 
     main {
         padding: 1rem;
-        padding-top: 100px; /* Высота header + отступ */
+        padding-top: 72px; /* Высота header + отступ */
         max-width: 600px;
         margin: 0 auto;
     }
@@ -355,7 +355,7 @@
             left: 0;
             right: 0;
             z-index: 1000;
-            height: 48px; /* Увеличиваем высоту для лучшего отображения */
+            height: 32px; /* Увеличиваем высоту для лучшего отображения */
         }
 
         .back-button {
@@ -688,4 +688,4 @@
                 ${this.renderPage()}
             </main>
         `}};q.styles=[N];vt([x({type:String})],q.prototype,"currentPage",2);vt([x({type:Boolean})],q.prototype,"showBackButton",2);q=vt([b("app-home")],q);
-//# sourceMappingURL=index-BEF5t2Yz.js.map
+//# sourceMappingURL=index-Co34hBLT.js.map
