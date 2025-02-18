@@ -71,9 +71,7 @@ export class DownloadModalWindow extends LitElement {
                     <h3>Скачать приложение</h3>
 
                     <div class="platform-section">
-                        ${this.type === 'android' ? this.renderAndroid() : ''}
-                        ${this.type === 'ios' ? this.renderIOS() : ''}
-                        ${this.type === 'other' ? this.renderOther() : ''}
+                        ${this.renderPlatformSection()}
                     </div>
 
                 </div>
@@ -81,7 +79,7 @@ export class DownloadModalWindow extends LitElement {
         `;
     }
 
-    private renderAndroid() {
+    private renderPlatformSection() {
         return html`
             ${this.deferredPrompt ? html`
                 <a @click="${this.installPWA}" class="store-link">
@@ -89,41 +87,41 @@ export class DownloadModalWindow extends LitElement {
                 </a>
             ` : ''}
 
-            <a target="_blank" rel="noopener noreferrer" href="https://play.google.com/store" class="store-link">
-                <img src="${this.basePath + '/assets/icons/GOOGLE.png'}" class="store-icon" type="image/png" alt="Google Play">
-            </a>
+            ${this.type === 'android' || this.type === 'other' ? html`
+                <a target="_blank" rel="noopener noreferrer" href="https://play.google.com/store" class="store-link">
+                    <img src="${this.basePath + '/assets/icons/GOOGLE.png'}" class="store-icon" type="image/png" alt="Google Play">
+                </a>
+            `: ``}
 
-            <a target="_blank" rel="noopener noreferrer" href="https://apps.rustore.ru" class="store-link">
-                <img src="${this.basePath + '/assets/icons/RUSTORE.png'}" class="store-icon" type="image/png" alt="RuStore">
-            </a>
+            ${this.type === 'android' || this.type === 'other' ? html`
+                <a target="_blank" rel="noopener noreferrer" href="https://apps.rustore.ru" class="store-link">
+                    <img src="${this.basePath + '/assets/icons/RUSTORE.png'}" class="store-icon" type="image/png" alt="RuStore">
+                </a>
+            `: ``}
 
-            <a target="_blank" rel="noopener noreferrer" href="https://galaxystore.ru/" class="store-link">
-                <img src="${this.basePath + '/assets/icons/GALAXY_STORE.png'}" class="store-icon" type="image/png" alt="Galaxy Store">
-            </a>
+            ${this.type === 'android' || this.type === 'other' ? html`
+                <a target="_blank" rel="noopener noreferrer" href="https://galaxystore.ru/" class="store-link">
+                    <img src="${this.basePath + '/assets/icons/GALAXY_STORE.png'}" class="store-icon" type="image/png" alt="Galaxy Store">
+                </a>
+            `: ``}
 
-            <a target="_blank" rel="noopener noreferrer" href="https://appgallery.huawei.com" class="store-link">
-                <img src="${this.basePath + '/assets/icons/HUAWEI.png'}" class="store-icon" type="image/png" alt="Huawei AppGallery">
-            </a>
-        `;
-    }
+            ${this.type === 'android' || this.type === 'other' ? html`
+                <a target="_blank" rel="noopener noreferrer" href="https://appgallery.huawei.com" class="store-link">
+                    <img src="${this.basePath + '/assets/icons/HUAWEI.png'}" class="store-icon" type="image/png" alt="Huawei AppGallery">
+                </a>
+            `: ``}
 
-    private renderIOS() {
-        return html`
-            <a target="_blank" rel="noopener noreferrer" href="https://apps.apple.com" class="store-link">
-                <img src="${this.basePath + '/assets/icons/APPLE.png'}" class="store-icon" type="image/png" alt="App Store">
-            </a>
+            ${this.type === 'ios' || this.type === 'other' ? html`
+                <a target="_blank" rel="noopener noreferrer" href="https://apps.apple.com" class="store-link">
+                    <img src="${this.basePath + '/assets/icons/APPLE.png'}" class="store-icon" type="image/png" alt="App Store">
+                </a>
+            `: ``}
 
-
-            <a @click="${this.showAddToHomeScreen}" class="store-link">
-                <img src="${this.basePath + '/assets/icons/ADD_TO_HOME_SCREEN.png'}" class="store-icon" type="image/png" alt="Добавить на главный экран">
-            </a>
-        `;
-    }
-
-    private renderOther() {
-        return html`
-            ${this.renderAndroid()}
-            ${this.renderIOS()}
+            ${this.type === 'ios' ? html`
+                <a @click="${this.showAddToHomeScreen}" class="store-link">
+                    <img src="${this.basePath + '/assets/icons/ADD_TO_HOME_SCREEN.png'}" class="store-icon" type="image/png" alt="Добавить на главный экран">
+                </a>
+            `: ``}
         `;
     }
 
