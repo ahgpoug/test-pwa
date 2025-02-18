@@ -369,18 +369,23 @@
 2. Выберите "Добавить на главный экран"
 3. Нажмите "Добавить"`)}};I.styles=[A,P`
         .platform-section {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
             align-items: center;
+            justify-items: center;
             text-align: center;
         }
 
         .store-link {
             cursor: pointer;
-            align-items: center;
             margin: auto;
+            width: 100%; /* Чтобы ссылки занимали всю ширину ячейки */
         }
 
         .store-icon {
-            max-width: 300px;
+            width: 100%;
+            max-width: 195px;
             height: auto;
         }
 
