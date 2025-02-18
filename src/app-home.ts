@@ -36,9 +36,10 @@ class AppHome extends LitElement {
     private async registerServiceWorker() {
         if ('serviceWorker' in navigator) {
             try {
-                const registration = await navigator.serviceWorker.register(
-                    `${this.basePath}sw.js`,
-                    { scope: this.basePath }
+                const registration = await navigator.serviceWorker.register(`${this.basePath}sw.js`,
+                    {
+                        scope: this.basePath
+                    }
                 );
 
                 console.log('ServiceWorker registration successful with scope:', registration.scope);
