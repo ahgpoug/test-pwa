@@ -324,47 +324,53 @@
                     <h3>Скачать приложение</h3>
 
                     <div class="platform-section">
-                        ${this.type==="android"?this.renderAndroid():""}
-                        ${this.type==="ios"?this.renderIOS():""}
-                        ${this.type==="other"?this.renderOther():""}
+                        ${this.renderPlatformSection()}
                     </div>
 
                 </div>
             </div>
-        `:l``}renderAndroid(){return l`
+        `:l``}renderPlatformSection(){return l`
             ${this.deferredPrompt?l`
                 <a @click="${this.installPWA}" class="store-link">
                     <img src="${this.basePath+"/assets/icons/INSTALL.png"}" class="store-icon" type="image/png" alt="Установить сейчас">
                 </a>
             `:""}
 
-            <a target="_blank" rel="noopener noreferrer" href="https://play.google.com/store" class="store-link">
-                <img src="${this.basePath+"/assets/icons/GOOGLE.png"}" class="store-icon" type="image/png" alt="Google Play">
-            </a>
+            ${this.type==="android"||this.type==="other"?l`
+                <a target="_blank" rel="noopener noreferrer" href="https://play.google.com/store" class="store-link">
+                    <img src="${this.basePath+"/assets/icons/GOOGLE.png"}" class="store-icon" type="image/png" alt="Google Play">
+                </a>
+            `:""}
 
-            <a target="_blank" rel="noopener noreferrer" href="https://apps.rustore.ru" class="store-link">
-                <img src="${this.basePath+"/assets/icons/RUSTORE.png"}" class="store-icon" type="image/png" alt="RuStore">
-            </a>
+            ${this.type==="android"||this.type==="other"?l`
+                <a target="_blank" rel="noopener noreferrer" href="https://apps.rustore.ru" class="store-link">
+                    <img src="${this.basePath+"/assets/icons/RUSTORE.png"}" class="store-icon" type="image/png" alt="RuStore">
+                </a>
+            `:""}
 
-            <a target="_blank" rel="noopener noreferrer" href="https://galaxystore.ru/" class="store-link">
-                <img src="${this.basePath+"/assets/icons/GALAXY_STORE.png"}" class="store-icon" type="image/png" alt="Galaxy Store">
-            </a>
+            ${this.type==="android"||this.type==="other"?l`
+                <a target="_blank" rel="noopener noreferrer" href="https://galaxystore.ru/" class="store-link">
+                    <img src="${this.basePath+"/assets/icons/GALAXY_STORE.png"}" class="store-icon" type="image/png" alt="Galaxy Store">
+                </a>
+            `:""}
 
-            <a target="_blank" rel="noopener noreferrer" href="https://appgallery.huawei.com" class="store-link">
-                <img src="${this.basePath+"/assets/icons/HUAWEI.png"}" class="store-icon" type="image/png" alt="Huawei AppGallery">
-            </a>
-        `}renderIOS(){return l`
-            <a target="_blank" rel="noopener noreferrer" href="https://apps.apple.com" class="store-link">
-                <img src="${this.basePath+"/assets/icons/APPLE.png"}" class="store-icon" type="image/png" alt="App Store">
-            </a>
+            ${this.type==="android"||this.type==="other"?l`
+                <a target="_blank" rel="noopener noreferrer" href="https://appgallery.huawei.com" class="store-link">
+                    <img src="${this.basePath+"/assets/icons/HUAWEI.png"}" class="store-icon" type="image/png" alt="Huawei AppGallery">
+                </a>
+            `:""}
 
+            ${this.type==="ios"||this.type==="other"?l`
+                <a target="_blank" rel="noopener noreferrer" href="https://apps.apple.com" class="store-link">
+                    <img src="${this.basePath+"/assets/icons/APPLE.png"}" class="store-icon" type="image/png" alt="App Store">
+                </a>
+            `:""}
 
-            <a @click="${this.showAddToHomeScreen}" class="store-link">
-                <img src="${this.basePath+"/assets/icons/ADD_TO_HOME_SCREEN.png"}" class="store-icon" type="image/png" alt="Добавить на главный экран">
-            </a>
-        `}renderOther(){return l`
-            ${this.renderAndroid()}
-            ${this.renderIOS()}
+            ${this.type==="ios"?l`
+                <a @click="${this.showAddToHomeScreen}" class="store-link">
+                    <img src="${this.basePath+"/assets/icons/ADD_TO_HOME_SCREEN.png"}" class="store-icon" type="image/png" alt="Добавить на главный экран">
+                </a>
+            `:""}
         `}installPWA(){this.deferredPrompt&&this.deferredPrompt.prompt(),this.hide()}showAddToHomeScreen(){be.show("Добавить на главный экран",`1. Нажмите на кнопку "Поделиться"
 2. Выберите "Добавить на главный экран"
 3. Нажмите "Добавить"`)}};I.styles=[A,P`
