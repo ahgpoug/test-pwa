@@ -10,6 +10,7 @@ pwa start
 Деплой приложения на GitHub Pages:
 
 ```bash
-npm i gh-pages --save-dev
+npm install workbox-cli --save-dev
+npm install gh-pages --save-dev
 npm run deploy
 ```

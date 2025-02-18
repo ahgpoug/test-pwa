@@ -120,6 +120,18 @@ export const globalStyles = css`
         align-items: center;
         justify-content: center;
         z-index: 1001;
+        transition:
+            transform 0.3s ease,
+            opacity 0.3s ease;
+    }
+
+    .modal-hidden {
+        pointer-events: none;
+        opacity: 0;
+    }
+
+    .modal-visible {
+        opacity: 1;
     }
 
     .modal-content {
@@ -129,16 +141,28 @@ export const globalStyles = css`
         max-width: 400px;
         width: 90%;
         position: relative;
+        padding-top: 48px;
     }
 
-    .modal-close-button {
+    .modal-header-container {
+        display: flex;
+        align-items: center;
         position: absolute;
-        top: 12px;
-        right: 12px;
+        top: 24px;
+        left: 24px;
+        right: 24px;
+    }
+
+    .modal-header-text {
+        margin: 0;
+    }
+
+    .modal-header-close-button {
+        position: static;
+        margin-left: auto;
         background: none;
         border: none;
         cursor: pointer;
-        padding: 4px;
     }
 
     label {

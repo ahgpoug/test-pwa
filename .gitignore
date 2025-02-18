@@ -10,3 +10,4 @@ types
 .vscode
 *.log
 .vite
+/public/workbox*

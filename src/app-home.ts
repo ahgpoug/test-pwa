@@ -158,8 +158,6 @@ class AppHome extends LitElement {
     }
 
     renderPage() {
-        LoadingOverlayService.hide();
-
         if (!authService.isAuthenticated() && this.currentPage !== 'login-page') {
             window.dispatchEvent(new CustomEvent("navigateto", { detail: 'login-page' }));
         }
@@ -194,7 +192,9 @@ class AppHome extends LitElement {
     }
 
     render() {
-        return html`
+        LoadingOverlayService.show();
+
+        const page = html`
             <app-header
                 .currentPage="${this.currentPage}"
                 .basePath="${this.basePath}"
@@ -207,5 +207,8 @@ class AppHome extends LitElement {
                 ${this.renderPage()}
             </main>
         `;
+
+        LoadingOverlayService.hide();
+        return page;
     }
 }

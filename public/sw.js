@@ -1,4 +1,6 @@
-import { precacheAndRoute } from 'workbox-precaching';
+importScripts("./workbox-v7.3.0/workbox-sw.js");
+
+workbox.setConfig({modulePathPrefix: './workbox-v7.3.0/'});
 
 const BASE_URL = '/test-pwa'
 const CACHE_NAME = 'pwa-cache-v1';
@@ -10,6 +12,7 @@ const ASSETS_TO_CACHE = [
     `${BASE_URL}/code/code.css`,
     `${BASE_URL}/code/code-chunk.js`,
     `${BASE_URL}/manifest.json`,
+    `${BASE_URL}/workbox-v7.3.0/workbox-sw.js`,
     `${BASE_URL}/assets/icons/16x16.png`,
     `${BASE_URL}/assets/icons/32x32.png`,
     `${BASE_URL}/assets/icons/48x48.png`,
@@ -63,4 +66,4 @@ self.addEventListener('fetch', event => {
     );
 });
 
-precacheAndRoute(self.__WB_MANIFEST || []);
+workbox.precaching.precacheAndRoute(self.__WB_MANIFEST || []);

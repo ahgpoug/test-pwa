@@ -36,5 +36,11 @@ export default defineConfig({
                 enabled: true
             }
         })
-    ]
+    ],
+    // Разрешаем доступ к Workbox из node_modules
+    server: {
+        fs: {
+            strict: false
+        }
+    }
 })

@@ -16,6 +16,7 @@ export class DownloadModalWindow extends LitElement {
             align-items: center;
             justify-items: center;
             text-align: center;
+            padding-top: 20px;
         }
 
         .store-link {
@@ -100,20 +101,17 @@ export class DownloadModalWindow extends LitElement {
     }
 
     render() {
-        if (!this.visible) {
-            return html``;
-        }
-
         return html`
-            <div class="modal" @click="${this.hide}">
+            <div class="modal ${this.visible ? 'modal-visible' : 'modal-hidden'}" @click="${this.hide}">
                 <div class="modal-content" @click="${(e: Event) => e.stopPropagation()}">
-                    <button class="modal-close-button" @click="${() => this.visible = false}">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <path d="M18 6L6 18M6 6l12 12" stroke-width="2"/>
-                        </svg>
-                    </button>
-
-                    <h3>Скачать приложение</h3>
+                    <div class="modal-header-container">
+                        <h3 class="modal-header-text">Скачать приложение</h3>
+                        <button class="modal-header-close-button" @click="${() => this.visible = false}">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M18 6L6 18M6 6l12 12" stroke-width="2"/>
+                            </svg>
+                        </button>
+                    </div>
 
                     <div class="platform-section">
                         ${this.renderPlatformSection()}
