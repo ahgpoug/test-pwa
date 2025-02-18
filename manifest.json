@@ -1,6 +1,7 @@
 {
   "id": "/",
-  "start_url": "/",
+  "start_url": "/test-pwa/",
+  "scope": "/",
   "lang": "ru",
   "dir": "ltr",
   "name": "ЛК Брокера",
