@@ -20,6 +20,18 @@ export class LoadingOverlay extends LitElement {
             justify-content: center;
             align-items: center;
             z-index: 1000;
+            transition:
+                transform 0.3s ease,
+                opacity 0.3s ease;
+        }
+
+        .loading-overlay-hidden {
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        .loading-overlay-visible {
+            opacity: 1;
         }
 
         .spinner {
@@ -52,12 +64,8 @@ export class LoadingOverlay extends LitElement {
     }
 
     render() {
-        if (!this.visible) {
-            return html``;
-        }
-
         return html`
-            <div class="loading-overlay">
+            <div class="loading-overlay ${this.visible ? 'loading-overlay-visible' : 'loading-overlay-hidden'}">
                 <div class="spinner"></div>
             </div>
         `;

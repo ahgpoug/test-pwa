@@ -11,7 +11,7 @@ export class PopupNotification extends LitElement {
             position: fixed;
             left: 0;
             right: 0;
-            top: 20px; /* Отступ от низа экрана */
+            top: 10px; /* Отступ от верха экрана */
             z-index: 9000;
             display: flex;
             justify-content: center;
@@ -33,7 +33,7 @@ export class PopupNotification extends LitElement {
         }
 
         .popup-notification-hidden {
-            transform: translateY(calc(-20px)); /* Уезжает за пределы экрана + отступ */
+            transform: translateY(calc(-10px)); /* Уезжает за пределы экрана + отступ */
             opacity: 0;
             transition:
                 transform 0.3s ease,
