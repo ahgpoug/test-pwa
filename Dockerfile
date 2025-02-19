@@ -2,7 +2,7 @@ FROM node:lts-alpine3.18 AS build
 
 COPY . .
 
-RUN npm install workbox-cli --save-dev
+RUN npm install workbox-cli@7.3.0 --save-dev
 RUN npm ci
 RUN npm run build
 
