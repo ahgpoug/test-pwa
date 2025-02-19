@@ -3,7 +3,7 @@
 Запуск приложения:
 
 ```bash
-npm i -g @pwabuilder/cli
+npm install -g @pwabuilder/cli
 pwa start
 ```
 
