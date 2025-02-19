@@ -18,6 +18,8 @@
   "license": "ISC",
   "dependencies": {
     "esbuild": "^0.25.0",
+    "got": "^11.8.5",
+    "braces": "^3.0.3",
     "@shoelace-style/shoelace": "^2.20.0",
     "@thepassle/app-tools": "^0.9.12",
     "bcryptjs": "^3.0.0",
