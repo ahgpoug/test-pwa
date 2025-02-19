@@ -31,7 +31,6 @@
     "workbox-sw": "^7.3.0"
   },
   "devDependencies": {
-    "cpx": "^1.5.0",
     "gh-pages": "^6.3.0",
     "typescript": "^5.7.3",
     "vite": "^6.1.0",
