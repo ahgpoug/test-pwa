@@ -17,12 +17,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@shoelace-style/shoelace": "^2.18.0",
+    "esbuild": "^0.25.0",
+    "@shoelace-style/shoelace": "^2.20.0",
     "@thepassle/app-tools": "^0.9.12",
     "bcryptjs": "^3.0.0",
     "lit": "^3.2.1",
     "urlpattern-polyfill": "^10.0.0",
-    "vite-plugin-static-copy": "^2.2.0",
     "workbox-build": "^7.3.0",
     "workbox-core": "^7.3.0",
     "workbox-precaching": "^7.3.0",
@@ -31,13 +31,13 @@
   "devDependencies": {
     "cpx": "^1.5.0",
     "gh-pages": "^6.3.0",
-    "typescript": "^5.6.3",
-    "vite": "^5.4.11",
-    "vite-plugin-pwa": "^0.20.5",
+    "typescript": "^5.7.3",
+    "vite": "^6.1.0",
+    "vite-plugin-pwa": "^0.21.1",
     "workbox-cli": "^7.3.0"
   },
   "prettier": {
-    "tabWidth": 2,
+    "tabWidth": 4,
     "useTabs": false,
     "semi": true,
     "singleQuote": true,
