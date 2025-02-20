@@ -86,7 +86,7 @@
             "name": "ЛК Брокера",
             "short_name": "ЛК Брокера",
             "description": "Открыть ЛК Брокера",
-            "url": "./",
+            "url": "./login-page",
             "icons": [{ "src": "assets/icons/192x192.png", "sizes": "192x192" }]
         }
     ]
