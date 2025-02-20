@@ -158,9 +158,7 @@ class AppHome extends LitElement {
     }
 
     renderPage() {
-        if (!authService.isAuthenticated() && this.currentPage !== 'login-page') {
-            window.dispatchEvent(new CustomEvent("navigateto", { detail: 'login-page' }));
-        }
+        this.checkAuth();
 
         switch (this.currentPage) {
             case 'search-tpo':

@@ -20,7 +20,8 @@
       "isolatedModules": true,
       "types": [
           "vite-plugin-pwa/client",
-          "vite/client"
+          "vite/client",
+          "@types/webappsec-credential-management"
       ]
   },
   "include": ["src/**/*.ts", "router.d.ts", "src/app-install.ts"],
