@@ -29,7 +29,7 @@ class AppHome extends LitElement {
 
     private checkAuth() {
         if (!authService.isAuthenticated() && this.currentPage !== 'login-page') {
-            this.navigateTo('login-page');
+            this.navigateTo('login-page', true);
         }
     }
 
@@ -103,6 +103,13 @@ class AppHome extends LitElement {
                 }
             }
 
+            // Если текущая страница - login-page, блокируем возврат
+            if (this.currentPage === 'login-page') {
+                event.preventDefault();
+                this.navigateTo('', true); // Переход на главную без добавления в историю
+                return false;
+            }
+
             return true;
         };
     }
@@ -126,18 +133,28 @@ class AppHome extends LitElement {
             ? path.slice(basePath.length).replace(/^\//, '')
             : path.replace(/^\//, '');
 
-        this.currentPage = page || '';
+        // Если текущая страница - login-page, перенаправляем на главную
+        if (page === 'login-page') {
+            this.navigateTo('', true); // Переход на главную без добавления в историю
+            return;
+        }
 
+        this.currentPage = page || '';
         this.checkAuth();
         this.requestUpdate();
     };
 
-    handleNavigateTo = (e: CustomEventInit<string>) => {
-        this.navigateTo(e.detail ?? '');
+    handleNavigateTo = (e: CustomEventInit<{ page: string, replace?: boolean }>) => {
+        const { page, replace } = e.detail ?? { page: '' };
+        this.navigateTo(page, replace);
     };
 
-    navigateTo(page: string) {
-        history.pushState({}, '', `${this.basePath}${page}`);
+    navigateTo(page: string, replace: boolean = false) {
+        if (replace) {
+            history.replaceState({}, '', `${this.basePath}${page}`);
+        } else {
+            history.pushState({}, '', `${this.basePath}${page}`);
+        }
         this.currentPage = page;
         this.requestUpdate();
     }
@@ -168,23 +185,17 @@ class AppHome extends LitElement {
             case 'payment-history':
                 return html`<payment-history></payment-history>`;
             case 'login-page':
-                return this.renderLoginPage();
+                return html`<login-page></login-page>`;
             default:
                 return this.renderHome();
         }
     }
 
-    renderLoginPage() {
-        return html`<login-page
-            .onSuccessLogin="${() => window.dispatchEvent(new CustomEvent("navigateto", { detail: '' }))}"
-        ></login-page>`;
-    }
-
     renderHome() {
         return html`
-            <button class="action-button" @click="${() => window.dispatchEvent(new CustomEvent("navigateto", { detail: 'search-tpo' }))}">Поиск квитанции по реквизитам</button>
-            <button class="action-button" @click="${() => window.dispatchEvent(new CustomEvent("navigateto", { detail: 'advance-payment' }))}">Авансовый платеж</button>
-            <button class="action-button" @click="${() => window.dispatchEvent(new CustomEvent("navigateto", { detail: 'payment-history' }))}">История платежей</button>
+            <button class="action-button" @click="${() => window.dispatchEvent(new CustomEvent("navigateto", { detail: { page: 'search-tpo' } }))}">Поиск квитанции по реквизитам</button>
+            <button class="action-button" @click="${() => window.dispatchEvent(new CustomEvent("navigateto", { detail: { page: 'advance-payment' } }))}">Авансовый платеж</button>
+            <button class="action-button" @click="${() => window.dispatchEvent(new CustomEvent("navigateto", { detail: { page: 'payment-history' } }))}">История платежей</button>
             <button class="action-button" @click="${() => authService.logout()}">Смена пользователя</button>
         `;
     }
@@ -199,7 +210,6 @@ class AppHome extends LitElement {
                 .title="${this.getPageTitle()}"
                 .showBackButton="${!this.isHomePage()}"
                 .isLoginPage="${this.currentPage === 'login-page'}"
-                .onBack="${() => window.dispatchEvent(new CustomEvent("navigateto", { detail: '' }))}"
             ></app-header>
             <main>
                 ${this.renderPage()}

@@ -1,5 +1,5 @@
 import { LitElement, html, css } from 'lit';
-import { customElement, state, property } from 'lit/decorators.js';
+import { customElement, state } from 'lit/decorators.js';
 import { apiService } from '../services/api-service';
 import { authService } from '../services/auth-service';
 import { PopupNotificationService } from '../services/popup-notification-service';
@@ -47,7 +47,9 @@ class LoginPage extends LitElement {
     @state() private rememberMe: boolean = false;
     @state() private isFormValid: boolean = false;
 
-    @property({ type: Function }) onSuccessLogin: () => void = () => {};
+    onSuccessLogin() {
+        window.dispatchEvent(new CustomEvent("navigateto", { detail:{ page: '', replace: true } }));
+    }
 
     validateForm() {
         const isLoginValid = this.login.length > 0;

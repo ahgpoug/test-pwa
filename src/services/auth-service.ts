@@ -69,7 +69,7 @@ class AuthService {
             }
         }
 
-        window.dispatchEvent(new CustomEvent("navigateto", { detail: 'login-page' }));
+        window.dispatchEvent(new CustomEvent("navigateto", { detail:{ page: 'login-page', replace: true } }));
     }
 }
 

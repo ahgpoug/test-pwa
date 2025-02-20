@@ -95,7 +95,10 @@ class AppHeader extends LitElement {
 
     @property({ type: Boolean }) showBackButton: boolean = false;
     @property({ type: Boolean }) isLoginPage: boolean = false;
-    @property({ type: Function }) onBack: () => void = () => {};
+
+    onBack() {
+        window.dispatchEvent(new CustomEvent("navigateto", { detail:{ page: '' } }));
+    }
 
     connectedCallback() {
         super.connectedCallback();
