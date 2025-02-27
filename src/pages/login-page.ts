@@ -20,7 +20,7 @@ class LoginPage extends LitElement {
         }
 
         .remember-me:hover {
-            border-color: #6200ee;
+            border-color: #882499;
         }
 
         .remember-me input[type="checkbox"] {

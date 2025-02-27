@@ -164,13 +164,13 @@ class AppHome extends LitElement {
             case 'login-page':
                 return 'Авторизация';
             case 'search-tpo':
-                return 'Поиск квитанции по реквизитам';
+                return 'Поиск квитанций по реквизитам';
             case 'advance-payment':
                 return 'Авансовый платеж';
             case 'payment-history':
                 return 'История платежей';
             default:
-                return 'Меню';
+                return 'ЛК Брокера';
         }
     }
 
@@ -193,7 +193,7 @@ class AppHome extends LitElement {
 
     renderHome() {
         return html`
-            <button class="action-button" @click="${() => window.dispatchEvent(new CustomEvent("navigateto", { detail: { page: 'search-tpo' } }))}">Поиск квитанции по реквизитам</button>
+            <button class="action-button" @click="${() => window.dispatchEvent(new CustomEvent("navigateto", { detail: { page: 'search-tpo' } }))}">Поиск квитанций по реквизитам</button>
             <button class="action-button" @click="${() => window.dispatchEvent(new CustomEvent("navigateto", { detail: { page: 'advance-payment' } }))}">Авансовый платеж</button>
             <button class="action-button" @click="${() => window.dispatchEvent(new CustomEvent("navigateto", { detail: { page: 'payment-history' } }))}">История платежей</button>
             <button class="action-button" @click="${() => authService.logout()}">Смена пользователя</button>

@@ -19,7 +19,7 @@ export const globalStyles = css`
         padding: 1rem;
         margin: 0.5rem 0;
         font-size: 1rem;
-        background-color: #6200ee;
+        background-color: #882499;
         color: white;
         border: none;
         border-radius: 8px;
@@ -35,7 +35,7 @@ export const globalStyles = css`
     }
 
     button.action-button:not(:disabled):hover {
-        background-color: #3700b3;
+        background-color: #651174;
     }
 
     input:not([type=checkbox]) {
@@ -49,7 +49,7 @@ export const globalStyles = css`
     }
 
     input:focus {
-        border-color: #6200ee;
+        border-color: #882499;
         outline: none;
     }
 
@@ -84,7 +84,7 @@ export const globalStyles = css`
         flex-grow: 1;
         padding: 0.75rem;
         margin: 0.5rem 0;
-        border: 2px solid #6200ee;
+        border: 2px solid #882499;
         border-radius: 8px;
         font-size: 1rem;
         color: #333;
@@ -106,7 +106,7 @@ export const globalStyles = css`
     .share-icon {
         width: 24px;
         height: 24px;
-        fill: #6200ee;
+        fill: #882499;
     }
 
     .modal {

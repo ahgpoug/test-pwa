@@ -21,7 +21,7 @@ class PaymentHistory extends LitElement {
 
         .payment-link-card {
             padding: 16px;
-            border: 1px solid #6200ee;
+            border: 1px solid #882499;
             border-radius: 8px;
             background: white;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -38,7 +38,7 @@ class PaymentHistory extends LitElement {
             padding: 1rem;
             margin: 0.5rem 0;
             font-size: 1rem;
-            background-color: #6200ee;
+            background-color: #882499;
             color: white;
             border: none;
             border-radius: 8px;

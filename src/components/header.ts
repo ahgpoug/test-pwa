@@ -18,7 +18,7 @@ class AppHeader extends LitElement {
             display: flex;
             align-items: center;
             padding: 16px;
-            background-color: #6200ee;
+            background-color: #882499;
             color: white;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             position: fixed;

@@ -1,3 +1,5 @@
+import { LoadingOverlayService } from './loading-overlay-service';
+
 class AuthService {
     private readonly tokenKey = 'auth_token';
 
@@ -56,10 +58,13 @@ class AuthService {
     }
 
     async logout(): Promise<void> {
+
         this.clearToken();
         sessionStorage.clear();
 
         if (this.supportsCredentialsAPI()) {
+            LoadingOverlayService.show();
+
             try {
                 await navigator.credentials.preventSilentAccess();
                 await new Promise(resolve => setTimeout(resolve, 500));
@@ -67,6 +72,8 @@ class AuthService {
                 window.alert(err);
                 console.error('Failed to prevent silent access: ', err);
             }
+
+            LoadingOverlayService.hide();
         }
 
         window.dispatchEvent(new CustomEvent("navigateto", { detail:{ page: 'login-page', replace: true } }));

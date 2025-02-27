@@ -23,7 +23,7 @@ export class PopupNotification extends LitElement {
             padding: 12px 24px;
             border-radius: 28px;
             background-color: white;
-            color: #6200ee;
+            color: #882499;
             font-size: 14px;
             display: flex;
             align-items: center;

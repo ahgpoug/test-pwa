@@ -7,11 +7,11 @@
     "name": "ЛК Брокера",
     "display": "standalone",
     "short_name": "ЛК Брокера",
-    "theme_color": "#5147e1",
+    "theme_color": "#882499",
     "description": "ЛК Брокера",
     "handle_links": "preferred",
     "orientation": "any",
-    "background_color": "#5147e1",
+    "background_color": "#ffffff",
     "related_applications": [],
     "prefer_related_applications": false,
     "display_override": ["window-controls-overlay"],
@@ -24,21 +24,21 @@
             "sizes": "1920x953",
             "type": "image/png",
             "form_factor": "wide",
-            "label": "Поиск квитанции по реквизитам"
+            "label": "Поиск квитанций по реквизитам"
         },
         {
             "src": "assets/screenshots/search-tpo-android.png",
             "sizes": "1440x3200",
             "type": "image/png",
             "platform": "android",
-            "label": "Поиск квитанции по реквизитам"
+            "label": "Поиск квитанций по реквизитам"
         },
         {
             "src": "assets/screenshots/search-tpo-ios.png",
             "sizes": "1284x2778",
             "type": "image/png",
             "platform": "ios",
-            "label": "Поиск квитанции по реквизитам"
+            "label": "Поиск квитанций по реквизитам"
         }
     ],
     "icons": [
