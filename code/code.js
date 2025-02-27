@@ -321,7 +321,6 @@
         margin-bottom: 8px;
         font-weight: 500;
         color: #333;
-        font-weight: bold;
     }
 
     ul {
