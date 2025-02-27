@@ -24,7 +24,7 @@
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */let f=class extends T{constructor(){super(...arguments),this.renderOptions={host:this},this._$Do=void 0}createRenderRoot(){const t=super.createRenderRoot();return this.renderOptions.renderBefore??=t.firstChild,t}update(t){const e=this.render();this.hasUpdated||(this.renderOptions.isConnected=this.isConnected),super.update(t),this._$Do=$e(e,this.renderRoot,this.renderOptions)}connectedCallback(){super.connectedCallback(),this._$Do?.setConnected(!0)}disconnectedCallback(){super.disconnectedCallback(),this._$Do?.setConnected(!1)}render(){return S}};f._$litElement$=!0,f.finalized=!0,globalThis.litElementHydrateSupport?.({LitElement:f});const ke=globalThis.litElementPolyfillSupport;ke?.({LitElement:f});(globalThis.litElementVersions??=[]).push("4.1.1");/**
+ */let m=class extends T{constructor(){super(...arguments),this.renderOptions={host:this},this._$Do=void 0}createRenderRoot(){const t=super.createRenderRoot();return this.renderOptions.renderBefore??=t.firstChild,t}update(t){const e=this.render();this.hasUpdated||(this.renderOptions.isConnected=this.isConnected),super.update(t),this._$Do=$e(e,this.renderRoot,this.renderOptions)}connectedCallback(){super.connectedCallback(),this._$Do?.setConnected(!0)}disconnectedCallback(){super.disconnectedCallback(),this._$Do?.setConnected(!1)}render(){return S}};m._$litElement$=!0,m.finalized=!0,globalThis.litElementHydrateSupport?.({LitElement:m});const ke=globalThis.litElementPolyfillSupport;ke?.({LitElement:m});(globalThis.litElementVersions??=[]).push("4.1.1");/**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
@@ -36,7 +36,54 @@
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */function d(s){return H({...s,state:!0,attribute:!1})}class Me{constructor(){this.tokenKey="auth_token"}getToken(){return localStorage.getItem(this.tokenKey)}setToken(t){localStorage.setItem(this.tokenKey,t)}clearToken(){localStorage.removeItem(this.tokenKey)}isAuthenticated(){const t=this.getToken();return t?JSON.parse(atob(t.split(".")[1])).exp*1e3>Date.now():!1}supportsCredentialsAPI(){return"credentials"in navigator&&"PasswordCredential"in window}async saveCredentials(t,e){if(!v.supportsCredentialsAPI())return;const i=new PasswordCredential({id:t,password:e,name:t});await navigator.credentials.store(i)}async tryRequestCredentials(){return v.supportsCredentialsAPI()?await navigator.credentials.get({password:!0,mediation:"optional"}):null}async logout(){if(this.clearToken(),sessionStorage.clear(),this.supportsCredentialsAPI())try{await navigator.credentials.preventSilentAccess(),await new Promise(t=>setTimeout(t,500))}catch(t){window.alert(t),console.error("Failed to prevent silent access: ",t)}window.dispatchEvent(new CustomEvent("navigateto",{detail:{page:"login-page",replace:!0}}))}}const v=new Me;var Le=Object.defineProperty,Ne=Object.getOwnPropertyDescriptor,ct=(s,t,e,i)=>{for(var r=i>1?void 0:i?Ne(t,e):t,o=s.length-1,n;o>=0;o--)(n=s[o])&&(r=(i?n(t,e,r):n(r))||r);return i&&r&&Le(t,e,r),r};let I=class extends f{constructor(){super(...arguments),this.message="",this.type="info",this.visible=!1}show(s,t="info",e=3e3){this.message=s,this.type=t,this.visible=!0,this.timeoutId&&window.clearTimeout(this.timeoutId),this.timeoutId=window.setTimeout(()=>{this.hide()},e)}hide(){this.visible=!1}render(){return l`
+ */function d(s){return H({...s,state:!0,attribute:!1})}var Me=Object.defineProperty,Le=Object.getOwnPropertyDescriptor,Kt=(s,t,e,i)=>{for(var r=i>1?void 0:i?Le(t,e):t,o=s.length-1,n;o>=0;o--)(n=s[o])&&(r=(i?n(t,e,r):n(r))||r);return i&&r&&Me(t,e,r),r};let Z=class extends m{constructor(){super(...arguments),this.visible=!1}show(){this.visible=!0}hide(){this.visible=!1}isVisible(){return this.visible}render(){return l`
+            <div class="loading-overlay ${this.visible?"loading-overlay-visible":"loading-overlay-hidden"}">
+                <div class="spinner"></div>
+            </div>
+        `}};Z.styles=w`
+        :host {
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(3px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition:
+                transform 0.3s ease,
+                opacity 0.3s ease;
+        }
+
+        .loading-overlay-hidden {
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        .loading-overlay-visible {
+            opacity: 1;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #882499;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    `;Kt([d()],Z.prototype,"visible",2);Z=Kt([$("loading-overlay")],Z);const Ne=new Z;class f{static{this.instance=null}static initialize(){this.instance||(this.instance=Ne,document.body.appendChild(this.instance))}static show(){this.initialize(),this.instance.show()}static hide(){this.instance&&this.instance.hide()}static isVisible(){return this.instance?this.instance.isVisible():!1}}class Ue{constructor(){this.tokenKey="auth_token"}getToken(){return localStorage.getItem(this.tokenKey)}setToken(t){localStorage.setItem(this.tokenKey,t)}clearToken(){localStorage.removeItem(this.tokenKey)}isAuthenticated(){const t=this.getToken();return t?JSON.parse(atob(t.split(".")[1])).exp*1e3>Date.now():!1}supportsCredentialsAPI(){return"credentials"in navigator&&"PasswordCredential"in window}async saveCredentials(t,e){if(!v.supportsCredentialsAPI())return;const i=new PasswordCredential({id:t,password:e,name:t});await navigator.credentials.store(i)}async tryRequestCredentials(){return v.supportsCredentialsAPI()?await navigator.credentials.get({password:!0,mediation:"optional"}):null}async logout(){if(this.clearToken(),sessionStorage.clear(),this.supportsCredentialsAPI()){f.show();try{await navigator.credentials.preventSilentAccess(),await new Promise(t=>setTimeout(t,500))}catch(t){window.alert(t),console.error("Failed to prevent silent access: ",t)}f.hide()}window.dispatchEvent(new CustomEvent("navigateto",{detail:{page:"login-page",replace:!0}}))}}const v=new Ue;var Te=Object.defineProperty,Re=Object.getOwnPropertyDescriptor,ct=(s,t,e,i)=>{for(var r=i>1?void 0:i?Re(t,e):t,o=s.length-1,n;o>=0;o--)(n=s[o])&&(r=(i?n(t,e,r):n(r))||r);return i&&r&&Te(t,e,r),r};let I=class extends m{constructor(){super(...arguments),this.message="",this.type="info",this.visible=!1}show(s,t="info",e=3e3){this.message=s,this.type=t,this.visible=!0,this.timeoutId&&window.clearTimeout(this.timeoutId),this.timeoutId=window.setTimeout(()=>{this.hide()},e)}hide(){this.visible=!1}render(){return l`
             <div class="popup-notification ${this.type} ${this.visible?"popup-notification-visible":"popup-notification-hidden"}">
                 <svg class="icon" viewBox="0 0 24 24">
                     ${this.renderIcon()}
@@ -60,7 +107,7 @@
             padding: 12px 24px;
             border-radius: 28px;
             background-color: white;
-            color: #6200ee;
+            color: #882499;
             font-size: 14px;
             display: flex;
             align-items: center;
@@ -104,54 +151,7 @@
             /* Убираем наследование, явно задаем цвет по умолчанию */
             fill: white;
         }
-    `;ct([d()],I.prototype,"message",2);ct([d()],I.prototype,"type",2);ct([d()],I.prototype,"visible",2);I=ct([$("popup-notification")],I);const Ue=new I;class x{static{this.instance=null}static initialize(){this.instance||(this.instance=Ue,document.body.appendChild(this.instance))}static show(t,e,i){this.initialize(),this.instance.show(t,e,i)}static hide(){this.instance&&this.instance.hide()}}var Te=Object.defineProperty,Re=Object.getOwnPropertyDescriptor,Kt=(s,t,e,i)=>{for(var r=i>1?void 0:i?Re(t,e):t,o=s.length-1,n;o>=0;o--)(n=s[o])&&(r=(i?n(t,e,r):n(r))||r);return i&&r&&Te(t,e,r),r};let Z=class extends f{constructor(){super(...arguments),this.visible=!1}show(){this.visible=!0}hide(){this.visible=!1}isVisible(){return this.visible}render(){return l`
-            <div class="loading-overlay ${this.visible?"loading-overlay-visible":"loading-overlay-hidden"}">
-                <div class="spinner"></div>
-            </div>
-        `}};Z.styles=w`
-        :host {
-        }
-
-        .loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(3px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            transition:
-                transform 0.3s ease,
-                opacity 0.3s ease;
-        }
-
-        .loading-overlay-hidden {
-            pointer-events: none;
-            opacity: 0;
-        }
-
-        .loading-overlay-visible {
-            opacity: 1;
-        }
-
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #6200ee;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-    `;Kt([d()],Z.prototype,"visible",2);Z=Kt([$("loading-overlay")],Z);const De=new Z;class m{static{this.instance=null}static initialize(){this.instance||(this.instance=De,document.body.appendChild(this.instance))}static show(){this.initialize(),this.instance.show()}static hide(){this.instance&&this.instance.hide()}static isVisible(){return this.instance?this.instance.isVisible():!1}}const C=w`
+    `;ct([d()],I.prototype,"message",2);ct([d()],I.prototype,"type",2);ct([d()],I.prototype,"visible",2);I=ct([$("popup-notification")],I);const De=new I;class x{static{this.instance=null}static initialize(){this.instance||(this.instance=De,document.body.appendChild(this.instance))}static show(t,e,i){this.initialize(),this.instance.show(t,e,i)}static hide(){this.instance&&this.instance.hide()}}const C=w`
     :host {
         display: block;
         font-family: 'Roboto', sans-serif;
@@ -170,7 +170,7 @@
         padding: 1rem;
         margin: 0.5rem 0;
         font-size: 1rem;
-        background-color: #6200ee;
+        background-color: #882499;
         color: white;
         border: none;
         border-radius: 8px;
@@ -186,7 +186,7 @@
     }
 
     button.action-button:not(:disabled):hover {
-        background-color: #3700b3;
+        background-color: #651174;
     }
 
     input:not([type=checkbox]) {
@@ -200,7 +200,7 @@
     }
 
     input:focus {
-        border-color: #6200ee;
+        border-color: #882499;
         outline: none;
     }
 
@@ -235,7 +235,7 @@
         flex-grow: 1;
         padding: 0.75rem;
         margin: 0.5rem 0;
-        border: 2px solid #6200ee;
+        border: 2px solid #882499;
         border-radius: 8px;
         font-size: 1rem;
         color: #333;
@@ -257,7 +257,7 @@
     .share-icon {
         width: 24px;
         height: 24px;
-        fill: #6200ee;
+        fill: #882499;
     }
 
     .modal {
@@ -337,7 +337,7 @@
         margin-top: 0;
         color: #333;
     }
-`;var He=Object.defineProperty,ze=Object.getOwnPropertyDescriptor,dt=(s,t,e,i)=>{for(var r=i>1?void 0:i?ze(t,e):t,o=s.length-1,n;o>=0;o--)(n=s[o])&&(r=(i?n(t,e,r):n(r))||r);return i&&r&&He(t,e,r),r};let M=class extends f{constructor(){super(...arguments),this.heading="",this.message="",this.visible=!1}show(s,t){this.heading=s,this.message=t,this.visible=!0}hide(){this.visible=!1,this.heading="",this.message=""}render(){return l`
+`;var He=Object.defineProperty,ze=Object.getOwnPropertyDescriptor,dt=(s,t,e,i)=>{for(var r=i>1?void 0:i?ze(t,e):t,o=s.length-1,n;o>=0;o--)(n=s[o])&&(r=(i?n(t,e,r):n(r))||r);return i&&r&&He(t,e,r),r};let M=class extends m{constructor(){super(...arguments),this.heading="",this.message="",this.visible=!1}show(s,t){this.heading=s,this.message=t,this.visible=!0}hide(){this.visible=!1,this.heading="",this.message=""}render(){return l`
             <div class="modal ${this.visible?"modal-visible":"modal-hidden"}" @click="${this.hide}">
                 <div class="modal-content" @click="${s=>s.stopPropagation()}">
                     <div class="modal-header-container">
@@ -357,7 +357,7 @@
             line-height: 1.5;
             white-space: pre-line;
         }
-    `];dt([d()],M.prototype,"heading",2);dt([d()],M.prototype,"message",2);dt([d()],M.prototype,"visible",2);M=dt([$("modal-window")],M);const Fe=new M;class Ve{static{this.instance=null}static initialize(){this.instance||(this.instance=Fe,document.body.appendChild(this.instance))}static show(t,e){this.initialize(),this.instance.show(t,e)}static hide(){this.instance&&this.instance.hide()}}var je=Object.defineProperty,Be=Object.getOwnPropertyDescriptor,G=(s,t,e,i)=>{for(var r=i>1?void 0:i?Be(t,e):t,o=s.length-1,n;o>=0;o--)(n=s[o])&&(r=(i?n(t,e,r):n(r))||r);return i&&r&&je(t,e,r),r};let A=class extends f{constructor(){super(...arguments),this.type="other",this.deferredPrompt=null,this.visible=!1,this.loadedImages={}}get basePath(){return"/test-pwa/"}show(s="other",t=null){this.type=s,this.deferredPrompt=t,this.visible=!0}hide(){this.visible=!1}renderStoreIcon(s,t){const e=this.loadedImages[s];return l`
+    `];dt([d()],M.prototype,"heading",2);dt([d()],M.prototype,"message",2);dt([d()],M.prototype,"visible",2);M=dt([$("modal-window")],M);const Fe=new M;class Ve{static{this.instance=null}static initialize(){this.instance||(this.instance=Fe,document.body.appendChild(this.instance))}static show(t,e){this.initialize(),this.instance.show(t,e)}static hide(){this.instance&&this.instance.hide()}}var je=Object.defineProperty,Be=Object.getOwnPropertyDescriptor,G=(s,t,e,i)=>{for(var r=i>1?void 0:i?Be(t,e):t,o=s.length-1,n;o>=0;o--)(n=s[o])&&(r=(i?n(t,e,r):n(r))||r);return i&&r&&je(t,e,r),r};let A=class extends m{constructor(){super(...arguments),this.type="other",this.deferredPrompt=null,this.visible=!1,this.loadedImages={}}get basePath(){return"/test-pwa/"}show(s="other",t=null){this.type=s,this.deferredPrompt=t,this.visible=!0}hide(){this.visible=!1}renderStoreIcon(s,t){const e=this.loadedImages[s];return l`
             <div class="image-container">
                 ${e?"":l`<div class="skeleton"></div>`}
                 <img
@@ -481,7 +481,7 @@
         .store-icon.loaded {
             opacity: 1;
         }
-  `];G([d()],A.prototype,"type",2);G([d()],A.prototype,"deferredPrompt",2);G([d()],A.prototype,"visible",2);G([d()],A.prototype,"loadedImages",2);A=G([$("download-modal-window")],A);const We=new A;class qe{static{this.instance=null}static initialize(){this.instance||(this.instance=We,document.body.appendChild(this.instance))}static show(t="other",e=null){this.initialize(),this.instance.show(t,e)}static hide(){this.instance&&this.instance.hide()}}var Je=Object.defineProperty,Ze=Object.getOwnPropertyDescriptor,pt=(s,t,e,i)=>{for(var r=i>1?void 0:i?Ze(t,e):t,o=s.length-1,n;o>=0;o--)(n=s[o])&&(r=(i?n(t,e,r):n(r))||r);return i&&r&&Je(t,e,r),r};let D=class extends f{constructor(){super(...arguments),this.showInstallButton=!1,this.deferredPrompt=null,this.isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent),this.isAndroid=/Android/.test(navigator.userAgent),this.isInStandaloneMode=window.matchMedia("(display-mode: standalone)").matches||window.navigator.standalone===!0||document.referrer.includes("android-app://"),this.showBackButton=!1,this.isLoginPage=!1,this.handleBeforeInstallPrompt=s=>{s.preventDefault(),this.deferredPrompt=s,this.showInstallButton=!0},this.handleInstallClick=async()=>{let s=this.isIOS?"ios":this.isAndroid?"android":"other",t=this.deferredPrompt;qe.show(s,t)},this.handleAppInstalled=()=>{this.showInstallButton=!1}}onBack(){window.dispatchEvent(new CustomEvent("navigateto",{detail:{page:""}}))}connectedCallback(){super.connectedCallback(),window.addEventListener("beforeinstallprompt",this.handleBeforeInstallPrompt),window.addEventListener("appinstalled",this.handleAppInstalled)}render(){return l`
+  `];G([d()],A.prototype,"type",2);G([d()],A.prototype,"deferredPrompt",2);G([d()],A.prototype,"visible",2);G([d()],A.prototype,"loadedImages",2);A=G([$("download-modal-window")],A);const We=new A;class qe{static{this.instance=null}static initialize(){this.instance||(this.instance=We,document.body.appendChild(this.instance))}static show(t="other",e=null){this.initialize(),this.instance.show(t,e)}static hide(){this.instance&&this.instance.hide()}}var Je=Object.defineProperty,Ze=Object.getOwnPropertyDescriptor,pt=(s,t,e,i)=>{for(var r=i>1?void 0:i?Ze(t,e):t,o=s.length-1,n;o>=0;o--)(n=s[o])&&(r=(i?n(t,e,r):n(r))||r);return i&&r&&Je(t,e,r),r};let D=class extends m{constructor(){super(...arguments),this.showInstallButton=!1,this.deferredPrompt=null,this.isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent),this.isAndroid=/Android/.test(navigator.userAgent),this.isInStandaloneMode=window.matchMedia("(display-mode: standalone)").matches||window.navigator.standalone===!0||document.referrer.includes("android-app://"),this.showBackButton=!1,this.isLoginPage=!1,this.handleBeforeInstallPrompt=s=>{s.preventDefault(),this.deferredPrompt=s,this.showInstallButton=!0},this.handleInstallClick=async()=>{let s=this.isIOS?"ios":this.isAndroid?"android":"other",t=this.deferredPrompt;qe.show(s,t)},this.handleAppInstalled=()=>{this.showInstallButton=!1}}onBack(){window.dispatchEvent(new CustomEvent("navigateto",{detail:{page:""}}))}connectedCallback(){super.connectedCallback(),window.addEventListener("beforeinstallprompt",this.handleBeforeInstallPrompt),window.addEventListener("appinstalled",this.handleAppInstalled)}render(){return l`
             <header>
                 ${this.showBackButton?l`<button class="back-button" @click="${this.onBack}">
                     <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
@@ -510,7 +510,7 @@
             display: flex;
             align-items: center;
             padding: 16px;
-            background-color: #6200ee;
+            background-color: #882499;
             color: white;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             position: fixed;
@@ -575,7 +575,7 @@
             height: 24px;
             fill: white;
         }
-    `,C];pt([d()],D.prototype,"showInstallButton",2);pt([H({type:Boolean})],D.prototype,"showBackButton",2);pt([H({type:Boolean})],D.prototype,"isLoginPage",2);D=pt([$("app-header")],D);class Xe{constructor(){this.baseUrl="https://api.example.com"}async login(t,e){return"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJpYXQiOjE3Mzk0MjcwNzgsImV4cCI6MTc3MDk2MzA3OCwiYXVkIjoid3d3LmV4YW1wbGUuY29tIiwic3ViIjoianJvY2tldEBleGFtcGxlLmNvbSIsIkdpdmVuTmFtZSI6IkpvaG5ueSIsIlN1cm5hbWUiOiJSb2NrZXQiLCJFbWFpbCI6Impyb2NrZXRAZXhhbXBsZS5jb20iLCJSb2xlIjpbIk1hbmFnZXIiLCJQcm9qZWN0IEFkbWluaXN0cmF0b3IiXX0.jHWRmpyQBaIFL9xd5fk3gqhPe_m0DtnOQx3J_LD-fTA"}async fetchPaymentHistory(){const t=Math.random()*2e3+1e3;return await new Promise(e=>setTimeout(e,t)),[{id:"1",amount:1e3,date:"2023-10-01",number:"ТПО-123456789012",link:"https://example.com/payment/123456789012",status:"Оплачено"},{id:"2",amount:1500,date:"2023-10-05",number:"ТПО-123456789012",link:"https://example.com/payment/123456789012",status:"Оплачено"},{id:"3",amount:2e3,date:"2023-10-10",number:"ТПО-123456789012",link:"https://example.com/payment/123456789012",status:"Оплачено"}]}async fetchTPOList(t,e){const i=Math.random()*2e3+1e3;await new Promise(o=>setTimeout(o,i));const r=Math.floor(Math.random()*10)+1;return Array.from({length:r},(o,n)=>({id:Math.random().toString(36).substring(2,9),amount:Math.floor(Math.random()*1e5)+1e3,date:new Date(Date.now()-Math.random()*31536e6).toISOString().split("T")[0],number:`ТПО-${Math.floor(Math.random()*1e6)}`}))}}const _t=new Xe;class Pt{static async shareLink(t){try{navigator.share?await navigator.share({title:"Ссылка на платеж",text:"Ссылка для оплаты:",url:t}):(await navigator.clipboard.writeText(t),x.show("Ссылка скопирована в буфер обмена","success"))}catch(e){e.toString().includes("AbortError")||x.show("Произошла ошибка. Пожалуйста, попробуйте позже","error")}}}var Ke=Object.defineProperty,Ge=Object.getOwnPropertyDescriptor,Y=(s,t,e,i)=>{for(var r=i>1?void 0:i?Ge(t,e):t,o=s.length-1,n;o>=0;o--)(n=s[o])&&(r=(i?n(t,e,r):n(r))||r);return i&&r&&Ke(t,e,r),r};let L=class extends f{constructor(){super(...arguments),this.tpos=[],this.fio="",this.passportSeriesNumber="",this.isFormValid=!1,this.fioRegex=/^((?![\s’(),.-])+[А-Яа-яЁёIV’(),.-]{2,}\s(?<![’(),.-]))+((?![\s’(),.-])+[А-Яа-яЁёIV’(),.-]{2,}(?<![\s’(),.-]))+$/,this.passportSeriesNumberRegex=/^\d{4}\s\d{6}$/}async handleSearchTPO(){m.show(),this.tpos=[];try{const s=await _t.fetchTPOList(this.fio.trim(),this.passportSeriesNumber);this.tpos=s}catch{x.show("Произошла ошибка. Пожалуйста, попробуйте позже","error")}finally{this.clearForm(),m.hide()}}clearForm(){this.fio="",this.passportSeriesNumber="",this.validateForm()}validateForm(){const s=this.fioRegex.test(this.fio),t=this.passportSeriesNumberRegex.test(this.passportSeriesNumber);this.isFormValid=s&&t}handleFioInput(s){this.fio=s.target.value;const t=s.target,e=t.selectionStart;let i=t.value.replace(/[^А-Яа-яЁёIV’()\s,.-]+/g,"").replace(/\s+/g," ");this.fio=i,requestAnimationFrame(()=>{if(e){const r=this.calculateNewCursorPosition(e,t.value,i);t.setSelectionRange(r,r)}}),this.validateForm(),t.value=this.fio}handlePassportSeriesNumberInput(s){const t=s.target,e=t.selectionStart;let i=t.value.replace(/[^\d]/g,""),r="";i.length>0&&(r=i.slice(0,4),i.length>4&&(r+=" "+i.slice(4,10))),this.passportSeriesNumber=r,requestAnimationFrame(()=>{if(e){const o=this.calculateNewCursorPosition(e,t.value,r);t.setSelectionRange(o,o)}}),this.validateForm(),t.value=this.passportSeriesNumber}calculateNewCursorPosition(s,t,e){const i=e.length-t.length;return s+i}async generateLink(s){m.show();const t=Math.random()*2e3+1e3;await new Promise(r=>setTimeout(r,t));const e=Math.random().toString(36).substring(2,8),i=this.tpos.map(r=>r.id===s.id?{...r,link:`${window.location.origin}/payment/${e}`}:r);this.tpos=i,m.hide(),x.show("Ссылка успешно создана","success")}render(){return l`
+    `,C];pt([d()],D.prototype,"showInstallButton",2);pt([H({type:Boolean})],D.prototype,"showBackButton",2);pt([H({type:Boolean})],D.prototype,"isLoginPage",2);D=pt([$("app-header")],D);class Xe{constructor(){this.baseUrl="https://api.example.com"}async login(t,e){return"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJpYXQiOjE3Mzk0MjcwNzgsImV4cCI6MTc3MDk2MzA3OCwiYXVkIjoid3d3LmV4YW1wbGUuY29tIiwic3ViIjoianJvY2tldEBleGFtcGxlLmNvbSIsIkdpdmVuTmFtZSI6IkpvaG5ueSIsIlN1cm5hbWUiOiJSb2NrZXQiLCJFbWFpbCI6Impyb2NrZXRAZXhhbXBsZS5jb20iLCJSb2xlIjpbIk1hbmFnZXIiLCJQcm9qZWN0IEFkbWluaXN0cmF0b3IiXX0.jHWRmpyQBaIFL9xd5fk3gqhPe_m0DtnOQx3J_LD-fTA"}async fetchPaymentHistory(){const t=Math.random()*2e3+1e3;return await new Promise(e=>setTimeout(e,t)),[{id:"1",amount:1e3,date:"2023-10-01",number:"ТПО-123456789012",link:"https://example.com/payment/123456789012",status:"Оплачено"},{id:"2",amount:1500,date:"2023-10-05",number:"ТПО-123456789012",link:"https://example.com/payment/123456789012",status:"Оплачено"},{id:"3",amount:2e3,date:"2023-10-10",number:"ТПО-123456789012",link:"https://example.com/payment/123456789012",status:"Оплачено"}]}async fetchTPOList(t,e){const i=Math.random()*2e3+1e3;await new Promise(o=>setTimeout(o,i));const r=Math.floor(Math.random()*10)+1;return Array.from({length:r},(o,n)=>({id:Math.random().toString(36).substring(2,9),amount:Math.floor(Math.random()*1e5)+1e3,date:new Date(Date.now()-Math.random()*31536e6).toISOString().split("T")[0],number:`ТПО-${Math.floor(Math.random()*1e6)}`}))}}const _t=new Xe;class Pt{static async shareLink(t){try{navigator.share?await navigator.share({title:"Ссылка на платеж",text:"Ссылка для оплаты:",url:t}):(await navigator.clipboard.writeText(t),x.show("Ссылка скопирована в буфер обмена","success"))}catch(e){e.toString().includes("AbortError")||x.show("Произошла ошибка. Пожалуйста, попробуйте позже","error")}}}var Ke=Object.defineProperty,Ge=Object.getOwnPropertyDescriptor,Y=(s,t,e,i)=>{for(var r=i>1?void 0:i?Ge(t,e):t,o=s.length-1,n;o>=0;o--)(n=s[o])&&(r=(i?n(t,e,r):n(r))||r);return i&&r&&Ke(t,e,r),r};let L=class extends m{constructor(){super(...arguments),this.tpos=[],this.fio="",this.passportSeriesNumber="",this.isFormValid=!1,this.fioRegex=/^((?![\s’(),.-])+[А-Яа-яЁёIV’(),.-]{2,}\s(?<![’(),.-]))+((?![\s’(),.-])+[А-Яа-яЁёIV’(),.-]{2,}(?<![\s’(),.-]))+$/,this.passportSeriesNumberRegex=/^\d{4}\s\d{6}$/}async handleSearchTPO(){f.show(),this.tpos=[];try{const s=await _t.fetchTPOList(this.fio.trim(),this.passportSeriesNumber);this.tpos=s}catch{x.show("Произошла ошибка. Пожалуйста, попробуйте позже","error")}finally{this.clearForm(),f.hide()}}clearForm(){this.fio="",this.passportSeriesNumber="",this.validateForm()}validateForm(){const s=this.fioRegex.test(this.fio),t=this.passportSeriesNumberRegex.test(this.passportSeriesNumber);this.isFormValid=s&&t}handleFioInput(s){this.fio=s.target.value;const t=s.target,e=t.selectionStart;let i=t.value.replace(/[^А-Яа-яЁёIV’()\s,.-]+/g,"").replace(/\s+/g," ");this.fio=i,requestAnimationFrame(()=>{if(e){const r=this.calculateNewCursorPosition(e,t.value,i);t.setSelectionRange(r,r)}}),this.validateForm(),t.value=this.fio}handlePassportSeriesNumberInput(s){const t=s.target,e=t.selectionStart;let i=t.value.replace(/[^\d]/g,""),r="";i.length>0&&(r=i.slice(0,4),i.length>4&&(r+=" "+i.slice(4,10))),this.passportSeriesNumber=r,requestAnimationFrame(()=>{if(e){const o=this.calculateNewCursorPosition(e,t.value,r);t.setSelectionRange(o,o)}}),this.validateForm(),t.value=this.passportSeriesNumber}calculateNewCursorPosition(s,t,e){const i=e.length-t.length;return s+i}async generateLink(s){f.show();const t=Math.random()*2e3+1e3;await new Promise(r=>setTimeout(r,t));const e=Math.random().toString(36).substring(2,8),i=this.tpos.map(r=>r.id===s.id?{...r,link:`${window.location.origin}/payment/${e}`}:r);this.tpos=i,f.hide(),x.show("Ссылка успешно создана","success")}render(){return l`
             <div class="form-group">
                 <label for="fio">ФИО плательщика</label>
                 <input
@@ -653,7 +653,7 @@
 
         .tpo-card {
             padding: 16px;
-            border: 1px solid #6200ee;
+            border: 1px solid #882499;
             border-radius: 8px;
             background: white;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -663,7 +663,7 @@
         .tpo-field {
             margin: 8px 0;
         }
-      `,C];Y([d()],L.prototype,"tpos",2);Y([d()],L.prototype,"fio",2);Y([d()],L.prototype,"passportSeriesNumber",2);Y([d()],L.prototype,"isFormValid",2);L=Y([$("search-tpo")],L);function Ht(s){return!0}var Ye=Object.defineProperty,Qe=Object.getOwnPropertyDescriptor,U=(s,t,e,i)=>{for(var r=i>1?void 0:i?Qe(t,e):t,o=s.length-1,n;o>=0;o--)(n=s[o])&&(r=(i?n(t,e,r):n(r))||r);return i&&r&&Ye(t,e,r),r};let y=class extends f{constructor(){super(...arguments),this.fio="",this.inn="",this.passportSeriesNumber="",this.passportIssueDate="",this.isFormValid=!1,this.generatedLink="",this.fioRegex=/^((?![\s’(),.-])+[А-Яа-яЁёIV’(),.-]{2,}\s(?<![’(),.-]))+((?![\s’(),.-])+[А-Яа-яЁёIV’(),.-]{2,}(?<![\s’(),.-]))+$/,this.innRegex=/^\d{12}$/,this.passportSeriesNumberRegex=/^\d{4}\s\d{6}$/}async handleGenerateLink(){m.show(),this.generatedLink="";try{const s=Math.random()*2e3+1e3;await new Promise(t=>setTimeout(t,s)),this.generateRandomLink()}catch{x.show("Произошла ошибка. Пожалуйста, попробуйте позже","error")}finally{this.clearForm(),m.hide(),x.show("Ссылка успешно создана","success")}}clearForm(){this.fio="",this.inn="",this.passportSeriesNumber="",this.passportIssueDate="",this.validateForm()}generateRandomLink(){const s=Math.random().toString(36).substring(2,8);this.generatedLink=`${window.location.origin}/payment/${s}`}validateForm(){const s=this.fioRegex.test(this.fio),t=this.innRegex.test(this.inn)&&Ht(this.inn),e=this.passportSeriesNumberRegex.test(this.passportSeriesNumber),i=this.validatePassportIssueDate(this.passportIssueDate);this.isFormValid=s&&t&&e&&i}validatePassportIssueDate(s){return s?new Date(s)<=new Date:!1}handleFioInput(s){this.fio=s.target.value;const t=s.target,e=t.selectionStart;let i=t.value.replace(/[^А-Яа-яЁёIV’()\s,.-]+/g,"").replace(/\s+/g," ");this.fio=i,requestAnimationFrame(()=>{if(e){const r=this.calculateNewCursorPosition(e,t.value,i);t.setSelectionRange(r,r)}}),this.validateForm(),t.value=this.fio}handleInnInput(s){this.inn=s.target.value.replace(/\D/g,"");const t=s.target,e=t.selectionStart;let i=t.value.replace(/[^\d]/g,""),r="";i.length>0&&(r=i.slice(0,12)),this.inn=r,requestAnimationFrame(()=>{if(e){const o=this.calculateNewCursorPosition(e,t.value,r);t.setSelectionRange(o,o)}}),this.validateForm(),t.value=this.inn}handlePassportSeriesNumberInput(s){const t=s.target,e=t.selectionStart;let i=t.value.replace(/[^\d]/g,""),r="";i.length>0&&(r=i.slice(0,4),i.length>4&&(r+=" "+i.slice(4,10))),this.passportSeriesNumber=r,requestAnimationFrame(()=>{if(e){const o=this.calculateNewCursorPosition(e,t.value,r);t.setSelectionRange(o,o)}}),this.validateForm(),t.value=this.passportSeriesNumber}calculateNewCursorPosition(s,t,e){const i=e.length-t.length;return s+i}handlePassportIssueDateInput(s){this.passportIssueDate=s.target.value,this.validateForm()}render(){return l`
+      `,C];Y([d()],L.prototype,"tpos",2);Y([d()],L.prototype,"fio",2);Y([d()],L.prototype,"passportSeriesNumber",2);Y([d()],L.prototype,"isFormValid",2);L=Y([$("search-tpo")],L);function Ht(s){return!0}var Ye=Object.defineProperty,Qe=Object.getOwnPropertyDescriptor,U=(s,t,e,i)=>{for(var r=i>1?void 0:i?Qe(t,e):t,o=s.length-1,n;o>=0;o--)(n=s[o])&&(r=(i?n(t,e,r):n(r))||r);return i&&r&&Ye(t,e,r),r};let y=class extends m{constructor(){super(...arguments),this.fio="",this.inn="",this.passportSeriesNumber="",this.passportIssueDate="",this.isFormValid=!1,this.generatedLink="",this.fioRegex=/^((?![\s’(),.-])+[А-Яа-яЁёIV’(),.-]{2,}\s(?<![’(),.-]))+((?![\s’(),.-])+[А-Яа-яЁёIV’(),.-]{2,}(?<![\s’(),.-]))+$/,this.innRegex=/^\d{12}$/,this.passportSeriesNumberRegex=/^\d{4}\s\d{6}$/}async handleGenerateLink(){f.show(),this.generatedLink="";try{const s=Math.random()*2e3+1e3;await new Promise(t=>setTimeout(t,s)),this.generateRandomLink()}catch{x.show("Произошла ошибка. Пожалуйста, попробуйте позже","error")}finally{this.clearForm(),f.hide(),x.show("Ссылка успешно создана","success")}}clearForm(){this.fio="",this.inn="",this.passportSeriesNumber="",this.passportIssueDate="",this.validateForm()}generateRandomLink(){const s=Math.random().toString(36).substring(2,8);this.generatedLink=`${window.location.origin}/payment/${s}`}validateForm(){const s=this.fioRegex.test(this.fio),t=this.innRegex.test(this.inn)&&Ht(this.inn),e=this.passportSeriesNumberRegex.test(this.passportSeriesNumber),i=this.validatePassportIssueDate(this.passportIssueDate);this.isFormValid=s&&t&&e&&i}validatePassportIssueDate(s){return s?new Date(s)<=new Date:!1}handleFioInput(s){this.fio=s.target.value;const t=s.target,e=t.selectionStart;let i=t.value.replace(/[^А-Яа-яЁёIV’()\s,.-]+/g,"").replace(/\s+/g," ");this.fio=i,requestAnimationFrame(()=>{if(e){const r=this.calculateNewCursorPosition(e,t.value,i);t.setSelectionRange(r,r)}}),this.validateForm(),t.value=this.fio}handleInnInput(s){this.inn=s.target.value.replace(/\D/g,"");const t=s.target,e=t.selectionStart;let i=t.value.replace(/[^\d]/g,""),r="";i.length>0&&(r=i.slice(0,12)),this.inn=r,requestAnimationFrame(()=>{if(e){const o=this.calculateNewCursorPosition(e,t.value,r);t.setSelectionRange(o,o)}}),this.validateForm(),t.value=this.inn}handlePassportSeriesNumberInput(s){const t=s.target,e=t.selectionStart;let i=t.value.replace(/[^\d]/g,""),r="";i.length>0&&(r=i.slice(0,4),i.length>4&&(r+=" "+i.slice(4,10))),this.passportSeriesNumber=r,requestAnimationFrame(()=>{if(e){const o=this.calculateNewCursorPosition(e,t.value,r);t.setSelectionRange(o,o)}}),this.validateForm(),t.value=this.passportSeriesNumber}calculateNewCursorPosition(s,t,e){const i=e.length-t.length;return s+i}handlePassportIssueDateInput(s){this.passportIssueDate=s.target.value,this.validateForm()}render(){return l`
             <div class="form-group">
                 <label for="fio">ФИО плательщика</label>
                 <input
@@ -760,7 +760,7 @@
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */const zt=s=>!ts(s)&&typeof s.then=="function",Ft=1073741823;class ds extends ls{constructor(){super(...arguments),this._$Cwt=Ft,this._$Cbt=[],this._$CK=new hs(this),this._$CX=new cs}render(...t){return t.find(e=>!zt(e))??S}update(t,e){const i=this._$Cbt;let r=i.length;this._$Cbt=e;const o=this._$CK,n=this._$CX;this.isConnected||this.disconnected();for(let h=0;h<e.length&&!(h>this._$Cwt);h++){const a=e[h];if(!zt(a))return this._$Cwt=h,a;h<r&&a===i[h]||(this._$Cwt=Ft,r=0,Promise.resolve(a).then(async u=>{for(;n.get();)await n.get();const p=o.deref();if(p!==void 0){const c=p._$Cbt.indexOf(a);c>-1&&c<p._$Cwt&&(p._$Cwt=c,p.setValue(u))}}))}return S}disconnected(){this._$CK.disconnect(),this._$CX.pause()}reconnected(){this._$CK.reconnect(this),this._$CX.resume()}}const ps=is(ds);var us=Object.getOwnPropertyDescriptor,gs=(s,t,e,i)=>{for(var r=i>1?void 0:i?us(t,e):t,o=s.length-1,n;o>=0;o--)(n=s[o])&&(r=n(r)||r);return r};let ft=class extends f{async renderPaymentLinks(){m.show();const s=await _t.fetchPaymentHistory(),t=l`${s.map(e=>this.renderPaymentLinkCard(e))}`;return m.hide(),t}renderPaymentLinkCard(s){return l`
+ */const zt=s=>!ts(s)&&typeof s.then=="function",Ft=1073741823;class ds extends ls{constructor(){super(...arguments),this._$Cwt=Ft,this._$Cbt=[],this._$CK=new hs(this),this._$CX=new cs}render(...t){return t.find(e=>!zt(e))??S}update(t,e){const i=this._$Cbt;let r=i.length;this._$Cbt=e;const o=this._$CK,n=this._$CX;this.isConnected||this.disconnected();for(let h=0;h<e.length&&!(h>this._$Cwt);h++){const a=e[h];if(!zt(a))return this._$Cwt=h,a;h<r&&a===i[h]||(this._$Cwt=Ft,r=0,Promise.resolve(a).then(async u=>{for(;n.get();)await n.get();const p=o.deref();if(p!==void 0){const c=p._$Cbt.indexOf(a);c>-1&&c<p._$Cwt&&(p._$Cwt=c,p.setValue(u))}}))}return S}disconnected(){this._$CK.disconnect(),this._$CX.pause()}reconnected(){this._$CK.reconnect(this),this._$CX.resume()}}const ps=is(ds);var us=Object.getOwnPropertyDescriptor,gs=(s,t,e,i)=>{for(var r=i>1?void 0:i?us(t,e):t,o=s.length-1,n;o>=0;o--)(n=s[o])&&(r=n(r)||r);return r};let ft=class extends m{async renderPaymentLinks(){f.show();const s=await _t.fetchPaymentHistory(),t=l`${s.map(e=>this.renderPaymentLinkCard(e))}`;return f.hide(),t}renderPaymentLinkCard(s){return l`
             <div class="payment-link-card">
                 ${s.amount?l`<div class="payment-link-field"><strong>Сумма: </strong>${s.amount}</div>`:""}
                 <div class="payment-link-field"><strong>Дата: </strong>${s.date}</div>
@@ -796,7 +796,7 @@
 
         .payment-link-card {
             padding: 16px;
-            border: 1px solid #6200ee;
+            border: 1px solid #882499;
             border-radius: 8px;
             background: white;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -813,7 +813,7 @@
             padding: 1rem;
             margin: 0.5rem 0;
             font-size: 1rem;
-            background-color: #6200ee;
+            background-color: #882499;
             color: white;
             border: none;
             border-radius: 8px;
@@ -827,7 +827,7 @@
             text-align: center;
             box-sizing: border-box;
         }
-        `,C];ft=gs([$("payment-history")],ft);var fs=Object.defineProperty,ms=Object.getOwnPropertyDescriptor,Q=(s,t,e,i)=>{for(var r=i>1?void 0:i?ms(t,e):t,o=s.length-1,n;o>=0;o--)(n=s[o])&&(r=(i?n(t,e,r):n(r))||r);return i&&r&&fs(t,e,r),r};let N=class extends f{constructor(){super(...arguments),this.login="",this.password="",this.rememberMe=!1,this.isFormValid=!1}onSuccessLogin(){window.dispatchEvent(new CustomEvent("navigateto",{detail:{page:"",replace:!0}}))}validateForm(){const s=this.login.length>0,t=this.password.length>0;this.isFormValid=s&&t}async firstUpdated(){if(v.supportsCredentialsAPI()){const s=await v.tryRequestCredentials();s&&"password"in s&&(this.login=s.id,this.password=s.password??"",this.handleLogin())}}handleLoginInput(s){this.login=s.target.value,this.validateForm()}handlePasswordInput(s){this.password=s.target.value,this.validateForm()}async handleLogin(){try{if(!this.login||!this.password)return;const s=await _t.login(this.login,this.password);v.setToken(s),this.rememberMe&&v.supportsCredentialsAPI()&&await v.saveCredentials(this.login,this.password),this.onSuccessLogin()}catch{x.show("Ошибка авторизации","error")}}render(){return v.isAuthenticated()&&this.onSuccessLogin(),l`
+        `,C];ft=gs([$("payment-history")],ft);var fs=Object.defineProperty,ms=Object.getOwnPropertyDescriptor,Q=(s,t,e,i)=>{for(var r=i>1?void 0:i?ms(t,e):t,o=s.length-1,n;o>=0;o--)(n=s[o])&&(r=(i?n(t,e,r):n(r))||r);return i&&r&&fs(t,e,r),r};let N=class extends m{constructor(){super(...arguments),this.login="",this.password="",this.rememberMe=!1,this.isFormValid=!1}onSuccessLogin(){window.dispatchEvent(new CustomEvent("navigateto",{detail:{page:"",replace:!0}}))}validateForm(){const s=this.login.length>0,t=this.password.length>0;this.isFormValid=s&&t}async firstUpdated(){if(v.supportsCredentialsAPI()){const s=await v.tryRequestCredentials();s&&"password"in s&&(this.login=s.id,this.password=s.password??"",this.handleLogin())}}handleLoginInput(s){this.login=s.target.value,this.validateForm()}handlePasswordInput(s){this.password=s.target.value,this.validateForm()}async handleLogin(){try{if(!this.login||!this.password)return;const s=await _t.login(this.login,this.password);v.setToken(s),this.rememberMe&&v.supportsCredentialsAPI()&&await v.saveCredentials(this.login,this.password),this.onSuccessLogin()}catch{x.show("Ошибка авторизации","error")}}render(){return v.isAuthenticated()&&this.onSuccessLogin(),l`
             <input id="login"
                 type="text"
                 .value="${this.login}"
@@ -867,7 +867,7 @@
         }
 
         .remember-me:hover {
-            border-color: #6200ee;
+            border-color: #882499;
         }
 
         .remember-me input[type="checkbox"] {
@@ -887,12 +887,12 @@
                 width: 24px;
                 height: 24px;
             }
-        }`];Q([d()],N.prototype,"login",2);Q([d()],N.prototype,"password",2);Q([d()],N.prototype,"rememberMe",2);Q([d()],N.prototype,"isFormValid",2);N=Q([$("login-page")],N);var vs=Object.defineProperty,$s=Object.getOwnPropertyDescriptor,St=(s,t,e,i)=>{for(var r=i>1?void 0:i?$s(t,e):t,o=s.length-1,n;o>=0;o--)(n=s[o])&&(r=(i?n(t,e,r):n(r))||r);return i&&r&&vs(t,e,r),r};let X=class extends f{constructor(){super(...arguments),this.isInStandaloneMode=window.matchMedia("(display-mode: standalone)").matches||window.navigator.standalone===!0||document.referrer.includes("android-app://"),this.currentPage=window.location.pathname,this.showBackButton=!1,this.handlePopState=()=>{const s=window.location.pathname,t=this.basePath,e=s.startsWith(t)?s.slice(t.length).replace(/^\//,""):s.replace(/^\//,"");if(e==="login-page"){this.navigateTo("",!0);return}this.currentPage=e||"",this.checkAuth(),this.requestUpdate()},this.handleNavigateTo=s=>{const{page:t,replace:e}=s.detail??{page:""};this.navigateTo(t,e)}}get basePath(){return"/test-pwa/"}checkAuth(){!v.isAuthenticated()&&this.currentPage!=="login-page"&&this.navigateTo("login-page",!0)}async registerServiceWorker(){if("serviceWorker"in navigator)try{const s=await navigator.serviceWorker.register(`${this.basePath}sw.js`,{scope:this.basePath});console.log("ServiceWorker registration successful with scope:",s.scope)}catch(s){console.error("ServiceWorker registration failed:",s)}}connectedCallback(){super.connectedCallback(),this.registerServiceWorker(),x.initialize(),m.initialize(),this.handlePopState(),window.addEventListener("navigateto",this.handleNavigateTo),this.setupBackButtonHandler(),window.addEventListener("popstate",this.handlePopState),this.checkAuth()}disconnectedCallback(){super.disconnectedCallback(),window.removeEventListener("navigateto",this.handleNavigateTo),window.removeEventListener("popstate",this.handlePopState)}isHomePage(){return this.currentPage==""||this.currentPage=="/"||this.currentPage=="login-page"||this.currentPage==this.basePath}setupBackButtonHandler(){window.onpopstate=s=>{if(this.isInStandaloneMode){if(m.isVisible())return s.preventDefault(),!1;if(this.isHomePage())return s.preventDefault(),this.handleExit(),!1}return this.currentPage==="login-page"?(s.preventDefault(),this.navigateTo("",!0),!1):!0}}handleExit(){this.isInStandaloneMode?window.navigator.app.exitApp():(window.close(),window.stop())}navigateTo(s,t=!1){t?history.replaceState({},"",`${this.basePath}${s}`):history.pushState({},"",`${this.basePath}${s}`),this.currentPage=s,this.requestUpdate()}getPageTitle(){switch(this.currentPage){case"login-page":return"Авторизация";case"search-tpo":return"Поиск квитанции по реквизитам";case"advance-payment":return"Авансовый платеж";case"payment-history":return"История платежей";default:return"Меню"}}renderPage(){switch(this.checkAuth(),this.currentPage){case"search-tpo":return l`<search-tpo></search-tpo>`;case"advance-payment":return l`<advance-payment></advance-payment>`;case"payment-history":return l`<payment-history></payment-history>`;case"login-page":return l`<login-page></login-page>`;default:return this.renderHome()}}renderHome(){return l`
+        }`];Q([d()],N.prototype,"login",2);Q([d()],N.prototype,"password",2);Q([d()],N.prototype,"rememberMe",2);Q([d()],N.prototype,"isFormValid",2);N=Q([$("login-page")],N);var vs=Object.defineProperty,$s=Object.getOwnPropertyDescriptor,St=(s,t,e,i)=>{for(var r=i>1?void 0:i?$s(t,e):t,o=s.length-1,n;o>=0;o--)(n=s[o])&&(r=(i?n(t,e,r):n(r))||r);return i&&r&&vs(t,e,r),r};let X=class extends m{constructor(){super(...arguments),this.isInStandaloneMode=window.matchMedia("(display-mode: standalone)").matches||window.navigator.standalone===!0||document.referrer.includes("android-app://"),this.currentPage=window.location.pathname,this.showBackButton=!1,this.handlePopState=()=>{const s=window.location.pathname,t=this.basePath,e=s.startsWith(t)?s.slice(t.length).replace(/^\//,""):s.replace(/^\//,"");if(e==="login-page"){this.navigateTo("",!0);return}this.currentPage=e||"",this.checkAuth(),this.requestUpdate()},this.handleNavigateTo=s=>{const{page:t,replace:e}=s.detail??{page:""};this.navigateTo(t,e)}}get basePath(){return"/test-pwa/"}checkAuth(){!v.isAuthenticated()&&this.currentPage!=="login-page"&&this.navigateTo("login-page",!0)}async registerServiceWorker(){if("serviceWorker"in navigator)try{const s=await navigator.serviceWorker.register(`${this.basePath}sw.js`,{scope:this.basePath});console.log("ServiceWorker registration successful with scope:",s.scope)}catch(s){console.error("ServiceWorker registration failed:",s)}}connectedCallback(){super.connectedCallback(),this.registerServiceWorker(),x.initialize(),f.initialize(),this.handlePopState(),window.addEventListener("navigateto",this.handleNavigateTo),this.setupBackButtonHandler(),window.addEventListener("popstate",this.handlePopState),this.checkAuth()}disconnectedCallback(){super.disconnectedCallback(),window.removeEventListener("navigateto",this.handleNavigateTo),window.removeEventListener("popstate",this.handlePopState)}isHomePage(){return this.currentPage==""||this.currentPage=="/"||this.currentPage=="login-page"||this.currentPage==this.basePath}setupBackButtonHandler(){window.onpopstate=s=>{if(this.isInStandaloneMode){if(f.isVisible())return s.preventDefault(),!1;if(this.isHomePage())return s.preventDefault(),this.handleExit(),!1}return this.currentPage==="login-page"?(s.preventDefault(),this.navigateTo("",!0),!1):!0}}handleExit(){this.isInStandaloneMode?window.navigator.app.exitApp():(window.close(),window.stop())}navigateTo(s,t=!1){t?history.replaceState({},"",`${this.basePath}${s}`):history.pushState({},"",`${this.basePath}${s}`),this.currentPage=s,this.requestUpdate()}getPageTitle(){switch(this.currentPage){case"login-page":return"Авторизация";case"search-tpo":return"Поиск квитанции по реквизитам";case"advance-payment":return"Авансовый платеж";case"payment-history":return"История платежей";default:return"Меню"}}renderPage(){switch(this.checkAuth(),this.currentPage){case"search-tpo":return l`<search-tpo></search-tpo>`;case"advance-payment":return l`<advance-payment></advance-payment>`;case"payment-history":return l`<payment-history></payment-history>`;case"login-page":return l`<login-page></login-page>`;default:return this.renderHome()}}renderHome(){return l`
             <button class="action-button" @click="${()=>window.dispatchEvent(new CustomEvent("navigateto",{detail:{page:"search-tpo"}}))}">Поиск квитанции по реквизитам</button>
             <button class="action-button" @click="${()=>window.dispatchEvent(new CustomEvent("navigateto",{detail:{page:"advance-payment"}}))}">Авансовый платеж</button>
             <button class="action-button" @click="${()=>window.dispatchEvent(new CustomEvent("navigateto",{detail:{page:"payment-history"}}))}">История платежей</button>
             <button class="action-button" @click="${()=>v.logout()}">Смена пользователя</button>
-        `}render(){m.show();const s=l`
+        `}render(){f.show();const s=l`
             <app-header
                 .currentPage="${this.currentPage}"
                 .basePath="${this.basePath}"
@@ -903,5 +903,5 @@
             <main>
                 ${this.renderPage()}
             </main>
-        `;return m.hide(),s}};X.styles=[C];St([H({type:String})],X.prototype,"currentPage",2);St([H({type:Boolean})],X.prototype,"showBackButton",2);X=St([$("app-home")],X);
+        `;return f.hide(),s}};X.styles=[C];St([H({type:String})],X.prototype,"currentPage",2);St([H({type:Boolean})],X.prototype,"showBackButton",2);X=St([$("app-home")],X);
 //# sourceMappingURL=code.js.map
