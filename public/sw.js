@@ -27,6 +27,16 @@ const ASSETS_TO_CACHE = [
     `${BASE_URL}/assets/icons/GALAXY_STORE.png`,
 ];
 
+let token = null;
+
+self.addEventListener('message', (event) => {
+    if (event.data.type === 'SET_TOKEN') {
+        token = event.data.token;
+    } else if (event.data.type === 'GET_TOKEN') {
+        event.ports[0].postMessage(token);
+    }
+});
+
 self.addEventListener('install', (event) => {
     event.waitUntil(
         caches.open(CACHE_NAME)

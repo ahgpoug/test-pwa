@@ -3,6 +3,7 @@ import { customElement, state } from 'lit/decorators.js';
 import { apiService } from '../services/api-service';
 import { authService } from '../services/auth-service';
 import { PopupNotificationService } from '../services/popup-notification-service';
+import { LoadingOverlayService } from '../services/loading-overlay-service';
 import { globalStyles } from '../styles/global-styles';
 
 @customElement('login-page')
@@ -59,6 +60,10 @@ class LoginPage extends LitElement {
     }
 
     async firstUpdated() {
+        if (await authService.isAuthenticated()) {
+            this.onSuccessLogin();
+        }
+
         if (authService.supportsCredentialsAPI()) {
             const credentials = await authService.tryRequestCredentials();
 
@@ -81,13 +86,15 @@ class LoginPage extends LitElement {
     }
 
     private async handleLogin() {
+        LoadingOverlayService.show();
+
         try {
             if (!this.login || !this.password) {
                 return;
             }
 
             const token = await apiService.login(this.login, this.password);
-            authService.setToken(token);
+            await authService.setToken(token);
 
             if (this.rememberMe && authService.supportsCredentialsAPI()) {
                 await authService.saveCredentials(this.login, this.password);
@@ -96,14 +103,12 @@ class LoginPage extends LitElement {
             this.onSuccessLogin();
         } catch (err) {
             PopupNotificationService.show('Ошибка авторизации', 'error');
+        } finally {
+            LoadingOverlayService.hide();
         }
     }
 
     render() {
-        if (authService.isAuthenticated()) {
-            this.onSuccessLogin();
-        }
-
         return html`
             <input id="login"
                 type="text"

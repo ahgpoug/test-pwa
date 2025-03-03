@@ -1,22 +1,36 @@
 import { LoadingOverlayService } from './loading-overlay-service';
 
 class AuthService {
-    private readonly tokenKey = 'auth_token';
+    async getToken(): Promise<string | null> {
+        if ('serviceWorker' in navigator) {
+            const registration = await navigator.serviceWorker.ready;
+            return new Promise((resolve) => {
+                const channel = new MessageChannel();
+                channel.port1.onmessage = (event) => resolve(event.data);
+                registration.active?.postMessage({ type: 'GET_TOKEN' }, [channel.port2]);
+            });
+        }
 
-    getToken(): string | null {
-        return localStorage.getItem(this.tokenKey);
+        return null;
     }
 
-    setToken(token: string): void {
-        localStorage.setItem(this.tokenKey, token);
+    async setToken(token: string): Promise<void> {
+        if ('serviceWorker' in navigator) {
+            const registration = await navigator.serviceWorker.ready;
+            registration.active?.postMessage({ type: 'SET_TOKEN', token });
+        }
+    }
+    
+    async clearToken(): Promise<void> {
+        if ('serviceWorker' in navigator) {
+            const registration = await navigator.serviceWorker.ready;
+            registration.active?.postMessage({ type: 'SET_TOKEN', token: null });
+        }
     }
 
-    clearToken(): void {
-        localStorage.removeItem(this.tokenKey);
-    }
-
-    isAuthenticated(): boolean {
-        const token = this.getToken();
+    async isAuthenticated(): Promise<boolean> {
+        const token = await this.getToken();
+        
         if (!token) {
             return false;
         }
@@ -58,7 +72,6 @@ class AuthService {
     }
 
     async logout(): Promise<void> {
-
         this.clearToken();
         sessionStorage.clear();
 

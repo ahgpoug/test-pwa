@@ -27,8 +27,8 @@ class AppHome extends LitElement {
         return import.meta.env.BASE_URL;
     }
 
-    private checkAuth() {
-        if (!authService.isAuthenticated() && this.currentPage !== 'login-page') {
+    private async checkAuth() {
+        if (!await authService.isAuthenticated() && this.currentPage !== 'login-page') {
             this.navigateTo('login-page', true);
         }
     }
@@ -49,7 +49,7 @@ class AppHome extends LitElement {
         }
     }
 
-    connectedCallback() {
+    async connectedCallback() {
         super.connectedCallback();
 
         // Регистрация Service Worker
@@ -70,14 +70,21 @@ class AppHome extends LitElement {
         // Обработка нажатия кнопки "Назад" в браузере
         this.setupBackButtonHandler();
         window.addEventListener('popstate', this.handlePopState);
-
-        this.checkAuth();
     }
 
     disconnectedCallback() {
         super.disconnectedCallback();
         window.removeEventListener('navigateto', this.handleNavigateTo);
         window.removeEventListener('popstate', this.handlePopState);
+    }
+
+    async update(changedProperties: any) {
+        await this.checkAuth();
+        super.update(changedProperties) 
+    }
+
+    async updated() {
+        await this.checkAuth();
     }
 
     isHomePage(): boolean {
@@ -124,7 +131,7 @@ class AppHome extends LitElement {
         }
     }
 
-    handlePopState = () => {
+    handlePopState = async () => {
         const path = window.location.pathname;
         const basePath = this.basePath;
 
@@ -140,7 +147,6 @@ class AppHome extends LitElement {
         }
 
         this.currentPage = page || '';
-        this.checkAuth();
         this.requestUpdate();
     };
 
@@ -175,8 +181,6 @@ class AppHome extends LitElement {
     }
 
     renderPage() {
-        this.checkAuth();
-
         switch (this.currentPage) {
             case 'search-tpo':
                 return html`<search-tpo></search-tpo>`;
@@ -201,9 +205,7 @@ class AppHome extends LitElement {
     }
 
     render() {
-        LoadingOverlayService.show();
-
-        const page = html`
+        return html`
             <app-header
                 .currentPage="${this.currentPage}"
                 .basePath="${this.basePath}"
@@ -215,8 +217,5 @@ class AppHome extends LitElement {
                 ${this.renderPage()}
             </main>
         `;
-
-        LoadingOverlayService.hide();
-        return page;
     }
 }
