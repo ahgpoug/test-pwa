@@ -1,31 +1,39 @@
 import { LoadingOverlayService } from './loading-overlay-service';
+import { openDB } from 'idb';
 
 class AuthService {
-    async getToken(): Promise<string | null> {
-        if ('serviceWorker' in navigator) {
-            const registration = await navigator.serviceWorker.ready;
-            return new Promise((resolve) => {
-                const channel = new MessageChannel();
-                channel.port1.onmessage = (event) => resolve(event.data);
-                registration.active?.postMessage({ type: 'GET_TOKEN' }, [channel.port2]);
-            });
-        }
+    private readonly dbName = 'authDB';
+    private readonly storeName = 'tokens';
+    private readonly key = 'auth_token';
 
-        return null;
+    async getToken(): Promise<string | null> {
+        const db = await openDB(this.dbName, 1, {
+            upgrade(db) {
+                db.createObjectStore('tokens');
+            },
+        });
+
+        return db.get(this.storeName, this.key);
     }
 
     async setToken(token: string): Promise<void> {
-        if ('serviceWorker' in navigator) {
-            const registration = await navigator.serviceWorker.ready;
-            registration.active?.postMessage({ type: 'SET_TOKEN', token });
-        }
+        const db = await openDB(this.dbName, 1, {
+            upgrade(db) {
+                db.createObjectStore('tokens');
+            },
+        });
+
+        await db.put(this.storeName, token, this.key);
     }
     
     async clearToken(): Promise<void> {
-        if ('serviceWorker' in navigator) {
-            const registration = await navigator.serviceWorker.ready;
-            registration.active?.postMessage({ type: 'SET_TOKEN', token: null });
-        }
+        const db = await openDB(this.dbName, 1, {
+            upgrade(db) {
+                db.createObjectStore('tokens');
+            },
+        });
+        
+        await db.delete(this.storeName, this.key);
     }
 
     async isAuthenticated(): Promise<boolean> {
