@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" preserveAspectRatio="xMidYMid meet">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox ="2.3 2.3 47.2 47.2" preserveAspectRatio="xMidYMid meet">
   <defs>
     <style>
       svg { background-color: #FFFFFF; }
@@ -9,9 +9,6 @@
     </style>
   </defs>
   
-  <!-- Основная геометрия с padding 10% -->
-  <g transform="translate(5.2 5.2) scale(0.8)">
-    <path class="st0" d="M49.6 49.6V4.4L4.3 49.6h45.3z"/>
-    <path class="st1" d="M2.3 2.3v45.3L47.6 2.3H2.3z"/>
-  </g>
+  <path class="st0" d="M49.6 49.6V4.4L4.3 49.6h45.3z"/>
+  <path class="st1" d="M2.3 2.3v45.3L47.6 2.3H2.3z"/>
 </svg>
